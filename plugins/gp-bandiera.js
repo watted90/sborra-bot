@@ -12,6 +12,8 @@ let handler = async (m, { conn, args, participants, isAdmin, isBotAdmin }) => {
     await conn.reply(m.chat, `🛑 *Gioco delle bandiere interrotto dall'admin*\n✨ La risposta era: *${global.bandieraGame[m.chat].risposta}*`, m)
     delete global.bandieraGame[m.chat]
     return
+    buttons: [{ buttonId: '.bandiera', buttonText: { displayText: '🔁 Gioca ancora' }, type: 1 }],
+            headerType: 1
   }
 
   if (global.bandieraGame?.[m.chat]) {
@@ -249,7 +251,9 @@ let handler = async (m, { conn, args, participants, isAdmin, isBotAdmin }) => {
       startTime: Date.now(),
       timeout: setTimeout(() => {
         if (global.bandieraGame?.[m.chat]) {
-          conn.reply(m.chat, `⏳ *Tempo scaduto!*\n\n🌍 *La risposta era:* *${scelta.nome}*\n\n> \`vare ✧ bot\``, msg)
+          conn.reply(m.chat, `⏳ *Tempo scaduto!*\n\n🌍 *La risposta era:* *${scelta.nome}*\n\n> \`vare ✧ bot\``
+          buttons: [{ buttonId: '.bandiera', buttonText: { displayText: '🔁 Gioca ancora' }, type: 1 }],
+            headerType: 1, msg)
           delete global.bandieraGame[m.chat]
         }
       }, 30000)
@@ -348,6 +352,8 @@ handler.before = async (m, { conn }) => {
 ╰━━━━━━━━━━━━━━━━╯
 
 > \`vare ✧ bot\``
+    buttons: [{ buttonId: '.bandiera', buttonText: { displayText: '🔁 Gioca ancora' }, type: 1 }],
+            headerType: 1
 
         await conn.reply(chat, congratsMessage, m)
         delete global.bandieraGame[chat]
