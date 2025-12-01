@@ -34,13 +34,13 @@ const handler = async (message, { conn, usedPrefix, command }) => {
             image: { url: imagePath },
             caption: menuText,
             footer: footerText,
-            buttons: [
-                { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: adminMenuText }, type: 1 },
-                { buttonId: `${usedPrefix}menuowner`, buttonText: { displayText: ownerMenuText }, type: 1 },
-                { buttonId: `${usedPrefix}menusicurezza`, buttonText: { displayText: securityMenuText }, type: 1 },
-                { buttonId: `${usedPrefix}menugruppo`, buttonText: { displayText: groupMenuText }, type: 1 },
-                { buttonId: `${usedPrefix}menuia`, buttonText: { displayText: aiMenuText }, type: 1 }
-            ],
+            templateButtons: [
+  { index: 1, quickReplyButton: { displayText: adminMenuText, id: `${usedPrefix}menuadmin` } },
+  { index: 2, quickReplyButton: { displayText: ownerMenuText, id: `${usedPrefix}menuowner` } },
+  { index: 3, quickReplyButton: { displayText: securityMenuText, id: `${usedPrefix}menusicurezza` } },
+  { index: 4, quickReplyButton: { displayText: groupMenuText, id: `${usedPrefix}menugruppo` } },
+  { index: 5, quickReplyButton: { displayText: aiMenuText, id: `${usedPrefix}menuia` } }
+]
             viewOnce: true,
             headerType: 4
         }
