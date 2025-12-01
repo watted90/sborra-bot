@@ -1,3 +1,5 @@
+//Codice di enable.js
+
 import fs from 'fs';
 import fetch from 'node-fetch';
 
@@ -22,7 +24,7 @@ const features = [
   { key: 'conclave',          label: 'Conclave' },
   { key: 'antiCall',           label: 'AntiCall' },
   { key: 'antiinsta',          label: 'Antiinsta' },
-  { key: 'antiporno',          label: 'Antiporno' },
+  { key: 'bestemmiometro',          label: 'Bestemmiometro' },
   { key: 'antitrava',          label: 'Antitrava' },
   { key: 'antivirus',          label: 'Antivirus' },
   { key: 'antivoip',           label: 'Antivoip' },
