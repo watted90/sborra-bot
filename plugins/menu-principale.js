@@ -71,7 +71,7 @@ function generateMenuText(prefix, userCount, userId, groupId) {
     const suggestText = global.t('suggestCommand', userId, groupId) || 'consiglia'
     const newsText = global.t('newsCommand', userId, groupId) || 'novità'
     const versionText = global.t('versionLabel', userId, groupId) || '𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬'
-    const collabText = global.t('collabLabel', userId, groupId) || '𝐂𝐎𝐋𝐋𝐀𝐁: 𝐎𝐍𝐄 𝐏𝐈𝐄𝐂𝐄'
+    const collabText = global.t('collabLabel', userId, groupId) || '𝐂𝐎𝐋𝐋𝐀𝐁'
     const usersText = global.t('usersLabel', userId, groupId) || '𝐔𝐓𝐄𝐍𝐓𝐈'
     
     return `
@@ -92,7 +92,7 @@ function generateMenuText(prefix, userCount, userId, groupId) {
 ╰♡꒷ ๑ ⋆˚₊⋆──ʚ˚ɞ──⋆˚₊⋆ ๑ ⪩
   ୧・ *${versionText}:* ${vs}
   ୧・ *𝐂𝐎𝐋𝐋𝐀𝐁:* ${collab}
-  ୧・${usersText}: ${userCount}
+  ୧・ *${usersText}:* ${userCount}
 ╰♡꒷ ๑ ⋆˚₊⋆──ʚ˚ɞ──⋆˚₊⋆ ๑ ⪩
 `.trim();
 }
