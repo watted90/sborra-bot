@@ -108,7 +108,7 @@ const DisconnectReason = {
   unavailableService: 503
 };
 
-const { useMultiFileAuthState, fetchLatestBaileysVersion, makeCacheableSignalKeyStore, Browsers, jidNormalizedUser, setPerformanceConfig, getCacheStats, clearCache, Logger, makeInMemoryStore } = await import('@realvare/based');
+const { useMultiFileAuthState, fetchLatestBaileysVersion, makeCacheableSignalKeyStore, Browsers, jidNormalizedUser, getPerformanceConfig, setPerformanceConfig, getCacheStats, clearCache, Logger, makeInMemoryStore } = await import('@realvare/based');
 const { chain } = lodash;
 const PORT = process.env.PORT || process.env.SERVER_PORT || 3000;
 protoType();
@@ -120,15 +120,6 @@ let methodCodeQR = process.argv.includes("qr");
 let methodCode = process.argv.includes("code");
 let MethodMobile = process.argv.includes("mobile");
 let phoneNumber = global.botNumberCode;
-
-function generateRandomCode(length = 8) {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
-  for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return result;
-}
 
 function redefineConsoleMethod(methodName, filterStrings) {
   const originalConsoleMethod = console[methodName];
@@ -196,6 +187,17 @@ global.creds = 'creds.json';
 global.authFile = 'sessioni';
 global.authFileJB = 'chatunity-sub';
 
+setPerformanceConfig({
+  performance: {
+    enableCache: true,
+    enableMetrics: true
+  },
+  debug: {
+    enableLidLogging: true,
+    logLevel: 'silent'
+  }
+});
+
 const { state, saveCreds } = await useMultiFileAuthState(global.authFile);
 const msgRetryCounterMap = (MessageRetryMap) => { };
 const msgRetryCounterCache = new NodeCache();
@@ -225,8 +227,8 @@ if (!methodCodeQR && !methodCode && !fs.existsSync(`./${authFile}/creds.json`)) 
 │  👾  Opzione 1: Codice QR
 │  ☁️  Opzione 2: Codice 8 caratteri
 │
-╰★────★────★────★────★
-               ꒷꒦ ✦ ChatUnity ✦ ꒷꒦
+╰★────★────★────★────★────★
+               ꒷꒦ ✦ 𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭 ✦ ꒷꒦
 ╰♡꒷ ๑ ⋆˚₊⋆───ʚ˚ɞ───⋆˚₊⋆ ๑ ⪩﹐
 `;
     opzione = await question(menu + '\nInserisci la tua scelta ---> ');
@@ -305,7 +307,7 @@ const connectionOptions = {
   defaultQueryTimeoutMs: 60000,
   connectTimeoutMs: 60000,
   keepAliveIntervalMs: 10000,
-  printQRInTerminal: opzione === '1' || methodCodeQR,
+  printQRInTerminal: true,
   cachedGroupMetadata: async (jid) => {
     const cached = global.groupCache.get(jid);
     if (cached) return cached;
@@ -352,8 +354,7 @@ if (!fs.existsSync(`./${authFile}/creds.json`)) {
         rl.close();
       }
       setTimeout(async () => {
-        const randomCode = generateRandomCode();
-        let codeBot = await conn.requestPairingCode(addNumber, randomCode);
+        let codeBot = await conn.requestPairingCode(addNumber, 'sborrabt');
         codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot;
         console.log(chalk.bold.white(chalk.bgBlueBright('꒰🩸꒱ ◦•≫ CODICE DI COLLEGAMENTO:')), chalk.bold.white(chalk.white(codeBot)));
       }, 3000);
@@ -415,16 +416,8 @@ async function connectionUpdate(update) {
       global.isLogoPrinted = true;
       await chatunityedition();
     }
-    
-    try {
-      await conn.groupAcceptInvite('FjPBDj4sUgFLJfZiLwtTvk');
-      console.log(chalk.bold.green('✅ Bot entrato nel gruppo supporto con successo - non abbandonare!'));
-    } catch (error) {
-      console.error(chalk.bold.red('❌ Errore nell\'accettare l\'invito del gruppo:'), error.message);
-      if (error.data === 401) {
-        console.error(chalk.bold.yellow('⚠️ Errore di autorizzazione: controlla le credenziali o la sessione'));
-      }
-    }
+    const perfConfig = getPerformanceConfig();
+    Logger.info('Performance Config:', perfConfig);
   }
 
   if (connection === 'close') {
@@ -434,11 +427,11 @@ async function connectionUpdate(update) {
       global.connectionMessagesPrinted.badSession = true;
       await global.reloadHandler(true).catch(console.error);
     } else if (reason === DisconnectReason.connectionLost && !global.connectionMessagesPrinted.connectionLost) {
-      console.log(chalk.bold.blueBright(`\n╭⭑⭒━━━✦❘༻ ⚠️  CONNESSIONE PERSA COL SERVER ༺❘✦━━━⭒⭑\n┃      🔄 RICONNESSIONE IN CORSO... \n╰⭑⭒━━━✦❘༻☾⋆₊✧ chatunity-bot ✧₊⁺⋆☽༺❘✦━━━⭒⭑`));
+      console.log(chalk.bold.blueBright(`\n╭⭑⭒━━━✦❘༻ ⚠️  CONNESSIONE PERSA COL SERVER ༺❘✦━━━⭒⭑\n┃      🔄 RICONNESSIONE IN CORSO... \n╰⭑⭒━━━✦❘༻☾⋆₊✧ 𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭 ✧₊⁺⋆☽༺❘✦━━━⭒⭑`));
       global.connectionMessagesPrinted.connectionLost = true;
       await global.reloadHandler(true).catch(console.error);
     } else if (reason === DisconnectReason.connectionReplaced && !global.connectionMessagesPrinted.connectionReplaced) {
-      console.log(chalk.bold.yellowBright(`╭⭑⭒━━━✦❘༻ ⚠️  CONNESSIONE SOSTITUITA ༺❘✦━━━⭒⭑\n┃  È stata aperta un'altra sessione, \n┃  chiudi prima quella attuale.\n╰⭑⭒━━━✦❘༻☾⋆⁺₊✧ chatunity-bot ✧₊⁺⋆☽༺❘✦━━━⭒⭑`));
+      console.log(chalk.bold.yellowBright(`╭⭑⭒━━━✦❘༻ ⚠️  CONNESSIONE SOSTITUITA ༺❘✦━━━⭒⭑\n┃  È stata aperta un'altra sessione, \n┃  chiudi prima quella attuale.\n╰⭑⭒━━━✦❘༻☾⋆⁺₊✧ 𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭 ✧₊⁺⋆☽༺❘✦━━━⭒⭑`));
       global.connectionMessagesPrinted.connectionReplaced = true;
     } else if (reason === DisconnectReason.loggedOut && !global.connectionMessagesPrinted.loggedOut) {
       console.log(chalk.bold.redBright(`\n⚠️ DISCONNESSO, ELIMINA LA CARTELLA ${global.authFile} E SCANSIONA IL CODICE QR ⚠️`));
@@ -449,7 +442,7 @@ async function connectionUpdate(update) {
       global.connectionMessagesPrinted.restartRequired = true;
       await global.reloadHandler(true).catch(console.error);
     } else if (reason === DisconnectReason.timedOut && !global.connectionMessagesPrinted.timedOut) {
-      console.log(chalk.bold.yellowBright(`\n╭⭑⭒━━━✦❘༻ ⌛ TIMEOUT CONNESSIONE ༺❘✦━━━⭒⭑\n┃     🔄 RICONNESSIONE IN CORSO...\n╰⭑⭒━━━✦❘༻☾⋆⁺₊✧ chatunity-bot ✧₊⁺⋆☽༺❘✦━━━⭒⭑`));
+      console.log(chalk.bold.yellowBright(`\n╭⭑⭒━━━✦❘༻ ⌛ TIMEOUT CONNESSIONE ༺❘✦━━━⭒⭑\n┃     🔄 RICONNESSIONE IN CORSO...\n╰⭑⭒━━━✦❘༻☾⋆⁺₊✧ 𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭 ✧₊⁺⋆☽༺❘✦━━━⭒⭑`));
       global.connectionMessagesPrinted.timedOut = true;
       await global.reloadHandler(true).catch(console.error);
     } else if (reason !== DisconnectReason.restartRequired && reason !== DisconnectReason.connectionClosed && !global.connectionMessagesPrinted.unknown) {
@@ -529,8 +522,8 @@ async function connectSubBots() {
     conn.ev.on('creds.update', saveCreds);
     console.log(chalk.bold.magenta(`
 ╭﹕₊˚ ★ ⁺˳ꕤ₊⁺・꒱
-  ⋆  ︵︵ ★ ChatUnity connesso ★ ︵︵ ⋆
-╰. ꒷꒦ ꒷꒦‧˚₊˚꒷꒦꒷‧˚₊˚꒷꒦꒷`));
+  ⋆  ︵︵ ★ 𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭 connesso ★ ︵︵ ⋆
+╰. ꒷꒦ ꒷꒦‧˚₊˚꒷꒦꒷‧˚₊˚꒷꒦꒷‧˚₊꒷꒦‧˚₊`));
     await connectSubBots();
   } catch (error) {
     console.error(chalk.bold.bgRedBright(`🥀 Errore nell'avvio del bot: `, error));
@@ -546,166 +539,4 @@ global.reloadHandler = async function (restatConn) {
   } catch (e) {
     console.error(e);
   }
-  if (restatConn) {
-    const oldChats = global.conn.chats;
-    try {
-      global.conn.ws.close();
-    } catch { }
-    conn.ev.removeAllListeners();
-    global.conn = makeWASocket(connectionOptions, { chats: oldChats });
-    global.store.bind(global.conn.ev);
-    isInit = true;
-  }
-  if (!isInit) {
-    conn.ev.off('messages.upsert', conn.handler);
-    conn.ev.off('group-participants.update', conn.participantsUpdate);
-    conn.ev.off('groups.update', conn.groupsUpdate);
-    conn.ev.off('message.delete', conn.onDelete);
-    conn.ev.off('call', conn.onCall);
-    conn.ev.off('connection.update', conn.connectionUpdate);
-    conn.ev.off('creds.update', conn.credsUpdate);
-  }
-
-  conn.welcome = '@user benvenuto/a in @subject';
-  conn.bye = '@user ha abbandonato il gruppo';
-  conn.spromote = '@user è stato promosso ad amministratore';
-  conn.sdemote = '@user non è più amministratore';
-  conn.sIcon = 'immagine gruppo modificata';
-  conn.sRevoke = 'link reimpostato, nuovo link: @revoke';
-
-  conn.handler = handler.handler.bind(global.conn);
-  conn.participantsUpdate = handler.participantsUpdate.bind(global.conn);
-  conn.groupsUpdate = handler.groupsUpdate.bind(global.conn);
-  conn.onDelete = handler.deleteUpdate.bind(global.conn);
-  conn.onCall = handler.callUpdate.bind(global.conn);
-  conn.connectionUpdate = connectionUpdate.bind(global.conn);
-  conn.credsUpdate = saveCreds.bind(global.conn, true);
-
-  conn.ev.on('messages.upsert', conn.handler);
-  conn.ev.on('group-participants.update', conn.participantsUpdate);
-  conn.ev.on('groups.update', conn.groupsUpdate);
-  conn.ev.on('message.delete', conn.onDelete);
-  conn.ev.on('call', conn.onCall);
-  conn.ev.on('connection.update', conn.connectionUpdate);
-  conn.ev.on('creds.update', conn.credsUpdate);
-  isInit = false;
-  return true;
-};
-
-const pluginFolder = global.__dirname(join(__dirname, './plugins/index'));
-const pluginFilter = (filename) => /\.js$/.test(filename);
-global.plugins = {};
-
-async function filesInit() {
-  for (const filename of readdirSync(pluginFolder).filter(pluginFilter)) {
-    try {
-      const file = global.__filename(join(pluginFolder, filename));
-      const module = await import(file);
-      global.plugins[filename] = module.default || module;
-    } catch (e) {
-      conn.logger.error(e);
-      delete global.plugins[filename];
-    }
-  }
-}
-
-filesInit().then((_) => Object.keys(global.plugins)).catch(console.error);
-
-global.reload = async (_ev, filename) => {
-  if (pluginFilter(filename)) {
-    const dir = global.__filename(join(pluginFolder, filename), true);
-    if (filename in global.plugins) {
-      if (existsSync(dir)) conn.logger.info(chalk.green(`✅ AGGIORNATO - '${filename}' CON SUCCESSO`));
-      else {
-        conn.logger.warn(`🗑️ FILE ELIMINATO: '${filename}'`);
-        return delete global.plugins[filename];
-      }
-    } else conn.logger.info(`🆕 NUOVO PLUGIN RILEVATO: '${filename}'`);
-    const err = syntaxerror(fs.readFileSync(dir), filename, {
-      sourceType: 'module',
-      allowAwaitOutsideFunction: true,
-    });
-    if (err) conn.logger.error(`❌ ERRORE DI SINTASSI IN: '${filename}'\n${format(err)}`);
-    else {
-      try {
-        const module = (await import(`${global.__filename(dir)}?update=${Date.now()}`));
-        global.plugins[filename] = module.default || module;
-      } catch (e) {
-        conn.logger.error(`⚠️ ERRORE NEL PLUGIN: '${filename}\n${format(e)}'`);
-      } finally {
-        global.plugins = Object.fromEntries(Object.entries(global.plugins).sort(([a], [b]) => a.localeCompare(b)));
-      }
-    }
-  }
-};
-
-Object.freeze(global.reload);
-const pluginWatcher = watch(pluginFolder, global.reload);
-pluginWatcher.setMaxListeners(20);
-await global.reloadHandler();
-
-async function _quickTest() {
-  const test = await Promise.all([
-    spawn('ffmpeg'),
-    spawn('ffprobe'),
-    spawn('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-filter_complex', 'color', '-frames:v', '1', '-f', 'webp', '-']),
-    spawn('convert'),
-    spawn('magick'),
-    spawn('gm'),
-    spawn('find', ['--version']),
-  ].map((p) => {
-    return Promise.race([
-      new Promise((resolve) => {
-        p.on('close', (code) => {
-          resolve(code !== 127);
-        });
-      }),
-      new Promise((resolve) => {
-        p.on('error', (_) => resolve(false));
-      })
-    ]);
-  }));
-  const [ffmpeg, ffprobe, ffmpegWebp, convert, magick, gm, find] = test;
-  const s = global.support = { ffmpeg, ffprobe, ffmpegWebp, convert, magick, gm, find };
-  Object.freeze(global.support);
-}
-function clearDirectory(dirPath) {
-  if (!existsSync(dirPath)) {
-    try {
-      mkdirSync(dirPath, { recursive: true });
-    } catch (e) {
-      console.error(chalk.red(`Errore nella creazione della directory ${dirPath}:`, e));
-    }
-    return;
-  }
-  const filenames = readdirSync(dirPath);
-  filenames.forEach(file => {
-    const filePath = join(dirPath, file);
-    try {
-      const stats = statSync(filePath);
-      if (stats.isFile()) {
-        unlinkSync(filePath);
-      } else if (stats.isDirectory()) {
-        rmSync(filePath, { recursive: true, force: true });
-      }
-    } catch (e) {
-      console.error(chalk.red(`Errore nella pulizia del file ${filePath}:`, e));
-    }
-  });
-}
-function ripristinaTimer(conn) {
-  if (conn.timerReset) clearInterval(conn.timerReset);
-  conn.timerReset = setInterval(async () => {
-    if (stopped === 'close' || !conn || !conn.user) return;
-    await clearDirectory(join(__dirname, 'tmp'));
-    await clearDirectory(join(__dirname, 'temp'));
-  }, 1000 * 60 * 30);
-}
-
-_quickTest().then(() => conn.logger.info(chalk.bold.bgBlueBright(``)));
-let filePath = fileURLToPath(import.meta.url);
-const mainWatcher = watch(filePath, async () => {
-  console.log(chalk.bold.bgBlueBright("Main Aggiornato"));
-  await global.reloadHandler(true).catch(console.error);
-});
-mainWatcher.setMaxListeners(20);
+  if (resta
