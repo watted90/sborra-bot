@@ -15,9 +15,9 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
             forwardingScore: 99,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
+                newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: 'ChatUnity'
+                newsletterName: '${nomebot}'
             }
         }
     }, { quoted: m });
@@ -28,14 +28,14 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
   if (!text) {
     await conn.sendMessage(m.chat, { 
-        text: `🚩 Devi inserire una quantità di *💶 Unitycoins* e scommettere su un colore, per esempio: *${usedPrefix + command} 20 black o red*`,
+        text: `🚩 Devi inserire una quantità di *💶 Sborracoins* e scommettere su un colore, per esempio: *${usedPrefix + command} 20 black o red*`,
         contextInfo: {
             forwardingScore: 99,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
+                newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: 'ChatUnity'
+                newsletterName: '${nomebot}'
             }
         }
     }, { quoted: m });
@@ -45,14 +45,14 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   let args = text.trim().split(" ");
   if (args.length !== 2) {
     await conn.sendMessage(m.chat, { 
-        text: `🚩 Formato errato. Devi inserire una quantità di *💶 Unitycoins* e scommettere su un colore, per esempio: *${usedPrefix + command} 20 black*`,
+        text: `🚩 Formato errato. Devi inserire una quantità di *💶 Sborracoins* e scommettere su un colore, per esempio: *${usedPrefix + command} 20 black*`,
         contextInfo: {
             forwardingScore: 99,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
+                newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: 'ChatUnity'
+                newsletterName: '${nomebot}'
             }
         }
     }, { quoted: m });
@@ -69,9 +69,9 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
             forwardingScore: 99,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
+                newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: 'ChatUnity'
+                newsletterName: '${nomebot}'
             }
         }
     }, { quoted: m });
@@ -80,14 +80,14 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
   if (limit > 50) {
     await conn.sendMessage(m.chat, { 
-        text: "🚩 La quantità massima di scommessa è di 50 *💶 Unitycoins*.",
+        text: "🚩 La quantità massima di scommessa è di 50 *💶 Sborracoins*.",
         contextInfo: {
             forwardingScore: 99,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
+                newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: 'ChatUnity'
+                newsletterName: '${nomebot}'
             }
         }
     }, { quoted: m });
@@ -101,9 +101,9 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
             forwardingScore: 99,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
+                newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: 'ChatUnity'
+                newsletterName: '${nomebot}'
             }
         }
     }, { quoted: m });
@@ -112,14 +112,14 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
   if (limit > users.limit) {
     await conn.sendMessage(m.chat, { 
-        text: "🚩 Non hai abbastanza *💶 Unitycoins* per effettuare questa scommessa.",
+        text: "🚩 Non hai abbastanza *💶 Sborracoins* per effettuare questa scommessa.",
         contextInfo: {
             forwardingScore: 99,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
+                newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: 'ChatUnity'
+                newsletterName: '${nomebot}'
             }
         }
     }, { quoted: m });
@@ -132,9 +132,9 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
           forwardingScore: 99,
           isForwarded: true,
           forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363259442839354@newsletter',
+              newsletterJid: '120363420674060561@newsletter',
               serverMessageId: '',
-              newsletterName: 'ChatUnity'
+              newsletterName: '${nomebot}'
           }
       }
   }, { quoted: m });
@@ -152,28 +152,28 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
     if (win) {
       users.limit += limit;
       conn.sendMessage(m.chat, { 
-          text: `🚩 Hai vinto! Hai ottenuto ${limit} *💶 Unitycoins*. Totale: ${users.limit} *💶 Unitycoins*.`,
+          text: `🚩 Hai vinto! Hai ottenuto ${limit} *💶 Sborracoins*. Totale: ${users.limit} *💶 Sborracoins*.`,
           contextInfo: {
               forwardingScore: 99,
               isForwarded: true,
               forwardedNewsletterMessageInfo: {
-                  newsletterJid: '120363259442839354@newsletter',
+                  newsletterJid: '120363420674060561@newsletter',
                   serverMessageId: '',
-                  newsletterName: 'ChatUnity'
+                  newsletterName: '${nomebot}'
               }
           }
       }, { quoted: m });
     } else {
       users.limit -= limit;
       conn.sendMessage(m.chat, { 
-          text: `🚩 Hai perso. Sono state sottratte ${limit} *💶 Unitycoins*. Totale: ${users.limit} *💶 Unitycoins*.`,
+          text: `🚩 Hai perso. Sono state sottratte ${limit} *💶 Sborracoins*. Totale: ${users.limit} *💶 Sborracoins*.`,
           contextInfo: {
               forwardingScore: 99,
               isForwarded: true,
               forwardedNewsletterMessageInfo: {
-                  newsletterJid: '120363259442839354@newsletter',
+                  newsletterJid: '120363420674060561@newsletter',
                   serverMessageId: '',
-                  newsletterName: 'ChatUnity'
+                  newsletterName: '${nomebot}'
               }
           }
       }, { quoted: m });
