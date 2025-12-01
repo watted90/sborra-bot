@@ -16,7 +16,7 @@ let handler = async (m, { conn, command, text }) => {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363259442839354@newsletter',
+                    newsletterJid: '120363420674060561@newsletter',
                     newsletterName: '👑 Club dei Cornuti Ufficiale 👑'
                 }
             },
