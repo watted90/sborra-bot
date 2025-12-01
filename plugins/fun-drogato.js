@@ -27,7 +27,7 @@ ${finalPhrase}
             forwardedNewsletterMessageInfo: {
                 newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: `${nomeDelBot}` 
+                newsletterName: `${nomebot}` 
             },
         }
     };
