@@ -15,13 +15,11 @@ const handler = async (message, { conn, usedPrefix, command }) => {
     const groupId = message.isGroup ? message.chat : null
     
     const userCount = Object.keys(global.db.data.users).length;
-    const botName = global.db.data.nomedelbot || 'ChatUnity';
+
+    const menuText = generateMenuText(usedPrefix, userCount, userId, groupId);
 
 
-    const menuText = generateMenuText(usedPrefix, botName, userCount, userId, groupId);
-
-
-    const imagePath = path.join(__dirname, '../media/principale.jpeg'); 
+    const imagePath = path.join(__dirname, '../media/menu.jpeg'); 
     
     const footerText = global.t('menuFooter', userId, groupId) || 'Scegli un menu:'
     const adminMenuText = global.t('menuAdmin', userId, groupId) || '🛡️ Menu Admin'
@@ -58,7 +56,7 @@ handler.command = /^(menu|comandi)$/i;
 export default handler;
 
 
-function generateMenuText(prefix, botName, userCount, userId, groupId) {
+function generateMenuText(prefix, userCount, userId, groupId) {
     const menuTitle = global.t('mainMenuTitle', userId, groupId) || '𝑴𝑬𝑵𝑼 𝑫𝑬𝑳 𝑩𝑶𝑻'
     const staffText = global.t('staffCommand', userId, groupId) || 'staff'
     const hegemoniaText = global.t('hegemoniaCommand', userId, groupId) || 'egemonia'
@@ -90,11 +88,10 @@ function generateMenuText(prefix, botName, userCount, userId, groupId) {
 ୧ 📝 ୭ *${prefix}${reportText}* 
 ୧ 💡 ୭ *${prefix}${suggestText}* 
 ୧ 🆕 ୭ *${prefix}${newsText}*
-୧ 🤖 ୭ *${prefix}chatunity*
 ୧ 🗣️ ୭ *${prefix}gruppi*
 ╰♡꒷ ๑ ⋆˚₊⋆──ʚ˚ɞ──⋆˚₊⋆ ๑ ⪩
-  ୧・*${versionText}:* ${vs}
-  ୧・𝐂𝐎𝐋𝐋𝐀𝐁: ${collab}
+  ୧・ *${versionText}:* ${vs}
+  ୧・ *𝐂𝐎𝐋𝐋𝐀𝐁:* ${collab}
   ୧・${usersText}: ${userCount}
 ╰♡꒷ ๑ ⋆˚₊⋆──ʚ˚ɞ──⋆˚₊⋆ ๑ ⪩
 `.trim();
