@@ -35,7 +35,7 @@ const handler = async (message, { conn, usedPrefix, command }) => {
             caption: menuText,
             footer: footerText,
             buttons: [
-                { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: adminMenuText }, type: 1 },
+                { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: "adminMenuText" }, type: 1 },
                 { buttonId: `${usedPrefix}menuowner`, buttonText: { displayText: ownerMenuText }, type: 1 },
                 { buttonId: `${usedPrefix}menusicurezza`, buttonText: { displayText: securityMenuText }, type: 1 },
                 { buttonId: `${usedPrefix}menugruppo`, buttonText: { displayText: groupMenuText }, type: 1 },
