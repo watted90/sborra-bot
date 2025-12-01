@@ -11,11 +11,11 @@ let handler = async (m, { conn, usedPrefix }) => {
     let grandezzaCasuale = grandezze[Math.floor(Math.random() * grandezze.length)];
     let messaggio = "*Analizzando il tuo buco...*\n\n📏 *Risultato:* " + grandezzaCasuale;
 
-    let opzioniInoltro = inoltra("ChatUnity");
+    let opzioniInoltro = inoltra("𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭");
     await conn.sendMessage(m.chat, { text: messaggio, ...opzioniInoltro }, { quoted: m });
 };
 
-const inoltra = (nomeDelBot) => {
+const inoltra = (nomebot) => {
     let messageOptions = {
         contextInfo: {
             forwardingScore: 999,
@@ -23,7 +23,7 @@ const inoltra = (nomeDelBot) => {
             forwardedNewsletterMessageInfo: {
                 newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: `${nomeDelBot}`
+                newsletterName: `${nomebot}`
             }
         }
     };
