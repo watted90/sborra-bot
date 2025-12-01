@@ -13,36 +13,38 @@ const __dirname = path.dirname(__filename);
 const handler = async (message, { conn, usedPrefix, command }) => {
     const userId = message.sender
     const groupId = message.isGroup ? message.chat : null
-    
+
     const userCount = Object.keys(global.db.data.users).length;
 
     const menuText = generateMenuText(usedPrefix, userCount, userId, groupId);
 
 
     const imagePath = path.join(__dirname, '../media/menu.jpeg'); 
-    
+
     const footerText = global.t('menuFooter', userId, groupId) || 'Scegli un menu:'
     const adminMenuText = global.t('menuAdmin', userId, groupId) || '🛡️ Menu Admin'
     const ownerMenuText = global.t('menuOwner', userId, groupId) || '👑 Menu Owner'
     const securityMenuText = global.t('menuSecurity', userId, groupId) || '🚨 Menu Sicurezza'
     const groupMenuText = global.t('menuGroup', userId, groupId) || '👥 Menu Gruppo'
     const aiMenuText = global.t('menuAI', userId, groupId) || '🤖 Menu IA'
-    
+
     await conn.sendMessage(
         message.chat,
         {
             image: { url: imagePath },
             caption: menuText,
             footer: footerText,
-            templateButtons: [
-  { index: 1, quickReplyButton: { displayText: adminMenuText, id: `${usedPrefix}menuadmin` } },
-  { index: 2, quickReplyButton: { displayText: ownerMenuText, id: `${usedPrefix}menuowner` } },
-  { index: 3, quickReplyButton: { displayText: securityMenuText, id: `${usedPrefix}menusicurezza` } },
-  { index: 4, quickReplyButton: { displayText: groupMenuText, id: `${usedPrefix}menugruppo` } },
-  { index: 5, quickReplyButton: { displayText: aiMenuText, id: `${usedPrefix}menuia` } }
-]
+            buttons: [
+                { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: adminMenuText }, type: 1 },
+                { buttonId: `${usedPrefix}menuowner`, buttonText: { displayText: ownerMenuText }, type: 1 },
+                { buttonId: `${usedPrefix}menusicurezza`, buttonText: { displayText: securityMenuText }, type: 1 },
+                { buttonId: `${usedPrefix}menugruppo`, buttonText: { displayText: groupMenuText }, type: 1 },
+                { buttonId: `${usedPrefix}menuia`, buttonText: { displayText: aiMenuText }, type: 1 }
+            ],
             viewOnce: true,
             headerType: 4
+) }
+ }
         }
     );
 };
@@ -73,7 +75,7 @@ function generateMenuText(prefix, userCount, userId, groupId) {
     const versionText = global.t('versionLabel', userId, groupId) || '𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬'
     const collabText = global.t('collabLabel', userId, groupId) || '𝐂𝐎𝐋𝐋𝐀𝐁'
     const usersText = global.t('usersLabel', userId, groupId) || '𝐔𝐓𝐄𝐍𝐓𝐈'
-    
+
     return `
 ⋆ ︵★ ${menuTitle} ★︵ ⋆
 ୧ 👑 ୭ *${prefix}${staffText}*
