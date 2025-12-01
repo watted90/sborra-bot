@@ -14,7 +14,7 @@ handler.all = async function (message) {
     if (!message.text) return null;
 
     if (/absolute cinema/i.test(message.text)) {
-        const stickerPath = './stickers/absolute-cinema.webp';
+        const stickerPath = './media/absolute-cinema.webp';
         const stickerData = fs.readFileSync(stickerPath);
 
         await conn.sendMessage(
