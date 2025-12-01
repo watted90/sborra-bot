@@ -8,7 +8,7 @@ const handler = async (m, { conn, isROwner, text }) => {
     await delay(1000 * 1)
     await conn.sendMessage(m.chat, {text: `🚀🚀🚀🚀🚀🚀`, edit: key})
     await conn.sendMessage(m.chat, {text: `Riavviato con successo`, edit: key})
-    process.send('reset')
+    //process.send('reset')
     process.exit(0); 
     }
     handler.help = ['riavvia'] 
