@@ -10,9 +10,9 @@ let handler = async function (m, { conn, text, usedPrefix }) {
             forwardingScore: 99,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
+                newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: 'ChatUnity'
+                newsletterName: '${nomebot}'
             }
         }
     }, { quoted: m });
