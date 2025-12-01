@@ -27,7 +27,7 @@ ${finalPhrase}
             forwardedNewsletterMessageInfo: {
                 newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: `𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭` 
+                newsletterName: `${nomeDelBot}` 
             },
         }
     };
