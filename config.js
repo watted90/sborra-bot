@@ -5,20 +5,21 @@ import { fileURLToPath } from 'url';
 
 global.botnumber = '';
 global.confirmCode = '';
-global.nomebot = '𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲-𝐁𝐨𝐭';
-global.packname = '𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲-𝐁𝐨𝐭';
+global.nomebot = '𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭';
+global.packname = '𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭';
 global.author = '𝐌𝐝';
-global.vs = '8.4';
-global.collab = 'Demon Slayer';
+global.vs = '8.0';
+global.collab = '𝔸𝕩𝕥𝕣𝕒𝕝_𝕎𝕚ℤ𝕒ℝ𝕕';
 global.wm = global.nomebot;
 global.wait = 'ⓘ 𝐂𝐚𝐫𝐢𝐜𝐚𝐦𝐞𝐧𝐭𝐨 ...';
 
 
 global.owner = [
-  ['393773842461', '𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲', true],
-  ['xxxxxxxxxx'], //mettete il vostro numero al posto delle x e copiate sopra il formato dopo ovvero 'nome', true
-  ['xxxxxxxxxx'],
-  ['xxxxxxxxxx'],
+  ['393472425001', 'dieh 39', true],
+  ['35796261367'], //axtral 
+  ['212773669640'], //negro voip 
+  ['393895459079'], //negro real
+  ['351925215351'], // dieh +351
   ['xxxxxxxxxx'],
   ['xxxxxxxxxx']
 ];
