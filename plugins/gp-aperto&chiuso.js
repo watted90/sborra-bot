@@ -7,9 +7,9 @@ let handler = async (m, { conn, command }) => {
             forwardingScore: 99,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: 120363420674060561@newsletter',
+                newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: global.db.data.nomedelbot || `𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭`
+                newsletterName: `${nomebot}`
             }
         }
     }, { quoted: m })
