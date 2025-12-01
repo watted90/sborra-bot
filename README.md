@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://i.ibb.co/HpztLTv2/20251201-140041.png" alt="20251201-140041" border="0"></a>
+<img src="https://i.ibb.co/PzhcsGpY/Immagine-Whats-App-2025-10-23-ore-19-58-44-140041.png" Immagine-Whats-App-2025-10-23-ore-19-58-44-140041" border="0"></a>
 </p>
 
 <h1 align="center">© ChatUnity-Bot 8.4 🤖</h1>
