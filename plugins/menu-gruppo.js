@@ -8,10 +8,10 @@ const __dirname = path.dirname(__filename);
 const handler = async (message, { conn, usedPrefix, command }) => {
     const userId = message.sender;
     const groupId = message.isGroup ? message.chat : null;
-    const nomeDelBot = conn.user?.name || global.db?.data?.nomedelbot || 'ChatUnity';
+    const nomeDelBot = conn.user?.name || global.db?.data?.nomedelbot || '${nomebot}';
     
     const menuText = generateMenuText(usedPrefix, userId, groupId);
-    const imagePath = path.join(__dirname, '../media/gruppo.jpeg');
+    const imagePath = path.join(__dirname, '../media/menu.jpeg');
     
     await conn.sendMessage(message.chat, {
         image: { url: imagePath },
@@ -20,9 +20,9 @@ const handler = async (message, { conn, usedPrefix, command }) => {
             forwardingScore: 999,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
+                newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: nomeDelBot
+                newsletterName: ${nomebot}
             }
         }
     }, { quoted: message });
