@@ -1,129 +1,73 @@
-import { cpus as _cpus, totalmem, freemem } from 'os'
-import { performance } from 'perf_hooks'
-import { sizeFormatter } from 'human-readable'
+//plugin fatto da axtral e dieh 
 
-let format = sizeFormatter({
-  std: 'JEDEC',
-  decimalPlaces: 2,
-  keepTrailingZeroes: false,
-  render: (literal, symbol) => `${literal} ${symbol}B`,
-})
+import os from 'os';
+import { performance } from 'perf_hooks';
 
-let handler = async (m, { conn, usedPrefix, command }) => {
-  let nomeDelBot = global.db.data.nomedelbot || `𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲`
-  let versioneBot = `${vs}`
-  let old = performance.now()
-  let neww = performance.now()
-  let speed = (neww - old).toFixed(2)
-  let uptime = process.uptime() * 1000
-
-  const cpus = _cpus().map(cpu => {
-    cpu.total = Object.keys(cpu.times).reduce((last, type) => last + cpu.times[type], 0)
-    return cpu
-  })
-
-  const cpu = cpus.reduce((last, cpu, _, { length }) => {
-    last.total += cpu.total
-    last.speed += cpu.speed / length
-    last.times.user += cpu.times.user
-    last.times.nice += cpu.times.nice
-    last.times.sys += cpu.times.sys
-    last.times.idle += cpu.times.idle
-    last.times.irq += cpu.times.irq
-    return last
-  }, {
-    speed: 0,
-    total: 0,
-    times: {
-      user: 0,
-      nice: 0,
-      sys: 0,
-      idle: 0,
-      irq: 0
-    }
-  })
-
-  let cpuModel = cpus[0]?.model || 'Unknown Model'
-  let cpuSpeed = cpu.speed.toFixed(2)
-
-  let caption = `⋆ ★ 🚀 𝑺𝑻𝑨𝑻𝑶 𝑺𝑰𝑺𝑻𝑬𝑴𝑨 🚀 ★ ⋆
-╭♡꒷ ๑ ⋆˚₊⋆───ʚ˚ɞ───⋆˚₊⋆ ๑ ⪩
-୧ ⌛ *Uptime:* ${clockString(uptime)}
-୧ ⚡ *Ping:* ${speed} ms
-  💻 *CPU:* ${cpuModel}
-  🔋 *Usage:* ${cpuSpeed} MHz
-  💾 *RAM:* ${format(totalmem() - freemem())} / ${format(totalmem())}
-  🟢 *Free:* ${format(freemem())}
-╰♡꒷ ๑ ⋆˚₊⋆───ʚ˚ɞ───⋆˚₊⋆ ๑ ⪩
-`
-
-  const profilePictureUrl = await fetchProfilePictureUrl(conn, m.sender)
-
-  let messageOptions = {
-    contextInfo: {
-      forwardingScore: 999,
-      isForwarded: true,
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363259442839354@newsletter',
-        serverMessageId: '',
-        newsletterName: `${nomeDelBot}`
-      }
-    }
-  }
-
-  if (profilePictureUrl !== 'default-profile-picture-url') {
-    try {
-      messageOptions.contextInfo.externalAdReply = {
-        title: nomeDelBot,
-        body: `Versione: ${versioneBot}`,
-        mediaType: 1,
-        renderLargerThumbnail: false,
-        previewType: 'thumbnail',
-        thumbnail: await fetchThumbnail('https://i.ibb.co/k22STymH/Immagine-Whats-App-2025-10-23-ore-19-58-44-580b7b7d.jpg-App-2025-10-23-ore-19-58-44-580b7b7d'),
-      }
-    } catch (error) {
-      console.error('Error fetching thumbnail:', error)
-    } 
-  }
-
+let handler = async (m, { conn, usedPrefix }) => {
   try {
+    const uptimeMs = process.uptime() * 1000;
+    const uptimeStr = clockString(uptimeMs);
+
+    // Calcolo ping
+    const startTime = performance.now();
+    const endTime = performance.now();
+    const speed = (endTime - startTime).toFixed(4);
+
+    const totalMem = os.totalmem();
+    const freeMem = os.freemem();
+    const usedMem = totalMem - freeMem;
+    const percentUsed = ((usedMem / totalMem) * 100).toFixed(2);
+
+    const totalMemGB = (totalMem / 1024 / 1024 / 1024).toFixed(2);
+    const usedMemGB = (usedMem / 1024 / 1024 / 1024).toFixed(2);
+
+    const botName = global.db?.data?.nomedelbot || "𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭";
+
+    const botStartTime = new Date(Date.now() - uptimeMs);
+    const activationTime = botStartTime.toLocaleString('it-IT', {
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+
+    const textMsg = `╭𖧹───ঐ͚͢ᬃ͜𝐏𝕀͢𝚴𝐆 𝐁𝚯͢𝑻ᬃ͜ঐ͚͢───𖧹
+┃◈┃•𝑻𝚺𝐌𝑷𝚯: ${uptimeStr}
+┃◈┃•𝐏𝕀𝚴𝐆 : ${speed} ms
+┃◈┃•𝐑𝜜𝐌: ${usedMemGB} / ${totalMemGB} GB 
+┃◈┃(${percentUsed}%)
+┃◈┃•𝛬𝐕𝐕𝕀𝚯: 
+┃◈┃•${activationTime}
+╰𖧹───ঐ͚͢ᬃ͜𝐏𝕀͢𝚴𝐆 𝐁𝚯͢𝑻ᬃ͜ঐ͚͢───𖧹`;
+
     await conn.sendMessage(m.chat, {
-      text: caption,
-      ...messageOptions
-    })
-  } catch (error) {
-    console.error('Error sending message:', error)
+      text: textMsg,
+      footer: "𝐁𝒀 𝛬𝑿𝑻𝑹𝜜𝑳 & 𝑾𝛬𝐓𝐓𝑬𝐃",
+      buttons: [
+        { buttonId: usedPrefix + "pong", buttonText: { displayText: "⚡ 𝐏𝐨𝐧𝐠" }, type: 1 },
+        { buttonId: usedPrefix + "ping", buttonText: { displayText: "📡 𝐑𝐢𝐟𝐚𝐢 𝐩𝐢𝐧𝐠" }, type: 1 }
+      ],
+      headerType: 1
+    }, { quoted: m });
+
+  } catch (err) {
+    console.error("Errore nell'handler:", err);
   }
-}
-
-async function fetchProfilePictureUrl(conn, sender) {
-  try {
-    return await conn.profilePictureUrl(sender)
-  } catch (error) {
-    console.error('Error fetching profile picture URL:', error)
-    return 'default-profile-picture-url'
-  }
-}
-
-async function fetchThumbnail(url) {
-  if (!url) return null;
-  try {
-      return await global.fetchThumbnail(url);
-  } catch {
-      return null;
-  }
-}
-
-handler.help = ['ping', 'speed']
-handler.tags = ['info', 'tools']
-handler.command = /^(ping)$/i
-
-export default handler
+};
 
 function clockString(ms) {
-  let d = Math.floor(ms / 86400000)
-  let h = Math.floor(ms / 3600000) % 24
-  let m = Math.floor(ms / 60000) % 60
-  let s = Math.floor(ms / 1000) % 60
-  return [d, h, m, s].map(v => v.toString().padStart(2, 0)).join(':')
+  const d = Math.floor(ms / 86400000);
+  const h = Math.floor(ms / 3600000) % 24;
+    const m = Math.floor(ms / 60000) % 60;
+    const s = Math.floor(ms / 1000) % 60;
+    return [d, h, m, s].map(v => v.toString().padStart(2, '0')).join(':');
 }
+
+handler.help = ['ping'];
+handler.tags = ['info'];
+handler.command = /^(ping)$/i;
+
+export default handler;
