@@ -19,9 +19,9 @@ ${finalPhrase}
             forwardingScore: 0,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
+                newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: `${conn.user.name}`
+                newsletterName: `${nomeDelBot}`
             }
         }
     };
