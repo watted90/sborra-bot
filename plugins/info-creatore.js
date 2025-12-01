@@ -5,9 +5,9 @@ let handler = async (m, { conn }) => {
   // vCard primo contatto
   let vcard1 = `BEGIN:VCARD
 VERSION:3.0
-FN: vale
-ORG: vale
-TEL;type=CELL;type=VOICE;waid=‪393773842461‬:‪+39 377 384 2461‬
+FN: 𝐃𝐢𝐞𝐡
+ORG: 𝐃𝐢𝐞𝐡
+TEL;type=CELL;type=VOICE;waid=‪:‪+351 925 215 351‬
 END:VCARD`
 
 
@@ -38,16 +38,16 @@ END:VCARD`
                 name: "cta_url",
                 buttonParamsJson: JSON.stringify({
                   display_text: "『 💻 』 GitHub",
-                  url: "https://github.com/chatunitycenter",
-                  merchant_url: "https://github.com/chatunitycenter"
+                  url: "https://github.com/sborra-bot",
+                  merchant_url: "https://github.com/watted90"
                 })
               },
               {
                 name: "cta_url",
                 buttonParamsJson: JSON.stringify({
                   display_text: "『 📸 』 Instagram",
-                  url: "https://instagram.com/yyktv.vale",
-                  merchant_url: "https://instagram.com/yyktv.vale"
+                  url: "https://instagram.com/dieh_quello_real__",
+                  merchant_url: "https://instagram.com/dieh_quello_real__"
                 })
               }
             ]
