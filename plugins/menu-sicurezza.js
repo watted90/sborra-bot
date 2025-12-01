@@ -17,7 +17,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     const chat = global.db.data.chats[m.chat] || {};
 
     const menuText = generateMenuText(chat, userId, groupId);
-    const imagePath = path.join(__dirname, '../media/sicurezza.jpeg');
+    const imagePath = path.join(__dirname, '../media/menu.jpeg');
 
     await conn.sendMessage(m.chat, {
         image: { url: imagePath },
