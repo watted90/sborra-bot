@@ -1,7 +1,7 @@
 import { performance } from 'perf_hooks'
 
 let handler = async (m, { conn, usedPrefix }) => {
-  let nomeDelBot = global.db.data.nomedelbot || `𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲`
+  
   
   const messageOptions = {
     contextInfo: {
@@ -10,7 +10,7 @@ let handler = async (m, { conn, usedPrefix }) => {
       forwardedNewsletterMessageInfo: {
         newsletterJid: '120363420674060561@newsletter',
         serverMessageId: '',
-        newsletterName: `${nomeDelBot}`
+        newsletterName: `${nomebot}`
       }
     }
   }
