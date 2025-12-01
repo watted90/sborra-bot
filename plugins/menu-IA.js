@@ -14,16 +14,32 @@ const handler = async (message, { conn, usedPrefix }) => {
         caption: menuText,
         footer: global.t('chooseMenu', userId, groupId) || 'Scegli un menu:',
         buttons: [
-            { buttonId: `${usedPrefix}menu`, buttonText: { displayText: global.t('mainMenuButton', userId, groupId) || "🏠 Menu Principale" }, type: 1 },
-            { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: global.t('menuAdmin', userId, groupId) || "🛡️ Menu Admin" }, type: 1 },
-            { buttonId: `${usedPrefix}menuowner`, buttonText: { displayText: global.t('menuOwner', userId, groupId) || "👑 Menu Owner" }, type: 1 },
-            { buttonId: `${usedPrefix}menugruppo`, buttonText: { displayText: global.t('menuGroup', userId, groupId) || "👥 Menu Gruppo" }, type: 1 },
-            { buttonId: `${usedPrefix}menusicurezza`, buttonText: { displayText: global.t('menuSecurity', userId, groupId) || "🚨 Menu Sicurezza" }, type: 1 }
-        ],
-        viewOnce: true,
-        headerType: 4,
-    }, { quoted: message });
-};
+    {
+        buttonId: `${usedPrefix}menu`,
+        buttonText: { displayText: "🏠 Menu Principale" },
+        type: 1
+    },
+    {
+        buttonId: `${usedPrefix}menuadmin`,
+        buttonText: { displayText: "🛡️ Menu Admin" },
+        type: 1
+    },
+    {
+        buttonId: `${usedPrefix}menuowner`,
+        buttonText: { displayText: "👑 Menu Owner" },
+        type: 1
+    },
+    {
+        buttonId: `${usedPrefix}menugruppo`,
+        buttonText: { displayText: "👥 Menu Gruppo" },
+        type: 1
+    },
+    {
+        buttonId: `${usedPrefix}menusicurezza`,
+        buttonText: { displayText: "🚨 Menu Sicurezza" },
+        type: 1
+    }
+],
 
 handler.help = ['menuia', 'menuai'];
 handler.tags = ['menu'];
