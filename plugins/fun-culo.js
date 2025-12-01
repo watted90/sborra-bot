@@ -21,7 +21,7 @@ const inoltra = (nomeDelBot) => {
             forwardingScore: 999,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
+                newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
                 newsletterName: `${nomeDelBot}`
             }
