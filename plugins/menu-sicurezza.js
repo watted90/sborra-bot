@@ -25,10 +25,6 @@ let handler = async (m, { conn, usedPrefix, command }) => {
         footer: global.t('chooseMenu', userId, groupId) || 'Scegli un menu:',
         buttons: [
             { buttonId: `${usedPrefix}menu`, buttonText: { displayText: global.t('mainMenuButton', userId, groupId) || "🏠 Menu Principale" }, type: 1 },
-            { buttonId: `${usedPrefix}attiva antinuke`, buttonText: { displayText: '🟢 Attiva AntiNuke' }, type: 1 },
-            { buttonId: `${usedPrefix}disabilita antinuke`, buttonText: { displayText: '🔴 Disattiva AntiNuke' }, type: 1 },
-            { buttonId: `${usedPrefix}conclave status`, buttonText: { displayText: '🔎 Stato Conclave' }, type: 1 },
-            { buttonId: `${usedPrefix}conclave now`, buttonText: { displayText: '⚠️ Esegui Conclave' }, type: 1 }
         ],
         viewOnce: true,
         headerType: 4
