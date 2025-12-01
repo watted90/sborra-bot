@@ -41,8 +41,7 @@ const handler = async (message, { conn, usedPrefix, command }) => {
                 { buttonId: `${usedPrefix}menugruppo`, buttonText: { displayText: groupMenuText }, type: 1 },
                 { buttonId: `${usedPrefix}menuia`, buttonText: { displayText: aiMenuText }, type: 1 }
             ],
-            viewOnce: true,
-            headerType: 4
+            
 ) }
  }
         }
