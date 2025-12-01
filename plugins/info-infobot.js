@@ -74,8 +74,8 @@ let handler = async (m, { conn, usedPrefix }) => {
 
    let txt = '`*⭒─ׄ─ׅ─ׄ─⭒ 𝐈𝐍𝐅𝐎-𝐁𝐎𝐓 ⭒─ׄ─ׅ─ׄ─⭒*`\n\n'
        txt += `╭── ︿︿︿︿︿ *⭒   ⭒   ⭒   ⭒   ⭒   ⭒*\n`
-       txt += `┊ ‹‹ *Stato Di* :: *𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲 ดาว⁩*\n`
-       txt += `┊•*⁀➷ °⭒⭒⭒ *【 ✯ 𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲-𝐁𝐨𝐭 ✰ 】*\n`
+       txt += `┊ ‹‹ *Stato Di* :: *𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭 ดาว⁩*\n`
+       txt += `┊•*⁀➷ °⭒⭒⭒ *【 ✯ 𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭 ✰ 】*\n`
        txt += `╰─── ︶︶︶︶ ✰⃕  ⌇ *⭒ ⭒ ⭒*   ˚̩̥̩̥*̩̩͙✩\n`
        txt += `┊🪴 [ *Moneta* :: *Unitycoins 💶*\n`
        txt += `┊🍟 [ *Prefisso* :: *【  ${usedPrefix}  】*\n`
