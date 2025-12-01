@@ -35,11 +35,11 @@ const handler = async (message, { conn, usedPrefix, command }) => {
             caption: menuText,
             footer: footerText,
             buttons: [
-                { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: adminMenuText }, type: 1 },
-                { buttonId: `${usedPrefix}menuowner`, buttonText: { displayText: ownerMenuText }, type: 1 },
-                { buttonId: `${usedPrefix}menusicurezza`, buttonText: { displayText: securityMenuText }, type: 1 },
-                { buttonId: `${usedPrefix}menugruppo`, buttonText: { displayText: groupMenuText }, type: 1 },
-                { buttonId: `${usedPrefix}menuia`, buttonText: { displayText: aiMenuText }, type: 1 }
+                { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: adminMenuButton }, type: 1 },
+                { buttonId: `${usedPrefix}menuowner`, buttonText: { displayText: ownerMenuButton }, type: 1 },
+                { buttonId: `${usedPrefix}menusicurezza`, buttonText: { displayText: securityMenuButton }, type: 1 },
+                { buttonId: `${usedPrefix}menugruppo`, buttonText: { displayText: groupMenuButton }, type: 1 },
+                { buttonId: `${usedPrefix}menuia`, buttonText: { displayText: aiMenuButton }, type: 1 }
             ],
             viewOnce: true,
             headerType: 4
@@ -92,7 +92,6 @@ function generateMenuText(prefix, userCount, userId, groupId) {
 ╰♡꒷ ๑ ⋆˚₊⋆──ʚ˚ɞ──⋆˚₊⋆ ๑ ⪩
   ୧・ *${versionText}:* ${vs}
   ୧・ *${collabText}* ${collab}
-  ୧・ *${usersText}:* ${userCount}
 ╰♡꒷ ๑ ⋆˚₊⋆──ʚ˚ɞ──⋆˚₊⋆ ๑ ⪩
 `.trim();
 }
