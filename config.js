@@ -8,10 +8,10 @@ global.confirmCode = '';
 global.nomebot = '𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭';
 global.packname = '𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭';
 global.author = '𝐌𝐝';
-global.vs = '8.0';
+global.vs = '𝟏.𝟎';
 global.collab = '𝔸𝕩𝕥𝕣𝕒𝕝_𝕎𝕚ℤ𝕒ℝ𝕕';
 global.wm = global.nomebot;
-global.wait = 'ⓘ 𝐂𝐚𝐫𝐢𝐜𝐚𝐦𝐞𝐧𝐭𝐨 ...';
+global.wait = 'ⓘ 𝐂𝐚𝐫𝐢𝐜𝐚𝐦𝐞𝐧𝐭𝐨...';
 
 
 global.owner = [
