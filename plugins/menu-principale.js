@@ -25,7 +25,7 @@ const handler = async (message, { conn, usedPrefix, command }) => {
   const groupMenuText = global.t('menuGroup', userId, groupId) || '👥 Menu Gruppo';
   const aiMenuText = global.t('menuAI', userId, groupId) || '🤖 Menu IA';
 
-  // Assicurati che l'oggetto passato a sendMessage sia corretto (senza brace/parentesi in eccesso)
+  
   await conn.sendMessage(
     message.chat,
     {
@@ -33,7 +33,7 @@ const handler = async (message, { conn, usedPrefix, command }) => {
       caption: menuText,
       footer: footerText,
       buttons: [
-        { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: adminMenuText }, type: 1 },
+        { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: "adminMenuText" }, type: 1 },
         { buttonId: `${usedPrefix}menuowner`, buttonText: { displayText: ownerMenuText }, type: 1 },
         { buttonId: `${usedPrefix}menusicurezza`, buttonText: { displayText: securityMenuText }, type: 1 },
         { buttonId: `${usedPrefix}menugruppo`, buttonText: { displayText: groupMenuText }, type: 1 },
@@ -65,8 +65,6 @@ function generateMenuText(prefix, userCount, userId, groupId) {
   // Fallback per variabili non definite nel tuo snippet originale
   const installText = global.t('installCommand', userId, groupId) || 'installa';
   const channelsText = global.t('channelsCommand', userId, groupId) || 'canali';
-  const vs = global.t('version', userId, groupId) || 'v1.0';
-  const collab = global.t('collab', userId, groupId) || 'contributors';
 
   return `
 ⋆ ︵★ ${menuTitle} ★︵ ⋆
