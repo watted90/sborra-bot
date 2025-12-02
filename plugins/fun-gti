@@ -335,6 +335,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
 handler.help = ['gay', 'trans', 'sborra', 'ilove', 'il'];
 handler.tags = ['giochi'];
-handler.command = /^(gay|trans|sborra|il|ilove)$/i;
+handler.command = /^(gay|trans|sborra|ilove)$/i;
 
 export default handler;
