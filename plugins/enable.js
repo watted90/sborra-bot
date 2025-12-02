@@ -1,5 +1,7 @@
 //Codice di enable.js
 
+//Codice di enable.js
+
 import fs from 'fs';
 import fetch from 'node-fetch';
 
@@ -31,6 +33,7 @@ const features = [
   { key: 'antiArab',           label: 'Antiarab' },
   { key: 'antisondaggi',       label: 'Antisondaggi' },
   { key: 'antitiktok',         label: 'AntiTikTok' },
+  { key: 'cinema',       label: 'Cinema' },
   { key: 'chatbotPrivato',     label: 'ChatbotPrivato', ownerOnly: true },
 
 ];
@@ -51,7 +54,7 @@ const MENU_FOOTER = `
 ꒷꒦ ✦ ୧・︶ : ︶ ꒷꒦ ‧₊ ୧
 
 ╰♡꒷ ๑ ⋆˚₊⋆───ʚ˚ɞ───⋆˚₊⋆ ๑ ⪩
-  ୧・𝐂𝐎𝐋𝐋𝐀𝐁: ${collab}
+  ୧・𝐂𝐎𝐋𝐋𝐀𝐁:
   ୧・*𝐒𝐔𝐏𝐏𝐎𝐑𝐓𝐎:* (.supporto)
 ╰♡꒷ ๑ ⋆˚₊⋆───ʚ˚ɞ───⋆˚₊⋆ ๑ ⪩
 `;
@@ -70,7 +73,7 @@ const BUTTON_SECTION_TITLE = '🔧 Funzioni';
 const BUTTON_TEXT = '⚙ Impostazioni';
 const ONLY_OWNER_MSG = '❌ Solo il proprietario può attivare/disattivare questa funzione.';
 const ONLY_PRIVATE_CHATBOT_MSG = '❌ Puoi attivare/disattivare la funzione *ChatbotPrivato* solo in chat privata.';
-const ONLY_CHATUNITY_BASE_MSG = 'Questo comando è disponibile solo con la base di ChatUnity.';
+const ONLY_CHATUNITY_BASE_MSG = 'Questo comando è disponibile solo con la base di Sborra Bot-MD.';
 
 const PLACEHOLDER_THUMB = null;
 const PLACEHOLDER_VCARD = 'BEGIN:VCARD...';
