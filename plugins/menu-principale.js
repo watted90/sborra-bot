@@ -42,7 +42,7 @@ const handler = async (message, { conn, usedPrefix, command }) => {
                 { buttonId: `${usedPrefix}menuia`, buttonText: { displayText: aiMenuText }, type: 1 }
             ],
             
-) }
+ }
  }
         }
     );
