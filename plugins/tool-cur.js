@@ -91,26 +91,23 @@ async function getTopTracks(username, period = '7day', limit = 9) {
 }
 
 const handler = async (m, { conn, args, usedPrefix, text, command }) => {
-
   if (command === 'setuser') {
     const username = text.trim()
     if (!username) {
       return conn.sendMessage(m.chat, { text: `❌ Usa il comando così: ${usedPrefix}setuser <username>` })
     }
+
     setLastfmUsername(m.sender, username)
     return conn.sendMessage(m.chat, { text: `✅ Username *${username}* salvato!` })
   }
 
   const user = getLastfmUsername(m.sender)
-
-  // 🔥 PULSANTE LAST.FM FUNZIONANTE
-if (!user) {
-  return conn.sendMessage(m.chat, {
-    text: `🎵 *Registrazione Last.fm richiesta*\n
-@${m.sender.split('@')[0]}, per usare i comandi musicali devi registrare il tuo username Last.fm.\n
-📱 *Usa questo comando:*\n${usedPrefix}setuser <tuo_username>`,
-    mentions: [m.sender],
-    
+  if (!user) {
+    return conn.sendMessage(m.chat, {
+      text: `🎵 *Registrazione Last.fm richiesta*\n\n@${m.sender.split('@')[0]}, per usare i comandi musicali devi registrare il tuo username Last.fm.\n\n📱 *Usa questo comando:*\n${usedPrefix}setuser <tuo_username>`,
+      mentions: [m.sender]
+    })
+  }
 
   const parseOptions = (text) => {
     let size = 3
@@ -160,14 +157,15 @@ if (!user) {
 
     const ytQuery = encodeURIComponent(`${artist} ${title}`)
     const ytURL = `https://www.youtube.com/results?search_query=${ytQuery}`
+    const lastfmURL = `https://www.last.fm/user/${user}`
 
     const msg = {
       image: image ? { url: image } : undefined,
       caption,
       mentions: conn.parseMention(caption),
       buttons: [
-        { buttonId: `.playaudio ${title} - ${artist}`, buttonText: { displayText: '🎧 Scarica canzone' }, type: 1 },
-        { buttonId: `.playvideo ${title} - ${artist}`, buttonText: { displayText: '🎥 Scarica video' }, type: 1 },
+        { buttonId: `.playaudio ${ytURL}`, buttonText: { displayText: '🎧 Scarica canzone' }, type: 1 },
+          { buttonId: `.playvideo ${ytURL}`, buttonText: { displayText: '🎥 Scarica video' }, type: 1 },
       ],
       headerType: 4,
       footer: `.`
@@ -177,8 +175,9 @@ if (!user) {
     return
   }
 
+  // --- Altri comandi restano invariati ---
   if (command === 'topartists' || command === 'topalbums' || command === 'toptracks' || command === 'cronologia') {
-    // Lascia invariato
+    // puoi lasciare la versione che ti ho mandato prima
   }
 }
 
