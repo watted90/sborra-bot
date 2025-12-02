@@ -1,94 +1,75 @@
 import { performance } from 'perf_hooks';
-import fetch from 'node-fetch';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import fs from 'fs';
-import '../lib/language.js';
+import fetch from 'node-fetch'; // Assicurati di avere node-fetch installato
 
+const handler = async (message, { conn, usedPrefix }) => {
+  const userCount = Object.keys(global.db.data.users).length;
+  const botName = global.db.data.nomedelbot || '𝔸𝕩𝕥𝕣𝕒𝕝_𝕎𝕚ℤ𝕒ℝ𝕕';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+  const menuText = generateMenuText(usedPrefix, botName, userCount);
 
+  const messageOptions = {
+    contextInfo: {
+      
+    }
+  };
 
-const handler = async (message, { conn, usedPrefix, command }) => {
-    const userId = message.sender
-    const groupId = message.isGroup ? message.chat : null
-    
-    const userCount = Object.keys(global.db.data.users).length;
-    const botName = global.db.data.nomedelbot || 'ChatUnity';
-
-
-    const menuText = generateMenuText(usedPrefix, botName, userCount, userId, groupId);
-
-
-    const imagePath = path.join(__dirname, '../media/menu.jpeg'); 
-    
-    const footerText = global.t('menuFooter', userId, groupId) || 'Scegli un menu:'
-    const adminMenuText = global.t('menuAdmin', userId, groupId) || '🛡️ Menu Admin'
-    const ownerMenuText = global.t('menuOwner', userId, groupId) || '👑 Menu Owner'
-    const securityMenuText = global.t('menuSecurity', userId, groupId) || '🚨 Menu Sicurezza'
-    const groupMenuText = global.t('menuGroup', userId, groupId) || '👥 Menu Gruppo'
-    const aiMenuText = global.t('menuAI', userId, groupId) || '🤖 Menu IA'
-    
-    await conn.sendMessage(
-        message.chat,
-        {
-            image: { url: imagePath },
-            caption: menuText,
-            footer: footerText,
-            buttons: [
-                { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: adminMenuText }, type: 1 },
-                { buttonId: `${usedPrefix}menuowner`, buttonText: { displayText: ownerMenuText }, type: 1 },
-                { buttonId: `${usedPrefix}menusicurezza`, buttonText: { displayText: securityMenuText }, type: 1 },
-                { buttonId: `${usedPrefix}menugruppo`, buttonText: { displayText: groupMenuText }, type: 1 },
-                { buttonId: `${usedPrefix}menuia`, buttonText: { displayText: aiMenuText }, type: 1 }
-            ],
-            viewOnce: true,
-            headerType: 4
-        }
-    );
+  // Invia il menu e i bottoni  
+  await conn.sendMessage(message.chat, {
+    text: menuText,
+    footer: 'Scegli un menu:',
+    buttons: [
+      { buttonId: `${usedPrefix}menuowner`, buttonText: { displayText: "🔱 Menu Owner" }, type: 1 },
+      { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: "🛡️ Menu Admin" }, type: 1 },
+      { buttonId: `${usedPrefix}mod`, buttonText: { displayText: "👮🏻‍♂️ Menu Mod" }, type: 1 },
+      { buttonId: `${usedPrefix}funzioni`, buttonText: { displayText: "🔧 Menu Funzioni" }, type: 1 },
+      { buttonId: `${usedPrefix}menugruppo`, buttonText: { displayText: "👥 Menu Gruppo" }, type: 1 },
+      { buttonId: `${usedPrefix}giochi`, buttonText: { displayText: "🎮 Menu Giochi" }, type: 1 },
+    ],
+    viewOnce: true,
+    ...messageOptions
+  }, { quoted: message });
 };
 
+async function fetchThumbnail(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const arrayBuffer = await response.arrayBuffer();
+    return new Uint8Array(arrayBuffer);
+  } catch (error) {
+    console.error('Errore durante il fetch della thumbnail:', error);
+    return 'default-thumbnail'; // Fallback thumbnail in caso di errore
+  }
+}
 
 handler.help = ['menu'];
 handler.tags = ['menu'];
 handler.command = /^(menu|comandi)$/i;
 
-
 export default handler;
 
+function generateMenuText(prefix, botName, userCount) {
+  // Definisci la variabile vs oppure rimuovila se non serve
+  const vs = '1.0.0'; // esempio versione
 
-function generateMenuText(prefix, botName, userCount, userId, groupId) {
-    const menuTitle = global.t('mainMenuTitle', userId, groupId) || '𝑴𝑬𝑵𝑼 𝑫𝑬𝑳 𝑩𝑶𝑻'
-    const staffText = global.t('staffCommand', userId, groupId) || 'staff'
-    const hegemoniaText = global.t('hegemoniaCommand', userId, groupId) || 'egemonia'
-    const candidatesText = global.t('candidatesCommand', userId, groupId) || 'candidati'
-    const installText = global.t('installCommand', userId, groupId) || 'installa'
-    const guideText = global.t('guideCommand', userId, groupId) || 'guida'
-    const channelsText = global.t('channelsCommand', userId, groupId) || 'canali'
-    const systemText = global.t('systemCommand', userId, groupId) || 'sistema'
-    const faqText = global.t('faqCommand', userId, groupId) || 'FAQ'
-    const pingText = global.t('pingCommand', userId, groupId) || 'ping'
-    const reportText = global.t('reportCommand', userId, groupId) || 'segnala'
-    const suggestText = global.t('suggestCommand', userId, groupId) || 'consiglia'
-    const newsText = global.t('newsCommand', userId, groupId) || 'novità'
-    const versionText = global.t('versionLabel', userId, groupId) || '𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬'
-    const collabText = global.t('collabLabel', userId, groupId) || '𝐂𝐎𝐋𝐋𝐀𝐁: 𝐎𝐍𝐄 𝐏𝐈𝐄𝐂𝐄'
-    const usersText = global.t('usersLabel', userId, groupId) || '𝐔𝐓𝐄𝐍𝐓𝐈'
-    
-    return `
-⋆ ︵★ ${menuTitle} ★︵ ⋆
-୧ 👑 ୭ *${prefix}${staffText}*
-୧ 📝 ୭ *${prefix}${channelsText}* 
-୧ ⚙️ ୭ *${prefix}${systemText}*
-୧ 🚀 ୭ *${prefix}${pingText}*
-୧ 📝 ୭ *${prefix}${reportText}* 
-୧ 💡 ୭ *${prefix}${suggestText}* 
-୧ ⚡ ୭ *${prefix}pong*
-╰♡꒷ ๑ ⋆˚₊⋆──ʚ˚ɞ──⋆˚₊⋆ ๑ ⪩
-  ୧・*${versionText}:* ${vs}
-  ୧・𝐂𝐎𝐋𝐋𝐀𝐁: ${collab}
-  ୧・${usersText}: ${userCount}
-╰♡꒷ ๑ ⋆˚₊⋆──ʚ˚ɞ──⋆˚₊⋆ ๑ ⪩
+  return `
+╭〔🤖𝑴𝑬𝑵𝑼 𝑫𝑬𝑳 𝑩𝑶𝑻🤖〕╮
+┣━━━━━━━━━━━━━━━━━━
+┃ 🛠𝑪𝑶𝑴𝑨𝑵𝑫𝑰 𝑮𝑬𝑵𝑬𝑹𝑨𝑳𝑰🛠
+┣━━━━━━━━━━━━━━━━━━
+┃ 👑 .𝑷𝑹𝑶𝑷𝑹𝑰𝑬𝑻𝑨𝑹𝑰𝑶
+┃ 🔱 .𝑶𝑾𝑵𝑬𝑹
+┃ 🛡️ .𝑨𝑫𝑴𝑰𝑵
+┃ 👮🏻‍♂️.𝑴𝑶𝑫
+┃ 🔧 .𝑭𝑼𝑵𝒁𝑰𝑶𝑵𝑰
+┃ 👥 .𝑮𝑹𝑼𝑷𝑷𝑶
+┃ 🎮 .𝑮𝑰𝑶𝑪𝑯𝑰
+┃ 📞 .𝑺𝑼𝑷𝑷𝑶𝑹𝑻𝑶
+┃ 🤖 .𝑰𝑵𝑭𝑶𝑩𝑶𝑻
+╰━━━━━━━━━━━━━━━━━╯
+🤖 *𝑩𝒐𝒕*: 𝔸𝕩𝕥𝕣𝕒𝕝_𝕎𝕚ℤ𝕒ℝ𝕕
+🌟 *𝑽𝒆𝒓𝒔𝒊𝒐𝒏𝒆:* Unica
 `.trim();
 }
