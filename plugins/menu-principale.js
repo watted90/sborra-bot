@@ -77,22 +77,16 @@ function generateMenuText(prefix, userCount, userId, groupId) {
     return `
 ⋆ ︵★ ${menuTitle} ★︵ ⋆
 ୧ 👑 ୭ *${prefix}${staffText}*
-୧ 👑 ୭ *${prefix}${hegemoniaText}*
-୧ 📜 ୭ *${prefix}${candidatesText}*
 ୧ 📥 ୭ *${prefix}${installText}*
-୧ 📖 ୭ *${prefix}${guideText}*
 ୧ 📝 ୭ *${prefix}${channelsText}* 
 ୧ ⚙️ ୭ *${prefix}${systemText}*
-୧ ❓ ୭ *${prefix}${faqText}*
 ୧ 🚀 ୭ *${prefix}${pingText}*
 ୧ 📝 ୭ *${prefix}${reportText}* 
 ୧ 💡 ୭ *${prefix}${suggestText}* 
-୧ 🆕 ୭ *${prefix}${newsText}*
-୧ 🗣️ ୭ *${prefix}gruppi*
+୧ ⚡ ୭ *${prefix}pong*
 ╰♡꒷ ๑ ⋆˚₊⋆──ʚ˚ɞ──⋆˚₊⋆ ๑ ⪩
   ୧・ *${versionText}:* ${vs}
   ୧・ *𝐂𝐎𝐋𝐋𝐀𝐁:* ${collab}
-  ୧・${usersText}: ${userCount}
 ╰♡꒷ ๑ ⋆˚₊⋆──ʚ˚ɞ──⋆˚₊⋆ ๑ ⪩
 `.trim();
 }
