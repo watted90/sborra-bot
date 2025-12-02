@@ -30,7 +30,7 @@ const handler = async (message, { conn, usedPrefix, command }) => {
     message.chat,
     {
       image: { url: imagePath },
-      text: menuText,
+      caption: menuText,
       footer: footerText,
       buttons: [
         { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: adminMenuText }, type: 1 },
