@@ -60,36 +60,24 @@ export default handler;
 function generateMenuText(prefix, userCount, userId, groupId) {
     const menuTitle = global.t('mainMenuTitle', userId, groupId) || '𝑴𝑬𝑵𝑼 𝑫𝑬𝑳 𝑩𝑶𝑻'
     const staffText = global.t('staffCommand', userId, groupId) || 'staff'
-    const hegemoniaText = global.t('hegemoniaCommand', userId, groupId) || 'egemonia'
-    const candidatesText = global.t('candidatesCommand', userId, groupId) || 'candidati'
-    const installText = global.t('installCommand', userId, groupId) || 'installa'
-    const guideText = global.t('guideCommand', userId, groupId) || 'guida'
-    const channelsText = global.t('channelsCommand', userId, groupId) || 'canali'
     const systemText = global.t('systemCommand', userId, groupId) || 'sistema'
-    const faqText = global.t('faqCommand', userId, groupId) || 'FAQ'
     const pingText = global.t('pingCommand', userId, groupId) || 'ping'
     const reportText = global.t('reportCommand', userId, groupId) || 'segnala'
     const suggestText = global.t('suggestCommand', userId, groupId) || 'consiglia'
-    const newsText = global.t('newsCommand', userId, groupId) || 'novità'
     const versionText = global.t('versionLabel', userId, groupId) || '𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬'
     const collabText = global.t('collabLabel', userId, groupId) || '𝐂𝐎𝐋𝐋𝐀𝐁'
-    const usersText = global.t('usersLabel', userId, groupId) || '𝐔𝐓𝐄𝐍𝐓𝐈'
+    const pongText = global.t('pongCommand', userId, groupId) || 'pong'
 
     return `
 ⋆ ︵★ ${menuTitle} ★︵ ⋆
 ୧ 👑 ୭ *${prefix}${staffText}*
-୧ 👑 ୭ *${prefix}${hegemoniaText}*
-୧ 📜 ୭ *${prefix}${candidatesText}*
 ୧ 📥 ୭ *${prefix}${installText}*
-୧ 📖 ୭ *${prefix}${guideText}*
 ୧ 📝 ୭ *${prefix}${channelsText}* 
 ୧ ⚙️ ୭ *${prefix}${systemText}*
-୧ ❓ ୭ *${prefix}${faqText}*
 ୧ 🚀 ୭ *${prefix}${pingText}*
 ୧ 📝 ୭ *${prefix}${reportText}* 
-୧ 💡 ୭ *${prefix}${suggestText}* 
-୧ 🆕 ୭ *${prefix}${newsText}*
-୧ 🗣️ ୭ *${prefix}gruppi*
+୧ 💡 ୭ *${prefix}${suggestText}*
+୧ ⚡ ୭ *${prefix}${pongText}* 
 ╰♡꒷ ๑ ⋆˚₊⋆──ʚ˚ɞ──⋆˚₊⋆ ๑ ⪩
   ୧・ *${versionText}:* ${vs}
   ୧・ *${collabText}* ${collab}
