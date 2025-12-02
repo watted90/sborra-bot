@@ -6,7 +6,7 @@ import fs from 'fs';
 const handler = m => m;
 
 handler.before = async function (message, { conn }) {
-    const imageFallback = 'media/fallback.png'; 
+    const imageFallback = 'media/profilo.png'; 
 
     const fetchBuffer = async (url) => {
         // local file
