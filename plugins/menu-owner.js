@@ -41,7 +41,7 @@ function generateMenuText(prefix, userId, groupId) {
     const vs = global.vs || '8.0';
     const menuTitle = global.t('ownerMenuTitle', userId, groupId) || '𝑴𝑬𝑵𝑼 𝑶𝑾𝑵𝑬𝑹';
     const versionText = global.t('versionLabel', userId, groupId) || '𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬';
-    const collabText = global.t('collabLabel', userId, groupId) || '𝐂𝐎𝐋𝐋𝐀𝐁: 𝐎𝐍𝐄 𝐏𝐈𝐄𝐂𝐄';
+    const collabText = global.t('collabLabel', userId, groupId) || '𝐂𝐎𝐋𝐋𝐀𝐁:';
     const supportText = global.t('supportLabel', userId, groupId) || '𝐒𝐔𝐏𝐏𝐎𝐑𝐓𝐎';
 
     const commandList = `
