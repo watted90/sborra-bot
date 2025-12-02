@@ -132,6 +132,8 @@ function generateMenuText(prefix, userId, groupId) {
 ♿ *.disabile* @
 ♿ *.mongoloide* @
 ⚫ *.negro* @
+💦 *.sborra* @
+❤️ *.amore* @
 🐓 *.cornuto* @`),
         createSection(global.t('personalityTestSection', userId, groupId), `
 🍺 *.alcolizzato*
