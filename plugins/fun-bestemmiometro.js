@@ -1,51 +1,46 @@
-import fetch from 'node-fetch'
+const bestemmiaGradi = [
+  { min: 1, max: 24, nome: "Peccatore Occasionale", emoji: "😐" },
+  { min: 25, max: 49, nome: "Empio Recidivo", emoji: "😶‍🌫️" },
+  { min: 50, max: 74, nome: "Blasfemo Iniziato", emoji: "🩸" },
+  { min: 75, max: 99, nome: "Eretico Consacrato", emoji: "🔥" },
+  { min: 100, max: 149, nome: "Scomunicato Ufficiale", emoji: "🕯️" },
+  { min: 150, max: 299, nome: "Profanatore Supremo", emoji: "⚰️" },
+  { min: 300, max: Infinity, nome: "Avatar della Bestemmia", emoji: "⛧" }
+];
 
-// Handler principale
-let handler = m => m
+const bestemmieRegex = /porco dio|porcodio|dio bastardo|dio cane|porcamadonna|madonnaporca|dio cristo|diocristo|dio maiale|diomaiale|cristo madonna|madonna impanata|dio frocio|dio gay|dio infuocato|dio crocifissato|madonna puttana|madonna vacca|madonna inculata|maremma maiala|jesu porco|diocane|padre pio|madonna troia|zoccola madonna|dio pentito|porcoddio|dio stupratore di feti abortiti|dio stupratore di femboy|dio giocatore accanito di call of duty/i;
 
-handler.before = async function (m) {
-    // Accedi ai dati utente e chat dal database globale
-    let chat = global.db.data.chats[m.chat]
-    let user = global.db.data.users[m.sender]
+export async function before(m, { conn }) {
+  const chat = global.db.data.chats[m.chat];
+  if (chat && chat.bestemmiometro === false) return;
 
-    // Se non è un gruppo, esci
-    if (!m.isGroup) return null
+  const user = global.db.data.users[m.sender];
+  user.blasphemy = user.blasphemy || 0;
 
-    // Se la funzione bestemmiometro non è attiva, esci
-    if (!chat.bestemmiometro) return
+  if (!bestemmieRegex.test(m.text)) return;
 
-    // Regex per rilevare bestemmie
-    const regex = /(?:porco dio|porcodio|dio bastardo|dio cane|porcamadonna|madonnaporca|porca madonna|madonna porca|dio cristo|diocristo|dio maiale|diomaiale|jesucristo|jesu cristo|cristo madonna|madonna impanata|dio cristo|cristo dio|dio frocio|dio gay|dio madonna|dio infuocato|dio crocifissato|madonna puttana|madonna vacca|madonna inculata|maremma maiala|padre pio|jesu impanato|jesu porco|porca madonna|diocane|madonna porca|dio capra|capra dio|padre pio ti spio)/i
+  user.blasphemy += 1;
+  const grado = bestemmiaGradi.find(
+    g => user.blasphemy >= g.min && user.blasphemy <= g.max
+  ) || { nome: "Eresiarca Anonimo", emoji: "❓" };
 
-    // Se il messaggio contiene bestemmie
-    if (regex.test(m.text)) {
-        user.blasphemy = (user.blasphemy || 0) + 1
-        user.blasphemyCounted = Math.floor(user.blasphemy / 10)
+  const testo = `ঐ͚͢ᬃ͜𖤍━═━┉┉•𖤐•┉┉━═━𖤍ᬃ͜ঐ͚͢
+📛 𝐔𝑻𝚺𝚴𝑻𝚺: @${m.sender.split('@')[0]}
+📊 𝐂𝚯𝚴𝑻𝚺𝐆𝐆𝕀𝚯: *${user.blasphemy}*
 
-        // Notifica solo ogni 10 bestemmie
-        if (user.blasphemy % 10 === 0) {
-            const mention = '@' + m.sender.split('@')[0] + ` ha tirato ${user.blasphemy} bestemmie!`
-            let quoted = {
-                key: {
-                    participants: '0@s.whatsapp.net',
-                    fromMe: false,
-                    id: 'Halo'
-                },
-                message: {
-                    locationMessage: {
-                        name: '𝐁𝐞𝐬𝐭𝐞𝐦𝐦𝐢𝐨𝐦𝐞𝐭𝐫𝐨',
-                        jpegThumbnail: await (await fetch('https://telegra.ph/file/ba01cc1e5bd64ca9d65ef.jpg')).buffer(),
-                        vcard: 'BEGIN:VCARD\x0aVERSION:3.0\x0aN:;Unlimited;;;\x0aFN:Unlimited\x0aORG:Unlimited\x0aTITLE:\x0aitem1.TEL;waid=19709001746:+1\x20(970)\x20900-1746\x0aitem1.X-ABLabel:Unlimited\x0aX-WA-BIZ-DESCRIPTION:ofc\x0aX-WA-BIZ-NAME:Unlimited\x0aEND:VCARD'
-                    }
-                },
-                participant: '0@s.whatsapp.net'
-            }
-            await conn.sendMessage(m.chat, {
-                text: mention,
-                mentions: [...mention.matchAll(/@([0-9]{5,16}|0)/g)].map(v => v[1] + '@s.whatsapp.net')
-            }, { quoted })
-        }
-    }
+> 🎖️ 𝐆𝑹𝛬𝐃𝚯: *${grado.nome}* ${grado.emoji}
+ঐ͚͢ᬃ͜𖤍━═━┉┉•𖤐•┉┉━═━𖤍ᬃ͜ঐ͚͢`;
+
+  await conn.sendMessage(m.chat, {
+    text: testo,
+    footer: "𝐁𝚺𝐒𝑻𝚺𝐌𝐌𝕀𝚶𝐌𝚺𝑻𝑹𝚯🛐                                             𝐁𝒀 𝛬𝑿𝑻𝑹𝜜𝑳 & 𝑾𝛬𝐓𝐓𝑬𝐃",
+    buttons: [
+      {
+        buttonId: ".topbestemmie",
+        buttonText: { displayText: "🏆𝐓𝚯𝐏 𝐁𝚺𝐒𝑻𝚺𝐌𝐌𝕀𝚺" },
+        type: 1
+      }
+    ],
+    mentions: [m.sender]
+  });
 }
-
-export default handler
