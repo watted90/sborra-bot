@@ -110,18 +110,7 @@ if (!user) {
 @${m.sender.split('@')[0]}, per usare i comandi musicali devi registrare il tuo username Last.fm.\n
 📱 *Usa questo comando:*\n${usedPrefix}setuser <tuo_username>`,
     mentions: [m.sender],
-    buttons: [
-      {
-        name: 'cta_url',
-        buttonParamsJson: JSON.stringify({
-          display_text: '🌐 Vai su Last.fm',
-          url: 'https://last.fm/join'
-        })
-      }
-    ],
-    headerType: 1
-  })
-}
+    
 
   const parseOptions = (text) => {
     let size = 3
@@ -177,8 +166,8 @@ if (!user) {
       caption,
       mentions: conn.parseMention(caption),
       buttons: [
-        { buttonId: `.playaudio ${ytURL}`, buttonText: { displayText: '🎧 Scarica canzone' }, type: 1 },
-        { buttonId: `.playvideo ${ytURL}`, buttonText: { displayText: '🎥 Scarica video' }, type: 1 },
+        { buttonId: `.playaudio ${title} - ${artist}`, buttonText: { displayText: '🎧 Scarica canzone' }, type: 1 },
+        { buttonId: `.playvideo ${title} - ${artist}`, buttonText: { displayText: '🎥 Scarica video' }, type: 1 },
       ],
       headerType: 4,
       footer: `.`
