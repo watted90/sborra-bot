@@ -22,7 +22,7 @@ const handler = async (message, { conn, usedPrefix, command }) => {
             forwardedNewsletterMessageInfo: {
                 newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: ${nomebot}
+                newsletterName:'${nomebot}'
             }
         }
     }, { quoted: message });
