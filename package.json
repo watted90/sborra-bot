@@ -18,16 +18,16 @@
     "eslintfix": "eslint --fix .",
     "localize": "node scripts/localize-plugins.js"
   },
-  "homepage": "https://github.com/chatunitycenter/chatunity-bot",
+  "homepage": "https://github.com/watted90/sborra-bot",
   "author": {
-    "name": "chatunity-bot"
+    "name": "sborra-bot"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chatunitycenter/chatunity-bot.git"
+    "url": "git+https://github.com/watted90/sborra-bot.git"
   },
   "bugs": {
-    "url": "https://github.com/chatunitycenter/chatunity-bot/issues"
+    "url": "https://github.com/watted90/sborra-bot/issues"
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
@@ -38,6 +38,7 @@
     "archiver": "^7.0.1",
     "awesome-phonenumber": "^3.4.0",
     "axios": "^1.7.9",
+    "canvas": "^2.11.2",
     "cfonts": "^2.10.0",
     "chalk": "^5.4.1",
     "cheerio": "1.0.0-rc.12",
