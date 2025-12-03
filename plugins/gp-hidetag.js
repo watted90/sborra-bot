@@ -1,5 +1,5 @@
 //Plugin fatto da Axtral_WiZaRd
-import { generateWAMessageFromContent } from '@realvare/based'
+import { generateWAMessageFromContent } from '@whiskeysocket/baileys'
 import * as fs from 'fs'
 
 let handler = async (m, { conn, text, participants }) => {

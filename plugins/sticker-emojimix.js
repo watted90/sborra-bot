@@ -1,4 +1,4 @@
-import MessageType from '@realvare/based'
+import MessageType from '@whiskeysocket/baileys'
 import fetch from 'node-fetch'
 import { sticker } from '../lib/sticker.js'
 import fs from "fs"
