@@ -31,9 +31,9 @@ let handler = async (m, { conn, usedPrefix }) => {
             forwardingScore: 99,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
+                newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: 'ChatUnity'
+                newsletterName: '${nomeBot}'
             }
         }
     }, { quoted: m, detectLink: true });
@@ -43,7 +43,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 ╭─「 💰 𝐖𝐀𝐋𝐋𝐄𝐓」─
 │
 │ 👤 user: ${name}
-│ 💰 unitycoins: ${formatNumber(user.limit)} 💶
+│ 💰 sborracoins: ${formatNumber(user.limit)} 💶
 │ 🏛️ bank: ${formatNumber(userbank)} 💳
 │
 ╰───────✦───────
@@ -68,7 +68,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 
 handler.help = ['wallet']
 handler.tags = ['economy']
-handler.command = ['soldi', 'wallet', 'portafoglio', 'uc', 'saldo', 'unitycoins']
+handler.command = ['soldi', 'wallet', 'portafoglio', 'sc', 'saldo', 'unitycoins']
 handler.register = true
 
 export default handler
