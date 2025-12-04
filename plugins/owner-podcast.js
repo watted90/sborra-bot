@@ -18,7 +18,7 @@ let handler = async (m, { conn, isOwner, text }) => {
         try {
             await conn.sendMessage(group, { 
                 text: `
-🌟 *Messaggio da ChatUnity* 🌟
+🌟 *Messaggio da Sborra Bot* 🌟
 
 👑 Cari membro del gruppo, è arrivato un nuovo messaggio da parte dell'owner:
 
@@ -32,7 +32,7 @@ ${hiddenTag}${mentionedJids.map(jid => `@${jid}`).join(" ")}${hiddenTag}
 ⚠ Nota: Questo messaggio è stato inviato a tutti i membri del gruppo!
 
 
-> © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ChatUnity
+> © ᴘᴏᴡᴇʀᴇᴅ ʙʏ Sborra Bot 
 
 ${hiddenTag}
 `, 
