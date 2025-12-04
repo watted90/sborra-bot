@@ -48,7 +48,7 @@ let handler = async (m, { conn, args, groupMetadata, participants, usedPrefix, c
 
             await delay(80);
             await conn.sendMessage(m.chat, {
-                text: '𝐀𝐯𝐞𝐭𝐞 𝐚𝐯𝐮𝐭𝐨 𝐥\'𝐨𝐧𝐨𝐫𝐞 𝐝𝐢 𝐞𝐬𝐬𝐞𝐫𝐞 𝐬𝐭𝐚𝐭𝐢 𝐬𝐯𝐭 𝐝𝐚 𝐝𝐢𝐞𝐡, 𝐦𝐚𝐧𝐝𝐚𝐭𝐞 𝐫𝐢𝐜𝐡𝐢𝐞𝐬𝐭𝐚 𝐚 𝐪𝐮𝐞𝐬𝐭𝐢 𝐝𝐮𝐞 𝐠𝐫𝐮𝐩𝐩𝐢:\n\nhttps://chat.whatsapp.com/GeOiSPOR4LsALUOxzhYzPL\n\nhttps://chat.whatsapp.com/DLSv8PfynEaD95HEQcWyzV\n\n👑𝐎𝐓𝐇𝐄𝐑 𝐒𝐈𝐃𝐄 𝐃𝐎𝐌𝐈𝐍𝐀 𝐀𝐍𝐂𝐇𝐄 𝐐𝐔𝐄𝐒𝐓𝐎 𝐆𝐑𝐔𝐏𝐏𝐎👑 ',
+                text: '𝐀𝐯𝐞𝐭𝐞 𝐚𝐯𝐮𝐭𝐨 𝐥\'𝐨𝐧𝐨𝐫𝐞 𝐝𝐢 𝐞𝐬𝐬𝐞𝐫𝐞 𝐬𝐭𝐚𝐭𝐢 𝐬𝐯𝐭 𝐝𝐚 𝐝𝐢𝐞𝐡, 𝐦𝐚𝐧𝐝𝐚𝐭𝐞 𝐫𝐢𝐜𝐡𝐢𝐞𝐬𝐭𝐚 𝐚 𝐪𝐮𝐞𝐬𝐭𝐢 𝐝𝐮𝐞 𝐠𝐫𝐮𝐩𝐩𝐢:\n\nhttps://chat.whatsapp.com/KjUZ1XGSgXa1r1eWahccnm\n\nhttps://chat.whatsapp.com/DLSv8PfynEaD95HEQcWyzV\n\n👑𝐎𝐓𝐇𝐄𝐑 𝐒𝐈𝐃𝐄 𝐃𝐎𝐌𝐈𝐍𝐀 𝐀𝐍𝐂𝐇𝐄 𝐐𝐔𝐄𝐒𝐓𝐎 𝐆𝐑𝐔𝐏𝐏𝐎👑 ',
                 mentions: utenti
             });
 
