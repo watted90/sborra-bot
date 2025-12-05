@@ -33,7 +33,7 @@ let handler = async (m, { conn, usedPrefix }) => {
             forwardedNewsletterMessageInfo: {
                 newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: '${nomebot}'
+                newsletterName: `${nomebot}`
             }
         }
     }, { quoted: m, detectLink: true });
