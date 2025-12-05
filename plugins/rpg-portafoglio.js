@@ -1,5 +1,5 @@
 let handler = async (m, { conn }) => {
-    let who = m.quoted ? m.quoted.sender : m.mentionedJid?.[0] || m.fromMe ? conn.user.jid : m.sender
+    let who = m.quoted ? m.quoted.sender : (m.mentionedJid?.[0] ? m.mentionedJid[0] : (m.fromMe ? conn.user.jid : m.sender))
     let user = global.db.data.users[who]
     let name = await conn.getName(who)
 
