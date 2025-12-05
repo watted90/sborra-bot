@@ -1,7 +1,3 @@
-//Codice di enable.js
-
-//Codice di enable.js
-
 import fs from 'fs';
 import fetch from 'node-fetch';
 
@@ -33,7 +29,7 @@ const features = [
   { key: 'antiArab',           label: 'Antiarab' },
   { key: 'antisondaggi',       label: 'Antisondaggi' },
   { key: 'antitiktok',         label: 'AntiTikTok' },
-  { key: 'cinema',       label: 'Cinema' },
+  { key: 'cinema',       label: 'AbsoluteCinema' },
   { key: 'chatbotPrivato',     label: 'ChatbotPrivato', ownerOnly: true },
 
 ];
@@ -159,7 +155,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
   const stateVerb = setTo ? '𝐚𝐭𝐭𝐢𝐯𝐚𝐭𝐚' : '𝐝𝐢𝐬𝐚𝐭𝐭𝐢𝐯𝐚𝐭𝐚';
   const statusMsg = `
 ${STATUS_HEADER}
-|˚₊꒷ ${stateIcon} ꒱ ฅ﹕*${selected.label}* ${stateVerb} ₊˚๑
+|˚₊꒷ ${stateIcon} ꒱ ฅ﹕ *${selected.label}* ${stateVerb} ₊˚๑
 ${STATUS_FOOTER}
 `.trim();
 
