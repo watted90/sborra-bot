@@ -1,9 +1,3 @@
-import 'os';
-import 'util';
-import 'human-readable';
-import '@chatunity/baileys';
-import 'fs';
-import 'perf_hooks';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import '../lib/language.js';
@@ -11,7 +5,7 @@ import '../lib/language.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-let handler = async (m, { conn, usedPrefix, command }) => {
+let handler = async (m, { conn, usedPrefix }) => {
     const userId = m.sender;
     const groupId = m.isGroup ? m.chat : null;
     const chat = global.db.data.chats[m.chat] || {};
@@ -38,7 +32,6 @@ handler.command = /^(menusicurezza)$/i;
 export default handler;
 
 function generateMenuText(chat, userId, groupId) {
-    const vs = global.vs || '8.0';
     const menuTitle = global.t('securityMenuTitle', userId, groupId) || '𝑴𝑬𝑵𝑼 𝐅𝐔𝐍𝐙𝐈𝐎𝐍𝐈';
     const versionText = global.t('versionLabel', userId, groupId) || '𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬';
     const collabText = global.t('collabLabel', userId, groupId) || '𝐂𝐎𝐋𝐋𝐀𝐁';
