@@ -1,6 +1,3 @@
-import fs from 'fs';
-import fetch from 'node-fetch';
-
 const features = [
   { key: 'antiLink',           label: 'AntiLink' },
   { key: 'antiLinkHard',       label: 'Antilinkhard' },
@@ -34,26 +31,6 @@ const features = [
 
 ];
 
-const MENU_HEADER = `
-⋆ ︵︵ ★ 🔧 𝑴𝑬𝑵𝑼 𝑺𝑰𝑪𝑼𝑹𝑬𝑿𝒁𝑨 🔧 ★ ︵︵ ⋆
-
-╭﹕₊˚ ★ ⁺˳ꕤ₊⁺・꒱
-  ━━✫ ℹ 𝐂𝐎𝐌𝐄 𝐒𝐈 𝐔𝐒𝐀
-  ━━✫ 🟢 attiva [funzione]
-  ━━✫ 🔴 disabilita [funzione]
-╰﹕₊˚ ★ ⁺˳ꕤ₊⁺・꒱
-
-꒷꒦ ✦ ୧・︶ : ︶ ꒷꒦ ‧₊ ୧
-`;
-
-const MENU_FOOTER = `
-꒷꒦ ✦ ୧・︶ : ︶ ꒷꒦ ‧₊ ୧
-
-╰♡꒷ ๑ ⋆˚₊⋆───ʚ˚ɞ───⋆˚₊⋆ ๑ ⪩
-  ୧・𝐂𝐎𝐋𝐋𝐀𝐁:
-  ୧・*𝐒𝐔𝐏𝐏𝐎𝐑𝐓𝐎:* (.supporto)
-╰♡꒷ ๑ ⋆˚₊⋆───ʚ˚ɞ───⋆˚₊⋆ ๑ ⪩
-`;
 
 const STATUS_HEADER = `
 ╭★────★────★
@@ -64,15 +41,9 @@ const STATUS_FOOTER = `
 ╰★────★────★
 `;
 
-const BUTTON_TITLE = '📋 Lista Comandi';
-const BUTTON_SECTION_TITLE = '🔧 Funzioni';
-const BUTTON_TEXT = '⚙ Impostazioni';
 const ONLY_OWNER_MSG = '❌ Solo il proprietario può attivare/disattivare questa funzione.';
 const ONLY_PRIVATE_CHATBOT_MSG = '❌ Puoi attivare/disattivare la funzione *ChatbotPrivato* solo in chat privata.';
-const ONLY_CHATUNITY_BASE_MSG = 'Questo comando è disponibile solo con la base di Sborra Bot-MD.';
 
-const PLACEHOLDER_THUMB = null;
-const PLACEHOLDER_VCARD = 'BEGIN:VCARD...';
 
 let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isROwner }) => {
   const name = await conn.getName(m.sender);
@@ -95,31 +66,14 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
     return `୧ ${dot} *${f.label}*${ownerTag}`;
   }).join('\n');
 
-  const menuText = (MENU_HEADER + listLines + MENU_FOOTER).trim();
+  const menuText = listLines.trim();
 
   const featureArg = (args[0] || '').toLowerCase();
   const selected = features.find(f => f.label.toLowerCase() === featureArg);
 
   if (!featureArg || !selected) {
-    const section = {
-      title: BUTTON_SECTION_TITLE,
-      rows: features.map(f => ({
-        title: f.label,
-        description: `Attiva ${f.label}`,
-        rowId: usedPrefix + 'attiva ' + f.label.toLowerCase()
-      }))
-    };
-
-    const listMessage = {
-      text: menuText,
-      footer: 'Seleziona una funzione da attivare/disattivare',
-      title: name,
-      buttonText: BUTTON_TEXT,
-      sections: [section]
-    };
-
-    await conn.sendMessage(m.chat, listMessage, { quoted: null });
-    return;
+    
+    await conn.sendMessage(m.chat, { text: menuText, quoted: m });
   }
 
   if (selected.ownerOnly && !(isOwner || isROwner)) {
