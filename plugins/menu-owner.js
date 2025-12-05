@@ -1,14 +1,11 @@
-import { performance } from 'perf_hooks';
-import fetch from 'node-fetch';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import fs from 'fs';
 import '../lib/language.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const handler = async (message, { conn, usedPrefix, command }) => {
+const handler = async (message, { conn, usedPrefix }) => {
     const userId = message.sender;
     const groupId = message.isGroup ? message.chat : null;
 
@@ -38,7 +35,6 @@ handler.command = /^(menuowner)$/i;
 export default handler;
 
 function generateMenuText(prefix, userId, groupId) {
-    const vs = global.vs || '8.0';
     const menuTitle = global.t('ownerMenuTitle', userId, groupId) || '𝑴𝑬𝑵𝑼 𝑶𝑾𝑵𝑬𝑹';
     const versionText = global.t('versionLabel', userId, groupId) || '𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬';
     const collabText = global.t('collabLabel', userId, groupId) || '𝐂𝐎𝐋𝐋𝐀𝐁';
