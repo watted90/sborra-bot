@@ -52,7 +52,8 @@ function generateMenuText(chat, userId, groupId) {
         Anticall: !!chat?.antiCall,
         Antivirus: !!chat?.antivirus,
         Antimedia: !!chat?.antimedia,
-        Antisondaggi: !!chat?.antisondaggi
+        Antisondaggi: !!chat?.antisondaggi,
+        Cinema: !!chat?.cinema
         
     };
 
