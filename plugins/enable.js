@@ -16,21 +16,19 @@ const features = [
   { key: 'soloadmin',          label: 'soloadmin' },
   { key: 'isBanned',           label: 'BanGruppo' },
   { key: 'antinuke',           label: 'AntiNuke' },
-  { key: 'conclave',          label: 'Conclave' },
+  { key: 'conclave',           label: 'Conclave' },
   { key: 'antiCall',           label: 'AntiCall' },
   { key: 'antiinsta',          label: 'Antiinsta' },
-  { key: 'bestemmiometro',          label: 'Bestemmiometro' },
+  { key: 'bestemmiometro',     label: 'Bestemmiometro' },
   { key: 'antitrava',          label: 'Antitrava' },
   { key: 'antivirus',          label: 'Antivirus' },
   { key: 'antivoip',           label: 'Antivoip' },
   { key: 'antiArab',           label: 'Antiarab' },
   { key: 'antisondaggi',       label: 'Antisondaggi' },
   { key: 'antitiktok',         label: 'AntiTikTok' },
-  { key: 'cinema',       label: 'AbsoluteCinema' },
+  { key: 'cinema',             label: 'AbsoluteCinema' },
   { key: 'chatbotPrivato',     label: 'ChatbotPrivato', ownerOnly: true },
-
 ];
-
 
 const STATUS_HEADER = `
 ╭★────★────★
@@ -42,48 +40,25 @@ const STATUS_FOOTER = `
 `;
 
 const ONLY_OWNER_MSG = '❌ Solo il proprietario può attivare/disattivare questa funzione.';
-const ONLY_PRIVATE_CHATBOT_MSG = '❌ Puoi attivare/disattivare la funzione *ChatbotPrivato* solo in chat privata.';
+const ONLY_PRIVATE_CHATBOT_MSG = '❌ ChatbotPrivato può essere attivata solo in chat privata.';
 
-
-let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isROwner }) => {
-  const name = await conn.getName(m.sender);
-  const chats = (global.db?.data?.chats || {});
-  const chatData = chats[m.chat] || {};
-
-  const listLines = features.map(f => {
-    let current = false;
-
-    if (f.key === 'chatbotPrivato') {
-      current = (global.privateChatbot?.[m.sender]) || false;
-    } else if (f.key === 'antivoip') {
-      current = (global.db?.data?.chats?.[m.chat]?.antivoip) || false;
-    } else {
-      current = chatData[f.key];
-    }
-
-    const dot = current ? '🟢' : '🔴';
-    const ownerTag = f.ownerOnly ? ' (Owner)' : '';
-    return `୧ ${dot} *${f.label}*${ownerTag}`;
-  }).join('\n');
-
-  const menuText = listLines.trim();
-
+let handler = async (m, { conn, command, args, isOwner, isROwner }) => {
   const featureArg = (args[0] || '').toLowerCase();
   const selected = features.find(f => f.label.toLowerCase() === featureArg);
 
-  if (!featureArg || !selected) {
-    
-    await conn.sendMessage(m.chat, { text: menuText, quoted: m });
-  }
+  if (!selected) return; // Se non c'è feature, non fare nulla
 
   if (selected.ownerOnly && !(isOwner || isROwner)) {
     await conn.reply(m.chat, ONLY_OWNER_MSG, m);
     return;
   }
 
+  const chats = global.db?.data?.chats || {};
+  const chatData = chats[m.chat] || {};
+
   const isEnable = /attiva|enable|on|1|true/i.test(command.toLowerCase());
   const isDisable = /disabilita|disattiva|disable|off|0|false/i.test(command.toLowerCase());
-  let setTo = isEnable && !isDisable;
+  const setTo = isEnable && !isDisable;
 
   if (selected.key === 'antivoip') {
     chatData.antivoip = setTo;
@@ -98,9 +73,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
     chatData[selected.key] = setTo;
   }
 
-  if (global.db?.data?.chats) {
-    global.db.data.chats[m.chat] = chatData;
-  }
+  if (global.db?.data?.chats) global.db.data.chats[m.chat] = chatData;
 
   const stateIcon = (selected.key === 'chatbotPrivato'
     ? (global.privateChatbot?.[m.sender] ? '🟢' : '🔴')
