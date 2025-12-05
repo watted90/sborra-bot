@@ -40,7 +40,7 @@ let handler = async (m, { conn, text }) => {
           forwardedNewsletterMessageInfo: {
               newsletterJid: '120363420674060561@newsletter',
               serverMessageId: '',
-              newsletterName: '${nomeBot}'
+              newsletterName: '${nomebot}'
           }
       }
   }, { quoted: m });
@@ -55,7 +55,7 @@ let handler = async (m, { conn, text }) => {
           forwardedNewsletterMessageInfo: {
               newsletterJid: '120363420674060561@newsletter',
               serverMessageId: '',
-              newsletterName: '${nomeBot}'
+              newsletterName: '${nomebot}'
           }
       }
   }, { quoted: m, mentions: [who] });
