@@ -21,8 +21,8 @@ let handler = async (m, { conn }) => {
 `.trim()
 
     await conn.sendMessage(m.chat, { 
-        image: { url: imgUrl },     // manteniamo l'immagine
-        caption: message,           // testo
+        image: { url: imgUrl },    
+        caption: message,          
         contextInfo: {
             forwardingScore: 99,
             isForwarded: true,
