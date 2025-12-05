@@ -83,9 +83,9 @@ ${statusList.split('\n').map(line => `୧ ${line}`).join('\n')}
 ꒷꒦ ✦ ୧・︶ : ︶ ꒷꒦ ‧₊ ୧
 
 ╰♡꒷ ๑ ⋆˚₊⋆───ʚ˚ɞ───⋆˚₊⋆ ๑ ⪩
-  ୧・*${versionText}:* ${vs}
-  ୧・*${collabText}:* ${collab}
-  ୧・*${supportText}:* (.supporto)
+  ୧・ *${versionText}:* ${vs}
+  ୧・ *${collabText}:* ${collab}
+  ୧・ *${supportText}:* (.supporto)
 ╰♡꒷ ๑ ⋆˚₊⋆───ʚ˚ɞ───⋆˚₊⋆ ๑ ⪩
 `.trim();
 }
