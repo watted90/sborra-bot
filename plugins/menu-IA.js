@@ -1,12 +1,9 @@
-import { performance } from 'perf_hooks';
-import fetch from 'node-fetch';
 import '../lib/language.js';
 
 const handler = async (message, { conn, usedPrefix }) => {
     const userId = message.sender;
     const groupId = message.isGroup ? message.chat : null;
-    const botName = global.db.data.nomedelbot || 'ChatUnity';
-    const menuText = generateMenuText(usedPrefix, botName, userId, groupId);
+    const menuText = generateMenuText(usedPrefix, userId, groupId);
     const imagePath = './media/menu.jpeg';
 
     await conn.sendMessage(message.chat, {
@@ -47,11 +44,10 @@ handler.command = /^(menuia|menuai)$/i;
 
 export default handler;
 
-function generateMenuText(prefix, botName, userId, groupId) {
-    const vs = global.vs || '8.0';
+function generateMenuText(prefix, userId, groupId) {
     const menuTitle = global.t('aiMenuTitle', userId, groupId) || '𝑴𝑬𝑵𝑼 𝑰𝑨';
     const versionText = global.t('versionLabel', userId, groupId) || '𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬';
-    const collabText = global.t('collabLabel', userId, groupId) || '𝐂𝐎𝐋𝐋𝐀𝐁:';
+    const collabText = global.t('collabLabel', userId, groupId) || '𝐂𝐎𝐋𝐋𝐀𝐁';
     const supportText = global.t('supportLabel', userId, groupId) || '𝐒𝐔𝐏𝐏𝐎𝐑𝐓𝐎';
 
     const commandList = `
@@ -80,9 +76,9 @@ ${commandList.split('\n').map(line => `୧ ${line.trim()}`).join('\n')}
 ꒷꒦ ✦ ୧・︶ : ︶ ꒷꒦ ‧₊ ୧
 
 ╰♡꒷ ๑ ⋆˚₊⋆───ʚ˚ɞ───⋆˚₊⋆ ๑ ⪩
-  ୧・*${versionText}:* ${vs}
-  ୧・𝐂𝐎𝐋𝐋𝐀𝐁: ${collab}
-  ୧・*${supportText}:* (.supporto)
+  ୧・ *${versionText}:* ${vs}
+  ୧・ *${collabText}:* ${collab}
+  ୧・ *${supportText}:* (.supporto)
 ╰♡꒷ ๑ ⋆˚₊⋆───ʚ˚ɞ───⋆˚₊⋆ ๑ ⪩
 `.trim();
 }
