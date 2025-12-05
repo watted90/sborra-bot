@@ -1,14 +1,11 @@
-import { performance } from 'perf_hooks';
-import fetch from 'node-fetch';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import fs from 'fs';
 import '../lib/language.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const handler = async (message, { conn, usedPrefix, command }) => {
+const handler = async (message, { conn, usedPrefix }) => {
     const userId = message.sender;
     const groupId = message.isGroup ? message.chat : null;
 
@@ -75,6 +72,6 @@ function generateMenuText(prefix, userId, groupId) {
 ${commandList.split('\n').map(line => `୧ ${line.trim()}`).join('\n')}
 ꒷꒦ ✦ ୧・︶ : ︶ ꒷꒦ ‧₊ ୧
 
-> © ${global.t('poweredBy', userId, groupId) || 'ᴘᴏᴡᴇʀᴇᴅ ʙʏ'} 𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲
+> © ${global.t('poweredBy', userId, groupId) || 'ᴘᴏᴡᴇʀᴇᴅ ʙʏ'} ${nomebot}
 `.trim();
 }
