@@ -19,7 +19,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 ╭─「 💰 𝐖𝐀𝐋𝐋𝐄𝐓」─
 │
 │ 👤 user: ${name}
-│ 💰 unitycoins: ${formatNumber(user.limit)} 💶
+│ 💰 sborracoins: ${formatNumber(user.limit)} 💶
 │ 🏛️ bank: ${formatNumber(userbank)} 💳
 │
 ╰───────✦───────
@@ -33,7 +33,7 @@ let handler = async (m, { conn, usedPrefix }) => {
             forwardedNewsletterMessageInfo: {
                 newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: '${nomeBot}'
+                newsletterName: '${nomebot}'
             }
         }
     }, { quoted: m, detectLink: true });
