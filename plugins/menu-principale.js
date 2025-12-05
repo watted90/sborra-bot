@@ -1,8 +1,5 @@
-import { performance } from 'perf_hooks';
-import fetch from 'node-fetch';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import fs from 'fs';
 import '../lib/language.js';
 
 
@@ -10,13 +7,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-const handler = async (message, { conn, usedPrefix, command }) => {
+const handler = async (message, { conn, usedPrefix }) => {
     const userId = message.sender
     const groupId = message.isGroup ? message.chat : null
     
-    const userCount = Object.keys(global.db.data.users).length;
-
-    const menuText = generateMenuText(usedPrefix, userCount, userId, groupId);
+    const menuText = generateMenuText(usedPrefix, userId, groupId);
 
 
     const imagePath = path.join(__dirname, '../media/menu.jpeg'); 
@@ -59,20 +54,15 @@ export default handler;
 function generateMenuText(prefix, userCount, userId, groupId) {
     const menuTitle = global.t('mainMenuTitle', userId, groupId) || '𝑴𝑬𝑵𝑼 𝑫𝑬𝑳 𝑩𝑶𝑻'
     const staffText = global.t('staffCommand', userId, groupId) || 'staff'
-    const hegemoniaText = global.t('hegemoniaCommand', userId, groupId) || 'egemonia'
-    const candidatesText = global.t('candidatesCommand', userId, groupId) || 'candidati'
     const installText = global.t('installCommand', userId, groupId) || 'installa'
-    const guideText = global.t('guideCommand', userId, groupId) || 'guida'
     const channelsText = global.t('channelsCommand', userId, groupId) || 'canali'
     const systemText = global.t('systemCommand', userId, groupId) || 'sistema'
-    const faqText = global.t('faqCommand', userId, groupId) || 'FAQ'
     const pingText = global.t('pingCommand', userId, groupId) || 'ping'
     const reportText = global.t('reportCommand', userId, groupId) || 'segnala'
     const suggestText = global.t('suggestCommand', userId, groupId) || 'consiglia'
-    const newsText = global.t('newsCommand', userId, groupId) || 'novità'
     const versionText = global.t('versionLabel', userId, groupId) || '𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬'
-    const collabText = global.t('collabLabel', userId, groupId) || '𝐂𝐎𝐋𝐋𝐀𝐁: 𝐎𝐍𝐄 𝐏𝐈𝐄𝐂𝐄'
-    const usersText = global.t('usersLabel', userId, groupId) || '𝐔𝐓𝐄𝐍𝐓𝐈'
+    const collabText = global.t('collabLabel', userId, groupId) || '𝐂𝐎𝐋𝐋𝐀𝐁'
+    
     
     return `
 ⋆ ︵★ ${menuTitle} ★︵ ⋆
