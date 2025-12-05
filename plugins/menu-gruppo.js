@@ -8,7 +8,6 @@ const __dirname = path.dirname(__filename);
 const handler = async (message, { conn, usedPrefix }) => {
     const userId = message.sender;
     const groupId = message.isGroup ? message.chat : null;
-    const nomeDelBot = conn.user?.name || global.db?.data?.nomedelbot || '${nomebot}';
     
     const menuText = generateMenuText(usedPrefix, userId, groupId);
     const imagePath = path.join(__dirname, '../media/menu.jpeg');
@@ -22,7 +21,7 @@ const handler = async (message, { conn, usedPrefix }) => {
             forwardedNewsletterMessageInfo: {
                 newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName:'${nomebot}'
+                newsletterName: `${nomebot}`
             }
         }
     }, { quoted: message });
@@ -35,8 +34,6 @@ handler.command = /^(gruppo|menugruppo)$/i;
 export default handler;
 
 function generateMenuText(prefix, userId, groupId) {
-    const vs = global.vs || '8.0';
-    const collab = global.collab || 'ChatUnity x 333';
     const menuTitle = global.t('groupMenuTitle', userId, groupId);
     
     const createSection = (title, commands) => {
