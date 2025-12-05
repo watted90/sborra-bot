@@ -1,69 +1,38 @@
-import fetch from 'node-fetch'
-
-let handler = async (m, { conn, usedPrefix }) => {
-    let rcanal = null
-    
-    let who = m.quoted ? m.quoted.sender : m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
+let handler = async (m, { conn }) => {
+    let who = m.quoted ? m.quoted.sender : m.mentionedJid?.[0] || m.fromMe ? conn.user.jid : m.sender
     let user = global.db.data.users[who]
-    let name = conn.getName(who)
+    let name = await conn.getName(who)
 
-    if (!(who in global.db.data.users)) throw '🚩 𝐢𝐥 bot 𝐧𝐨𝐧 𝐞 𝐬𝐭𝐚𝐭𝐨 𝐭𝐫𝐨𝐯𝐚𝐭𝐨 𝐧𝐞𝐥 𝐝𝐚𝐭𝐚𝐛𝐚𝐬𝐞'
+    if (!user) throw '🚩 𝐢𝐥 bot 𝐧𝐨𝐧 𝐞 𝐬𝐭𝐚𝐭𝐨 𝐭𝐫𝐨𝐯𝐚𝐭𝐨 𝐧𝐞𝐥 𝐝𝐚𝐭𝐚𝐛𝐚𝐬𝐞'
 
+    user.limit ||= 15000
+    user.bank ||= 0
 
-    if (!user.limit) user.limit = 15000
-    if (!user.bank) user.bank = 0
-
-    let userbank = user.bank
     let imgUrl = 'https://i.ibb.co/4RSNsdx9/Sponge-Bob-friendship-wallet-meme-9.png'
+
     let message = `
 ╭─「 💰 𝐖𝐀𝐋𝐋𝐄𝐓」─
 │
 │ 👤 user: ${name}
 │ 💰 sborracoins: ${formatNumber(user.limit)} 💶
-│ 🏛️ bank: ${formatNumber(userbank)} 💳
+│ 🏛️ bank: ${formatNumber(user.bank)} 💳
 │
 ╰───────✦───────
-    `.trim()
+`.trim()
 
     await conn.sendMessage(m.chat, { 
-        text: message,
+        image: { url: imgUrl },     // manteniamo l'immagine
+        caption: message,           // testo
         contextInfo: {
             forwardingScore: 99,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
                 newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
-                newsletterName: `${nomebot}`
+                newsletterName: `${nomebot}` 
             }
         }
-    }, { quoted: m, detectLink: true });
-    return;
-  
-    let txt = `
-╭─「 💰 𝐖𝐀𝐋𝐋𝐄𝐓」─
-│
-│ 👤 user: ${name}
-│ 💰 sborracoins: ${formatNumber(user.limit)} 💶
-│ 🏛️ bank: ${formatNumber(userbank)} 💳
-│
-╰───────✦───────
-    `.trim()
-
-    await conn.sendMessage(m.chat, {
-        text: txt,
-        mentions: [who],
-        contextInfo: {
-            externalAdReply: {
-                title: `𝐩𝐨𝐫𝐭𝐚𝐟𝐨𝐠𝐥𝐢𝐨 𝐝𝐢 ${name}`,
-                body: `𝐬𝐚𝐥𝐝𝐨: ${user.limit} 𝑼𝑪`,
-                thumbnailUrl: imgUrl,
-                mediaType: 1,
-                renderLargerThumbnail: true
-            }
-        }
-    })
-
-    m.react('💶')
+    }, { quoted: m, detectLink: true })
 }
 
 handler.help = ['wallet']
