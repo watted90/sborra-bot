@@ -23,23 +23,19 @@ const features = [
   { key: 'chatbotPrivato',     label: 'ChatbotPrivato', ownerOnly: true },
 ];
 
-const STATUS_HEADER = `
-╭★────★────★
+const STATUS_HEADER = `╭★────★────★
 |ㅤㅤㅤ꒰¡𝐒𝐓𝐀𝐓𝐎 𝐅𝐔𝐍𝐙𝐈𝐎𝐍𝐄!꒱
 `;
 
-const STATUS_FOOTER = `
-╰★────★────★
-`;
+const STATUS_FOOTER = `╰★────★────★`;
 
 const ONLY_OWNER_MSG = '❌ Solo il proprietario può attivare/disattivare questa funzione.';
 const ONLY_PRIVATE_CHATBOT_MSG = '❌ ChatbotPrivato può essere attivata solo in chat privata.';
 
 let handler = async (m, { conn, command, args, isOwner, isROwner }) => {
   const featureArg = (args[0] || '').toLowerCase();
-  const selected = features.find(f => f.label.toLowerCase() === featureArg);
-
-  if (!selected) return; // Se non c'è feature, non fare nulla
+  const selected = features.find(f => f.key.toLowerCase() === featureArg);
+  if (!selected) return;
 
   if (selected.ownerOnly && !(isOwner || isROwner)) {
     await conn.reply(m.chat, ONLY_OWNER_MSG, m);
