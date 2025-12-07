@@ -19,7 +19,7 @@ global.owner = [
   ['393401431923'], //axtral 
   ['33631194377'], //negro voip 
   ['393895459079'], //negro real
-  ['22565884078'], // dieh +225
+  ['393510972673'], // dieh +39
   ['xxxxxxxxxx'],
   ['xxxxxxxxxx']
 ];
