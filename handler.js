@@ -550,13 +550,13 @@ export async function participantsUpdate({ id, participants, action }) {
                 forwardedNewsletterMessageInfo: {
                   newsletterJid: jidCanale,
                   serverMessageId: '',
-                  newsletterName: `${nomeDelBot}`
+                  newsletterName: `${nomebot}`
                 },
                 externalAdReply: {
                   title: (
                     action === 'add'
-                      ? '𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐝𝐢 𝐛𝐞𝐧𝐯𝐞𝐧𝐮𝐭𝐨'
-                      : '𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐝𝐢 𝐚𝐝𝐝𝐢𝐨'
+                      ? '𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐝𝐢 𝐛𝐞𝐧𝐯𝐞𝐧𝐮𝐭𝐨 👋🏽'
+                      : '𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐝𝐢 𝐚𝐝𝐝𝐢𝐨 👋🏽'
                   ),
                   body: ``,
                   previewType: 'PHOTO',
