@@ -236,6 +236,57 @@ export async function handler(chatUpdate) {
     const isBotAdmin = m.isGroup ? await isUserAdmin(this, m.chat, this.user.jid) : false
 
     const ___dirname = path.join(path.dirname(fileURLToPath(import.meta.url)), './plugins')
+
+    // === GESTIONE PLUGIN.ALL (BOTTONI, LISTE, INTERATTIVI) ===
+    for (let name in global.plugins) {
+      let plugin = global.plugins[name]
+      if (!plugin || plugin.disabled) continue
+      const __filename = join(___dirname, name)
+
+      // Esegui la funzione 'all' se presente nel plugin
+      if (typeof plugin.all === 'function') {
+        try {
+          await plugin.all.call(this, m, {
+            chatUpdate,
+            __dirname: ___dirname,
+            __filename
+          })
+        } catch (e) {
+          console.error(`Errore in plugin.all (${name}):`, e)
+        }
+      }
+
+      // Salta plugin admin se restrict è disabilitato
+      if (!opts['restrict'] && plugin.tags?.includes('admin')) continue
+
+      // Esegui la funzione 'before' se presente
+      if (typeof plugin.before === 'function') {
+        try {
+          const shouldContinue = await plugin.before.call(this, m, {
+            conn: this,
+            participants: normalizedParticipants,
+            groupMetadata,
+            user,
+            bot,
+            isROwner,
+            isOwner: isOwner2,
+            isRAdmin,
+            isAdmin,
+            isBotAdmin,
+            isPrems,
+            chatUpdate,
+            __dirname: ___dirname,
+            __filename
+          })
+          if (shouldContinue) continue
+        } catch (e) {
+          console.error(`Errore in plugin.before (${name}):`, e)
+        }
+      }
+    }
+    // === FINE GESTIONE PLUGIN.ALL ===
+
+    // Gestione comandi normali
     for (let name in global.plugins) {
       let plugin = global.plugins[name]
       if (!plugin || plugin.disabled) continue
@@ -387,6 +438,15 @@ export async function handler(chatUpdate) {
               textErr = textErr.replace(new RegExp(key, 'g'), '#HIDDEN#')
             m.reply(textErr)
           }
+        } finally {
+          // Esegui la funzione 'after' se presente
+          if (typeof plugin.after === 'function') {
+            try {
+              await plugin.after.call(this, m, extra)
+            } catch (e) {
+              console.error(`Errore in plugin.after (${name}):`, e)
+            }
+          }
         }
         break
       }
@@ -455,7 +515,7 @@ export async function participantsUpdate({ id, participants, action }) {
 
   let chat = global.db.data.chats[id] || {}
   let text = ''
-  let nomeDelBot = global.db.data.nomedelbot || `𝐒𝐛𝐨𝐫𝐫𝐚-𝐁𝐨𝐭`
+  let nomeDelBot = global.db.data.nomedelbot || `𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲-𝐁𝐨𝐭`
   let jidCanale = global.db.data.jidcanale || '120363259442839354@newsletter'
 
   switch (action) {
@@ -464,7 +524,7 @@ export async function participantsUpdate({ id, participants, action }) {
       if (chat.welcome) {
         let groupMetadata = await this.groupMetadata(id) || (conn.chats[id] || {}).metadata
         for (let user of participants) {
-          let pp = './media/menu.jpeg'
+          let pp = './menu/principale.jpeg'
           try {
             pp = await this.profilePictureUrl(user, 'image')
           } catch (e) {
@@ -534,7 +594,8 @@ export async function callUpdate(callUpdate) {
     if (nk.isGroup == false) {
       if (nk.status == 'offer') {
         let callmsg = await this.reply(nk.from, `ciao @${nk.from.split('@')[0]}, c'è anticall.`, false, { mentions: [nk.from] })
-        let vcard = `BEGIN:VCARD\nVERSION:5.0\nN:;𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲;;;\nFN:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nORG:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nTITLE:\nitem1.TEL;waid=393773842461:+39 3515533859\nitem1.X-ABLabel:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nEND:VCARD`
+
+                  let vcard = `BEGIN:VCARD\nVERSION:5.0\nN:;𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲;;;\nFN:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nORG:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nTITLE:\nitem1.TEL;waid=393773842461:+39 3515533859\nitem1.X-ABLabel:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nEND:VCARD`
         await this.sendMessage(nk.from, { contacts: { displayName: 'Unlimited', contacts: [{ vcard }] } }, { quoted: callmsg })
         await this.updateBlockStatus(nk.from, 'block')
       }
