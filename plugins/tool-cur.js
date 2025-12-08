@@ -50,88 +50,61 @@ async function fetchWithCache(url) {
 
 async function getUserInfo(username) {
   const url = `https://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=${username}&api_key=${LASTFM_API_KEY}&format=json`
-  const json = await fetchWithCache(url)
-  return json?.user
+  return (await fetchWithCache(url))?.user
 }
 
 async function getTrackInfo(username, artist, track) {
   const url = `https://ws.audioscrobbler.com/2.0/?method=track.getinfo&api_key=${LASTFM_API_KEY}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&username=${username}&format=json`
-  const json = await fetchWithCache(url)
-  return json?.track
+  return (await fetchWithCache(url))?.track
 }
 
 async function getRecentTrack(username) {
   const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${LASTFM_API_KEY}&format=json&limit=1`
-  const json = await fetchWithCache(url)
-  return json?.recenttracks?.track?.[0]
+  return (await fetchWithCache(url))?.recenttracks?.track?.[0]
 }
 
 async function getRecentTracks(username, limit = 10) {
   const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${LASTFM_API_KEY}&format=json&limit=${limit}`
-  const json = await fetchWithCache(url)
-  return json?.recenttracks?.track || []
+  return (await fetchWithCache(url))?.recenttracks?.track || []
 }
 
 async function getTopArtists(username, period = '7day', limit = 9) {
   const url = `https://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=${username}&api_key=${LASTFM_API_KEY}&format=json&period=${period}&limit=${limit}`
-  const json = await fetchWithCache(url)
-  return json?.topartists?.artist
+  return (await fetchWithCache(url))?.topartists?.artist
 }
 
 async function getTopAlbums(username, period = '7day', limit = 9) {
   const url = `https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&api_key=${LASTFM_API_KEY}&format=json&period=${period}&limit=${limit}`
-  const json = await fetchWithCache(url)
-  return json?.topalbums?.album
+  return (await fetchWithCache(url))?.topalbums?.album
 }
 
 async function getTopTracks(username, period = '7day', limit = 9) {
   const url = `https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=${username}&api_key=${LASTFM_API_KEY}&format=json&period=${period}&limit=${limit}`
-  const json = await fetchWithCache(url)
-  return json?.toptracks?.track
+  return (await fetchWithCache(url))?.toptracks?.track
 }
 
 const handler = async (m, { conn, args, usedPrefix, text, command }) => {
   if (command === 'setuser') {
     const username = text.trim()
     if (!username) {
-      return conn.sendMessage(m.chat, { text: `❌ Usa il comando così: ${usedPrefix}setuser <username>` })
+      return conn.sendMessage(m.chat, { text: `❌ 𝐔𝐬𝐚 𝐢𝐥 𝐜𝐨𝐦𝐚𝐧𝐝𝐨 𝐜𝐨𝐬𝐢́: ${usedPrefix}setuser <username>` })
     }
 
     setLastfmUsername(m.sender, username)
-    return conn.sendMessage(m.chat, { text: `✅ Username *${username}* salvato!` })
+    return conn.sendMessage(m.chat, { text: `✅ 𝐔𝐬𝐞𝐫𝐧𝐚𝐦𝐞 *${username}* 𝐬𝐚𝐥𝐯𝐚𝐭𝐨!` })
   }
 
   const user = getLastfmUsername(m.sender)
   if (!user) {
     return conn.sendMessage(m.chat, {
-      text: `🎵 *Registrazione Last.fm richiesta*\n\n@${m.sender.split('@')[0]}, per usare i comandi musicali devi registrare il tuo username Last.fm.\n\n📱 *Usa questo comando:*\n${usedPrefix}setuser <tuo_username>`,
+      text: `🎵 *𝐑𝐞𝐠𝐢𝐬𝐭𝐫𝐚𝐳𝐢𝐨𝐧𝐞 𝐋𝐚𝐬𝐭.𝐅𝐌 𝐫𝐢𝐜𝐡𝐢𝐞𝐬𝐭𝐚*\n\n@${m.sender.split('@')[0]}, 𝐩𝐞𝐫 𝐮𝐬𝐚𝐫𝐞 𝐢 𝐜𝐨𝐦𝐚𝐧𝐝𝐢 𝐦𝐮𝐬𝐢𝐜𝐚𝐥𝐢 𝐝𝐞𝐯𝐢 𝐫𝐞𝐠𝐢𝐬𝐭𝐫𝐚𝐫𝐭𝐢 𝐚 𝐋𝐚𝐬𝐭.𝐅𝐌.\n\n📱 *𝐔𝐬𝐚 𝐪𝐮𝐞𝐬𝐭𝐨 𝐜𝐨𝐦𝐚𝐧𝐝𝐨 𝐬𝐞 𝐡𝐚𝐢 𝐞𝐟𝐟𝐞𝐭𝐮𝐚𝐭𝐨 𝐥𝐚 𝐫𝐞𝐠𝐢𝐬𝐭𝐫𝐚𝐳𝐢𝐨𝐧𝐞:*\n${usedPrefix}setuser <tuo_username>\n\n𝐍𝐨𝐧 𝐡𝐚𝐢 𝐋𝐚𝐬𝐭.𝐅𝐌?\n𝐑𝐞𝐠𝐢𝐬𝐭𝐫𝐚𝐭𝐢 𝐚 last.fm, 𝐜𝐨𝐥𝐥𝐞𝐠𝐚 𝐢𝐥 𝐭𝐮𝐨 𝐚𝐜𝐜𝐨𝐮𝐧𝐭 𝐒𝐩𝐨𝐭𝐢𝐟𝐲 𝐨 𝐘𝐓 𝐦𝐮𝐬𝐢𝐜 𝐞 𝐟𝐚𝐢 ${usedPrefix}setuser`,
       mentions: [m.sender]
     })
   }
 
-  const parseOptions = (text) => {
-    let size = 3
-    let period = '7day'
-    const sizeMatch = text.match(/(\d)x\1/)
-    if (sizeMatch) size = parseInt(sizeMatch[1])
-    const periodMatch = text.match(/(1w|7day|1m|1month|3m|3month|6m|6month|1y|12month|overall)/i)
-    if (periodMatch) {
-      const map = {
-        '1w': '7day', '7day': '7day',
-        '1m': '1month', '1month': '1month',
-        '3m': '3month', '3month': '3month',
-        '6m': '6month', '6month': '6month',
-        '1y': '12month', '12month': '12month',
-        'overall': 'overall'
-      }
-      period = map[periodMatch[1].toLowerCase()] || '7day'
-    }
-    return { size, period }
-  }
-
   if (command === 'cur') {
     const track = await getRecentTrack(user)
-    if (!track) return conn.sendMessage(m.chat, { text: '❌ Nessuna traccia trovata.' })
+    if (!track) return conn.sendMessage(m.chat, { text: '❌ 𝐍𝐞𝐬𝐬𝐮𝐧𝐚 𝐭𝐫𝐚𝐜𝐜𝐢𝐚 𝐭𝐫𝐨𝐯𝐚𝐭𝐚.' })
 
     const nowPlaying = track['@attr']?.nowplaying === 'true'
     const artist = track.artist?.['#text'] || 'Artista sconosciuto'
@@ -141,31 +114,33 @@ const handler = async (m, { conn, args, usedPrefix, text, command }) => {
 
     const info = await getTrackInfo(user, artist, title)
     const userInfo = await getUserInfo(user)
+
     const playcountTrack = info?.userplaycount || 0
+    const globalPlaycount = info?.playcount || 0 // <-- AGGIUNTO
     const totalScrobbles = userInfo?.playcount || 0
 
     const caption = `
-🎧 *${nowPlaying ? 'In riproduzione' : 'Ultimo brano ascoltato'}* • @${m.sender.split('@')[0]}
+🎧 *${nowPlaying ? '𝐈𝐧 𝐫𝐢𝐩𝐫𝐨𝐝𝐮𝐳𝐢𝐨𝐧𝐞' : '𝐔𝐥𝐭𝐢𝐦𝐨 𝐛𝐫𝐚𝐧𝐨'}* 𝐝𝐢 @${m.sender.split('@')[0]}
 
 🎵 *${title}*
 🎤 ${artist}
 💿 ${album}
 
-▶️ Ascolti di questo brano: *${playcountTrack}*
-📊 Ascolti totali: *${totalScrobbles}*
+▶️ 𝐀𝐬𝐜𝐨𝐥𝐭𝐢 𝐏𝐞𝐫𝐬𝐨𝐧𝐚𝐥𝐢: *${playcountTrack}*
+🌍 𝐀𝐬𝐜𝐨𝐥𝐭𝐢 𝐆𝐥𝐨𝐛𝐚𝐥𝐢: *${globalPlaycount}*
+📊 𝐀𝐬𝐜𝐨𝐥𝐭𝐢 𝐓𝐨𝐭𝐚𝐥𝐢: *${totalScrobbles}*
     `.trim()
 
     const ytQuery = encodeURIComponent(`${artist} ${title}`)
     const ytURL = `https://www.youtube.com/results?search_query=${ytQuery}`
-    const lastfmURL = `https://www.last.fm/user/${user}`
 
     const msg = {
       image: image ? { url: image } : undefined,
       caption,
       mentions: conn.parseMention(caption),
       buttons: [
-        { buttonId: `.playaudio ${ytURL}`, buttonText: { displayText: '🎧 Scarica canzone' }, type: 1 },
-          { buttonId: `.playvideo ${ytURL}`, buttonText: { displayText: '🎥 Scarica video' }, type: 1 },
+        { buttonId: `.playaudio ${artist} - ${title}`, buttonText: { displayText: '🎧 Scarica canzone' }, type: 1 },
+        { buttonId: `.playvideo ${artist} - ${title}`, buttonText: { displayText: '🎥 Scarica video' }, type: 1 },
       ],
       headerType: 4,
       footer: `.`
@@ -175,10 +150,7 @@ const handler = async (m, { conn, args, usedPrefix, text, command }) => {
     return
   }
 
-  // --- Altri comandi restano invariati ---
-  if (command === 'topartists' || command === 'topalbums' || command === 'toptracks' || command === 'cronologia') {
-    // puoi lasciare la versione che ti ho mandato prima
-  }
+  // --- Gli altri comandi restano invariati ---
 }
 
 handler.command = ['setuser', 'cur', 'topartists', 'topalbums', 'toptracks', 'cronologia']
