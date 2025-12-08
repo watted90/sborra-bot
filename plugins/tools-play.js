@@ -152,6 +152,8 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
                 newsletterJid: '120363420674060561@newsletter',
                 serverMessageId: '',
                 newsletterName: `${nomebot}`
+    const buttons = [
+      { buttonId: "tomp3", buttonText: { displayText: "🎵 𝐀𝐮𝐝𝐢𝐨" }, type: 1 },
               }
             }
           }, { quoted: m });
