@@ -27,9 +27,9 @@ async function fetchFromApis(apis) {
     } catch (e) {}
   }
   throw new Error(`
-꒰🩸꒱ ◦•≫ ERRORE
+꒰🩸꒱ ◦•≫ 𝐄𝐑𝐑𝐎𝐑𝐄
  ★・・・・・・・★
-  Nessun link valido trovato
+  𝐍𝐞𝐬𝐬𝐮𝐧 𝐥𝐢𝐧𝐤 𝐯𝐚𝐥𝐢𝐝𝐨 𝐭𝐫𝐨𝐯𝐚𝐭𝐨!
  ★・・・・・・・★
 `);
 }
@@ -64,7 +64,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       await conn.sendMessage(m.chat, {
         text: `
 ╭﹕₊˚ ★ ⁺˳ꕤ₊⁺・꒱
-  ━━✫ ❗ Inserisci un titolo o link
+  ━━✫ ❗ 𝐈𝐧𝐬𝐞𝐫𝐢𝐬𝐜𝐢 𝐢𝐥 𝐭𝐢𝐭𝐨𝐥𝐨 𝐨 𝐢𝐥 𝐥𝐢𝐧𝐤
 ╰﹕₊˚ ★ ⁺˳ꕤ₊⁺・꒱
 `,
         contextInfo: {
@@ -86,7 +86,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         await conn.sendMessage(m.chat, {
           text: `
 ╭﹕₊˚ ★ ⁺˳ꕤ₊⁺・꒱
-  ━━✫ ❗ Nessun risultato trovato
+  ━━✫ ❗ 𝐍𝐞𝐬𝐬𝐮𝐧 𝐫𝐢𝐬𝐮𝐥𝐭𝐚𝐭𝐨 𝐭𝐫𝐨𝐯𝐚𝐭𝐨
 ╰﹕₊˚ ★ ⁺˳ꕤ₊⁺・꒱
 `,
           contextInfo: {
@@ -110,8 +110,8 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
           text: `
 ┊ ┊ ┊ ┊‿ ˚➶ ｡˚
 ┊ ┊ ┊ ┊. ➶ ˚
-┊ ┊ ┊ ˚✧ 🎵 Audio in arrivo
-┊ ˚➶ ｡˚ ☁︎ Attendi qualche istante...
+┊ ┊ ┊ ˚✧ 🎵 𝐀𝐮𝐝𝐢𝐨 𝐢𝐧 𝐚𝐫𝐫𝐢𝐯𝐨
+┊ ˚➶ ｡˚ ☁︎ 𝐀𝐭𝐭𝐞𝐧𝐝𝐢 𝐪𝐮𝐚𝐥𝐜𝐡𝐞 𝐢𝐬𝐭𝐚𝐧𝐭𝐞...
 ` 
         }, { quoted: m });
         const { url: downloadUrl } = await getAud(url);
@@ -133,8 +133,8 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
           text: `
 ┊ ┊ ┊ ┊‿ ˚➶ ｡˚
 ┊ ┊ ┊ ┊. ➶ ˚
-┊ ┊ ┊ ˚✧ 🎬 Video in arrivo
-┊ ˚➶ ｡˚ ☁︎ Attendi qualche istante...
+┊ ┊ ┊ ˚✧ 🎬 𝐕𝐢𝐝𝐞𝐨 𝐢𝐧 𝐚𝐫𝐫𝐢𝐯𝐨
+┊ ˚➶ ｡˚ ☁︎ 𝐀𝐭𝐭𝐞𝐧𝐝𝐢 𝐪𝐮𝐚𝐥𝐜𝐡𝐞 𝐢𝐬𝐭𝐚𝐧𝐭𝐞...
 ` 
         }, { quoted: m });
         const { url: downloadUrl } = await getVid(url);
@@ -143,7 +143,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
             video: { url: downloadUrl },
             fileName: `${title}.mp4`,
             mimetype: 'video/mp4',
-            caption: '✅ Download completato!',
+            caption: '✅ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝 𝐜𝐨𝐦𝐩𝐥𝐞𝐭𝐚𝐭𝐨!',
             thumbnail: thumb,
             contextInfo: {
               forwardingScore: 99,
@@ -166,7 +166,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         await conn.sendMessage(m.chat, {
           text: `
 ╭﹕₊˚ ★ ⁺˳ꕤ₊⁺・꒱
-  ━━✫ ❗ Nessun risultato trovato
+  ━━✫ ❗ 𝐍𝐞𝐬𝐬𝐮𝐧 𝐫𝐢𝐬𝐮𝐥𝐭𝐚𝐭𝐨 𝐭𝐫𝐨𝐯𝐚𝐭𝐨
 ╰﹕₊˚ ★ ⁺˳ꕤ₊⁺・꒱
 `,
           contextInfo: {
@@ -188,8 +188,8 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         return await conn.sendMessage(m.chat, {
           text: `
 ╭★────★────★────★────★────★
-|ㅤㅤㅤㅤㅤㅤㅤ꒰¡VIDEO TROPPO LUNGO!꒱
-|˚₊꒷ ⏳ ꒱ ฅ﹕Massimo: 5 minuti ₊˚๑
+|ㅤㅤㅤㅤㅤㅤㅤ꒰¡𝐕𝐈𝐃𝐄𝐎 𝐓𝐑𝐎𝐏𝐏𝐎 𝐋𝐔𝐍𝐆𝐎!꒱
+|˚₊꒷ ⏳ ꒱ ฅ﹕𝐌𝐚𝐬𝐬𝐢𝐦𝐨: 𝟓 𝐌𝐢𝐧𝐮𝐭𝐢 ₊˚๑
 |˚₊꒷ ⌛ ꒱ ฅ﹕Durata: ${videoInfo.timestamp} ₊˚๑
 ╰★────★────★────★────★────★
 `,
@@ -208,19 +208,19 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       const { title, thumbnail, timestamp, views, ago, url, author } = videoInfo;
       const formattedViews = new Intl.NumberFormat().format(views);
       const infoMessage = `
-⋆ ︵︵ ★ 🎥 INFO VIDEO 🎥 ★ ︵︵ ⋆
+⋆ ︵︵ ★ 🎥 𝐈𝐍𝐅𝐎 𝐕𝐈𝐃𝐄𝐎 🎥 ★ ︵︵ ⋆
 
 ꒷꒦ ✦ ୧・︶ : ︶ ꒷꒦ ‧₊ ୧
-୧ ✍️ *Titolo:* ${title}
-୧ ⏳ *Durata:* ${timestamp}
-୧ 👀 *Visualizzazioni:* ${formattedViews}
-୧ 🔰 *Canale:* ${author?.name || "Sconosciuto"}
-୧ 🔳 *Pubblicato:* ${ago}
-୧ 🔗 *Link:* ${url}
+୧ ✍️ *𝐓𝐢𝐭𝐨𝐥𝐨:* ${title}
+୧ ⏳ *𝐃𝐮𝐫𝐚𝐭𝐚:* ${timestamp}
+୧ 👀 *𝐕𝐢𝐬𝐮𝐚𝐥𝐢𝐳𝐳𝐚𝐳𝐢𝐨𝐧𝐢:* ${formattedViews}
+୧ 🔰 *𝐂𝐚𝐧𝐚𝐥𝐞:* ${author?.name || "Sconosciuto"}
+୧ 🔳 *𝐏𝐮𝐛𝐛𝐥𝐨𝐜𝐚𝐭𝐨:* ${ago}
+୧ 🔗 *𝐋𝐢𝐧𝐤:* ${url}
 ꒷꒦ ✦ ୧・︶ : ︶ ꒷꒦ ‧₊ ୧
 
 ╰♡꒷ ๑ ⋆˚₊⋆───ʚ˚ɞ───⋆˚₊⋆ ๑ ⪩
-  > Scegli un formato per scaricare
+  > 𝐒𝐜𝐞𝐠𝐥𝐢 𝐮𝐧 𝐟𝐨𝐫𝐦𝐚𝐭𝐨
 ╰♡꒷ ๑ ⋆˚₊⋆───ʚ˚ɞ───⋆˚₊⋆ ๑ ⪩
 `;
 
@@ -230,9 +230,9 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         text: infoMessage,
         footer: 'Scegli un formato:',
         buttons: [
-          { buttonId: `${usedPrefix}playaudio ${title}`, buttonText: { displayText: "🎵 Audio" }, type: 1 },
-          { buttonId: `${usedPrefix}playvideo ${title}`, buttonText: { displayText: "🎬 Video" }, type: 1 },
-          { buttonId: `${usedPrefix}salva ${title}`, buttonText: { displayText: "💾 Salva Playlist" }, type: 1 }
+          { buttonId: `${usedPrefix}playaudio ${title}`, buttonText: { displayText: "🎵 𝐀𝐮𝐝𝐢𝐨" }, type: 1 },
+          { buttonId: `${usedPrefix}playvideo ${title}`, buttonText: { displayText: "🎬 𝐕𝐢𝐝𝐞𝐨" }, type: 1 },
+          { buttonId: `${usedPrefix}salva ${title}`, buttonText: { displayText: "💾 𝐒𝐚𝐥𝐯𝐚 𝐢𝐧 𝐩𝐥𝐚𝐲𝐥𝐢𝐬𝐭" }, type: 1 }
         ],
         viewOnce: true,
         headerType: 4,
@@ -259,7 +259,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
   } catch (error) {
     await conn.sendMessage(m.chat, {
       text: error.message.startsWith('꒰🩸꒱') ? error.message : `
-꒰🩸꒱ ◦•≫ ERRORE
+꒰🩸꒱ ◦•≫ 𝐄𝐑𝐑𝐎𝐑𝐄
  ★・・・・・・・★
   ${error.message}
  ★・・・・・・・★
