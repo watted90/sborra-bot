@@ -140,26 +140,29 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         const { url: downloadUrl } = await getVid(url);
         if (downloadUrl) {
           return await conn.sendMessage(m.chat, {
-            video: { url: downloadUrl },
-            fileName: `${title}.mp4`,
-            mimetype: 'video/mp4',
-            caption: '✅ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝 𝐜𝐨𝐦𝐩𝐥𝐞𝐭𝐚𝐭𝐨!',
-            thumbnail: thumb,
-            contextInfo: {
-              forwardingScore: 99,
-              isForwarded: true,
-              forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363420674060561@newsletter',
-                serverMessageId: '',
-                newsletterName: `${nomebot}`
-    const buttons = [
-      { buttonId: "tomp3", buttonText: { displayText: "🎵 𝐀𝐮𝐝𝐢𝐨" }, type: 1 },
-              ],
-      }
-            }
-          }, { quoted: m });
-        }
-      }
+  video: { url: downloadUrl },
+  fileName: `${title}.mp4`,
+  mimetype: 'video/mp4',
+  caption: '✅ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝 𝐜𝐨𝐦𝐩𝐥𝐞𝐭𝐚𝐭𝐨!',
+  thumbnail: thumb,
+  buttons: [
+    { 
+      buttonId: `${usedPrefix}playaudio ${title}`, 
+      buttonText: { displayText: "🎵 Converti in MP3" }, 
+      type: 1 
+    }
+  ],
+  headerType: 4,
+  contextInfo: {
+    forwardingScore: 99,
+    isForwarded: true,
+    forwardedNewsletterMessageInfo: {
+      newsletterJid: '120363420674060561@newsletter',
+      serverMessageId: '',
+      newsletterName: `${nomebot}`
+    }
+  }
+}, { quoted: m });
       return;
     }
 
