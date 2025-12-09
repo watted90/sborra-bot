@@ -116,7 +116,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
             buttons: [
               { 
-                buttonId: `${usedPrefix}playaudio ${title}`, 
+                buttonId: `${usedPrefix}tomp3`, 
                 buttonText: { displayText: "🎵 Converti in MP3" }, 
                 type: 1 
               }
