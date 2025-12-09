@@ -154,7 +154,8 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
                 newsletterName: `${nomebot}`
     const buttons = [
       { buttonId: "tomp3", buttonText: { displayText: "🎵 𝐀𝐮𝐝𝐢𝐨" }, type: 1 },
-              }
+              ],
+      }
             }
           }, { quoted: m });
         }
