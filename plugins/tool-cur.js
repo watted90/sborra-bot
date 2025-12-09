@@ -139,8 +139,8 @@ const handler = async (m, { conn, args, usedPrefix, text, command }) => {
       caption,
       mentions: conn.parseMention(caption),
       buttons: [
-        { buttonId: `.playaudio ${artist} - ${title}`, buttonText: { displayText: '🎧 Scarica canzone' }, type: 1 },
-        { buttonId: `.playvideo ${artist} - ${title}`, buttonText: { displayText: '🎥 Scarica video' }, type: 1 },
+        { buttonId: `.playaudio-dl ${ytURL}`, buttonText: { displayText: '🎧 Scarica canzone' }, type: 1 },
+        { buttonId: `.playvideo-dl ${ytURL}`, buttonText: { displayText: '🎥 Scarica video' }, type: 1 },
       ],
       headerType: 4,
       footer: `.`
