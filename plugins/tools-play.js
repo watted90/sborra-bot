@@ -69,12 +69,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 `,
         contextInfo: {
           forwardingScore: 99,
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363420674060561@newsletter',
-            serverMessageId: '',
-            newsletterName: `${nomebot}`
-          }
+          isForwarded: true
         }
       }, { quoted: m });
       return;
@@ -88,197 +83,106 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 ╭﹕₊˚ ★ ⁺˳ꕤ₊⁺・꒱
   ━━✫ ❗ 𝐍𝐞𝐬𝐬𝐮𝐧 𝐫𝐢𝐬𝐮𝐥𝐭𝐚𝐭𝐨 𝐭𝐫𝐨𝐯𝐚𝐭𝐨
 ╰﹕₊˚ ★ ⁺˳ꕤ₊⁺・꒱
-`,
-          contextInfo: {
-            forwardingScore: 99,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363420674060561@newsletter',
-              serverMessageId: '',
-              newsletterName: `${nomebot}`
-            }
-          }
+`
         }, { quoted: m });
         return;
       }
+
       const videoInfo = search.all[0];
       const { url, title, thumbnail } = videoInfo;
       const thumb = (await conn.getFile(thumbnail))?.data;
 
       if (command === 'playaudio') {
-        await conn.sendMessage(m.chat, { 
-          text: `
-┊ ┊ ┊ ┊‿ ˚➶ ｡˚
-┊ ┊ ┊ ┊. ➶ ˚
-┊ ┊ ┊ ˚✧ 🎵 𝐀𝐮𝐝𝐢𝐨 𝐢𝐧 𝐚𝐫𝐫𝐢𝐯𝐨
-┊ ˚➶ ｡˚ ☁︎ 𝐀𝐭𝐭𝐞𝐧𝐝𝐢 𝐪𝐮𝐚𝐥𝐜𝐡𝐞 𝐢𝐬𝐭𝐚𝐧𝐭𝐞...
-` 
-        }, { quoted: m });
+        await conn.sendMessage(m.chat, { text: "🎵 Audio in arrivo..." }, { quoted: m });
         const { url: downloadUrl } = await getAud(url);
-        await conn.sendMessage(m.chat, {
+        return await conn.sendMessage(m.chat, {
           audio: { url: downloadUrl },
-          mimetype: "audio/mpeg",
-          contextInfo: {
-            forwardingScore: 99,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363420674060561@newsletter',
-              serverMessageId: '',
-              newsletterName: `${nomebot}`
-            }
-          }
+          mimetype: "audio/mpeg"
         }, { quoted: m });
-      } else {
-        await conn.sendMessage(m.chat, { 
-          text: `
-┊ ┊ ┊ ┊‿ ˚➶ ｡˚
-┊ ┊ ┊ ┊. ➶ ˚
-┊ ┊ ┊ ˚✧ 🎬 𝐕𝐢𝐝𝐞𝐨 𝐢𝐧 𝐚𝐫𝐫𝐢𝐯𝐨
-┊ ˚➶ ｡˚ ☁︎ 𝐀𝐭𝐭𝐞𝐧𝐝𝐢 𝐪𝐮𝐚𝐥𝐜𝐡𝐞 𝐢𝐬𝐭𝐚𝐧𝐭𝐞...
-` 
-        }, { quoted: m });
+      }
+
+      if (command === 'playvideo') {
+        await conn.sendMessage(m.chat, { text: "🎬 Video in arrivo..." }, { quoted: m });
+
         const { url: downloadUrl } = await getVid(url);
+
         if (downloadUrl) {
           return await conn.sendMessage(m.chat, {
-  video: { url: downloadUrl },
-  fileName: `${title}.mp4`,
-  mimetype: 'video/mp4',
-  caption: '✅ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝 𝐜𝐨𝐦𝐩𝐥𝐞𝐭𝐚𝐭𝐨!',
-  thumbnail: thumb,
-  buttons: [
-    { 
-      buttonId: `${usedPrefix}playaudio ${title}`, 
-      buttonText: { displayText: "🎵 Converti in MP3" }, 
-      type: 1 
-    }
-  ],
-  headerType: 4,
-  contextInfo: {
-    forwardingScore: 99,
-    isForwarded: true,
-    forwardedNewsletterMessageInfo: {
-      newsletterJid: '120363420674060561@newsletter',
-      serverMessageId: '',
-      newsletterName: `${nomebot}`
-    }
-  }
-}, { quoted: m });
+            video: { url: downloadUrl },
+            fileName: `${title}.mp4`,
+            mimetype: 'video/mp4',
+            caption: '✅ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝 𝐜𝐨𝐦𝐩𝐥𝐞𝐭𝐚𝐭𝐨!',
+            thumbnail: thumb,
+
+            buttons: [
+              { 
+                buttonId: `${usedPrefix}playaudio ${title}`, 
+                buttonText: { displayText: "🎵 Converti in MP3" }, 
+                type: 1 
+              }
+            ],
+
+            headerType: 4
+          }, { quoted: m });
+        }
+      }
+
       return;
     }
 
     if (command === 'play') {
       const search = await yts(text);
       if (!search.all.length) {
-        await conn.sendMessage(m.chat, {
-          text: `
-╭﹕₊˚ ★ ⁺˳ꕤ₊⁺・꒱
-  ━━✫ ❗ 𝐍𝐞𝐬𝐬𝐮𝐧 𝐫𝐢𝐬𝐮𝐥𝐭𝐚𝐭𝐨 𝐭𝐫𝐨𝐯𝐚𝐭𝐨
-╰﹕₊˚ ★ ⁺˳ꕤ₊⁺・꒱
-`,
-          contextInfo: {
-            forwardingScore: 99,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363420674060561@newsletter',
-              serverMessageId: '',
-              newsletterName: `${nomebot}`
-            }
-          }
-        }, { quoted: m });
+        await conn.sendMessage(m.chat, { text: "❗ Nessun risultato trovato" }, { quoted: m });
         return;
       }
 
       const videoInfo = search.all[0];
-      const durationInSeconds = videoInfo.seconds;
-      if (durationInSeconds > MAX_DURATION) {
-        return await conn.sendMessage(m.chat, {
-          text: `
-╭★────★────★────★────★────★
-|ㅤㅤㅤㅤㅤㅤㅤ꒰¡𝐕𝐈𝐃𝐄𝐎 𝐓𝐑𝐎𝐏𝐏𝐎 𝐋𝐔𝐍𝐆𝐎!꒱
-|˚₊꒷ ⏳ ꒱ ฅ﹕𝐌𝐚𝐬𝐬𝐢𝐦𝐨: 𝟓 𝐌𝐢𝐧𝐮𝐭𝐢 ₊˚๑
-|˚₊꒷ ⌛ ꒱ ฅ﹕Durata: ${videoInfo.timestamp} ₊˚๑
-╰★────★────★────★────★────★
-`,
-          contextInfo: {
-            forwardingScore: 99,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: '120363420674060561@newsletter',
-              serverMessageId: '',
-              newsletterName: `${nomebot}`
-            }
-          }
-        }, { quoted: m });
+
+      if (videoInfo.seconds > MAX_DURATION) {
+        return await conn.sendMessage(m.chat, { text: "⏳ Il video supera la durata massima." }, { quoted: m });
       }
 
       const { title, thumbnail, timestamp, views, ago, url, author } = videoInfo;
-      const formattedViews = new Intl.NumberFormat().format(views);
-      const infoMessage = `
-⋆ ︵︵ ★ 🎥 𝐈𝐍𝐅𝐎 𝐕𝐈𝐃𝐄𝐎 🎥 ★ ︵︵ ⋆
-
-꒷꒦ ✦ ୧・︶ : ︶ ꒷꒦ ‧₊ ୧
-୧ ✍️ *𝐓𝐢𝐭𝐨𝐥𝐨:* ${title}
-୧ ⏳ *𝐃𝐮𝐫𝐚𝐭𝐚:* ${timestamp}
-୧ 👀 *𝐕𝐢𝐬𝐮𝐚𝐥𝐢𝐳𝐳𝐚𝐳𝐢𝐨𝐧𝐢:* ${formattedViews}
-୧ 🔰 *𝐂𝐚𝐧𝐚𝐥𝐞:* ${author?.name || "Sconosciuto"}
-୧ 🔳 *𝐏𝐮𝐛𝐛𝐥𝐨𝐜𝐚𝐭𝐨:* ${ago}
-୧ 🔗 *𝐋𝐢𝐧𝐤:* ${url}
-꒷꒦ ✦ ୧・︶ : ︶ ꒷꒦ ‧₊ ୧
-
-╰♡꒷ ๑ ⋆˚₊⋆───ʚ˚ɞ───⋆˚₊⋆ ๑ ⪩
-  > 𝐒𝐜𝐞𝐠𝐥𝐢 𝐮𝐧 𝐟𝐨𝐫𝐦𝐚𝐭𝐨
-╰♡꒷ ๑ ⋆˚₊⋆───ʚ˚ɞ───⋆˚₊⋆ ๑ ⪩
-`;
-
       const thumb = (await conn.getFile(thumbnail))?.data;
+
+      const infoMessage = `
+🎥 *INFO VIDEO*
+
+📌 *Titolo:* ${title}
+⏳ *Durata:* ${timestamp}
+👀 *Views:* ${views}
+🧾 *Canale:* ${author?.name}
+📅 *Pubblicato:* ${ago}
+🔗 *Link:* ${url}
+
+Scegli il formato:
+`;
 
       await conn.sendMessage(m.chat, {
         text: infoMessage,
-        footer: 'Scegli un formato:',
         buttons: [
-          { buttonId: `${usedPrefix}playaudio ${title}`, buttonText: { displayText: "🎵 𝐀𝐮𝐝𝐢𝐨" }, type: 1 },
-          { buttonId: `${usedPrefix}playvideo ${title}`, buttonText: { displayText: "🎬 𝐕𝐢𝐝𝐞𝐨" }, type: 1 },
-          { buttonId: `${usedPrefix}salva ${title}`, buttonText: { displayText: "💾 𝐒𝐚𝐥𝐯𝐚 𝐢𝐧 𝐩𝐥𝐚𝐲𝐥𝐢𝐬𝐭" }, type: 1 }
+          { buttonId: `${usedPrefix}playaudio ${title}`, buttonText: { displayText: "🎵 AUDIO" }, type: 1 },
+          { buttonId: `${usedPrefix}playvideo ${title}`, buttonText: { displayText: "🎬 VIDEO" }, type: 1 }
         ],
-        viewOnce: true,
         headerType: 4,
         contextInfo: {
-          forwardingScore: 99,
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363420674060561@newsletter',
-            serverMessageId: '',
-            newsletterName: `${nomebot}`
-          },
           externalAdReply: {
             mediaType: 1,
             previewType: 0,
             mediaUrl: url,
             sourceUrl: url,
-            thumbnail: thumb,
+            thumbnail: thumb
           }
         }
       }, { quoted: m });
+
       return;
     }
 
   } catch (error) {
     await conn.sendMessage(m.chat, {
-      text: error.message.startsWith('꒰🩸꒱') ? error.message : `
-꒰🩸꒱ ◦•≫ 𝐄𝐑𝐑𝐎𝐑𝐄
- ★・・・・・・・★
-  ${error.message}
- ★・・・・・・・★
-`,
-      contextInfo: {
-        forwardingScore: 99,
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363420674060561@newsletter',
-          serverMessageId: '',
-          newsletterName: `${nomebot}`
-        }
-      }
+      text: error.message
     }, { quoted: m });
   }
 };
