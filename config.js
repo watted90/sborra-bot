@@ -16,10 +16,10 @@ global.wait = 'ⓘ 𝐂𝐚𝐫𝐢𝐜𝐚𝐦𝐞𝐧𝐭𝐨...';
 
 global.owner = [
   ['393472425001', 'dieh 39', true],
-  ['40731383635'], //axtral
+  ['4915213333375'], //axtral
   ['33631194377'], //negro voip 
   ['393895459079'], //negro real
-  ['13683002155'], // dieh +1 canapa
+  ['421233056864'], // dieh +421
   ['xxxxxxxxxx'],
   ['xxxxxxxxxx']
 ];
