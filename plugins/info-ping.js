@@ -1,4 +1,6 @@
+
 //plugin fatto da axtral e dieh 
+
 import os from 'os';
 import { performance } from 'perf_hooks';
 
@@ -47,7 +49,7 @@ let handler = async (m, { conn, usedPrefix }) => {
       footer: "𝐁𝒀 𝛬𝑿𝑻𝑹𝜜𝑳 & 𝑾𝛬𝐓𝐓𝑬𝐃",
       buttons: [
         { buttonId: usedPrefix + "pong", buttonText: { displayText: "⚡ 𝐏𝐨𝐧𝐠" }, type: 1 },
-        { buttonId: usedPrefix + "ping", buttonText: { displayText: "📡 𝐑𝐢𝐟𝐚𝐢 𝐩𝐢𝐧𝐠" }, type: 1 }
+        { buttonId: usedPrefix + "ping", buttonText: { displayText: "📡 𝐑𝐢𝐟𝐚𝐢 𝐩𝐢𝐧𝐠" }, type: 1 },
         { buttonId: usedPrefix + "ds", buttonText: { displayText: "🗑️ 𝐒𝐯𝐮𝐨𝐭𝐚 𝐬𝐞𝐬𝐬𝐢𝐨𝐧𝐢" }, type: 1 },
       ],
       headerType: 1
