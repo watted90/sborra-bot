@@ -10,7 +10,7 @@ export async function before(m, { conn, isAdmin, isBotAdmin }) {
     let chat = global.db.data.chats[m.chat] || {};
     let bot = global.db.data.settings[this.user.jid] || {};
     
-    if (chat.antiTraba && m.text.length > 4000) {
+    if (chat.antiTraba && m.text.length > 7000) {
         const name = await conn.getName(m.sender);
         
         if (isAdmin) {
@@ -48,3 +48,4 @@ export async function before(m, { conn, isAdmin, isBotAdmin }) {
     
     return true;
 }
+
