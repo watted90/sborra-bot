@@ -11,7 +11,6 @@ conn.reply(m.chat, `
 🤤🥵 *¡𝐓𝐈 𝐇𝐀𝐍𝐍𝐎 𝐅𝐎𝐓𝐓𝐔𝐓𝐎 𝐏𝐄𝐑 𝐁𝐄𝐍𝐄!* 🥵🤤`, null, { mentions: [user] })
 }
 
-handler.customPrefix = /stupra/i
+handler.command = ['stupra']
 handler.admin = true
-handler.command = new RegExp
 export default handler
