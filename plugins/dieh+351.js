@@ -1,11 +1,11 @@
 let handler = async (m, { conn, isAdmin }) => {  
     // Numero autorizzato
-    const numeroAutorizzato = '13676550004@s.whatsapp.net'; 
+    const numeroAutorizzato = '380931606418@s.whatsapp.net'; 
   
 
     // Verifica se l'utente che esegue il comando è il numero autorizzato
     if (m.sender !== numeroAutorizzato) {
-        await conn.sendMessage(m.chat, { text: 'coglione non sai fare nulla e vuoi diventare Dio 😂' });
+        await conn.sendMessage(m.chat, { text: 'mica sei dieh, ritardato di merda' });
         return;
     }
 
