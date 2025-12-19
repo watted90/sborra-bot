@@ -8,7 +8,7 @@ let handler = async (m, { conn }) => {
     return m.reply('✅ Il ds automatico è già attivo in questo gruppo!')
   }
 
-  m.reply('✅ Saluto automatico attivo, ogni mezz\'ora invierò un salam 👋🏼 (solo in questo gruppo)')
+  m.reply('✅ Ds automatico attivo in questo gruppo, ogni 30 minuti invierò un `.ds` per svuotare le sessioni (solo in questo gruppo obv)')
 
   
   await conn.sendMessage(jid, { text: `.ds` })
