@@ -49,7 +49,8 @@ global.APIs = {
   neoxr: 'https://api.neoxr.my.id',
   zenzapis: 'https://zenzapis.xyz',
   akuari: 'https://api.akuari.my.id',
-  akuari2: 'https://apimu.my.id'
+  akuari2: 'https://apimu.my.id',
+  clashroyale: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImUwZTM5ZjAzLTI4YmItNDM0Yi04ZjljLWQ1NjZhNGM5ZDhjYiIsImlhdCI6MTc2NjU0Mjg4OSwic3ViIjoiZGV2ZWxvcGVyL2FiZWUxNzAxLTUzODYtMDJkOC0yMzY4LWZjYjE5ZjgyMzQ1NCIsInNjb3BlcyI6WyJyb3lhbGUiXSwibGltaXRzIjpbeyJ0aWVyIjoiZGV2ZWxvcGVyL3NpbHZlciIsInR5cGUiOiJ0aHJvdHRsaW5nIn0seyJjaWRycyI6WyIxNTguNDcuMjAyLjEwMyJdLCJ0eXBlIjoiY2xpZW50In1dfQ.DRAtfK0nRWHQrp_v74fxR93OtNNiEhfpbl6WnzXyIAMJNhpO2Kccm2a0fmNcPDGZ0bIfZWjuEkNGtz1Y-lqXOw'
   
 };
 
