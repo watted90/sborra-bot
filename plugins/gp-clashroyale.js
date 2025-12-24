@@ -1,4 +1,4 @@
-/* QUESTO PLUGIN È STATO FATTO DA NICO AKA GIUSE PER SBORRABOT
+/* QUESTO PLUGIN È STATO FATRO DA NICO AKA GIUSE PER SBORRABOT
 CREDITI A NICO DI VAREBOT
 github.com/xviveree
 */
@@ -19,35 +19,67 @@ const saveDB = (data) => fs.writeFileSync(databasePath, JSON.stringify(data, nul
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
     let db = getDB()
+    if (!db.users) db.users = {}
+    if (!db.votes) db.votes = {}
+
     const crKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImUwZTM5ZjAzLTI4YmItNDM0Yi04ZjljLWQ1NjZhNGM5ZDhjYiIsImlhdCI6MTc2NjU0Mjg4OSwic3ViIjoiZGV2ZWxvcGVyL2FiZWUxNzAxLTUzODYtMDJkOC0yMzY4LWZjYjE5ZjgyMzQ1NCIsInNjb3BlcyI6WyJyb3lhbGUiXSwibGltaXRzIjpbeyJ0aWVyIjoiZGV2ZWxvcGVyL3NpbHZlciIsInR5cGUiOiJ0aHJvdHRsaW5nIn0seyJjaWRycyI6WyIxNTguNDcuMjAyLjEwMyJdLCJ0eXBlIjoiY2xpZW50In1dfQ.DRAtfK0nRWHQrp_v74fxR93OtNNiEhfpbl6WnzXyIAMJNhpO2Kccm2a0fmNcPDGZ0bIfZWjuEkNGtz1Y-lqXOw'
     const browserlessKey = '2T1UJbySv4cbI5Dee0fbb250b89092d9d08069ecc8116da69'
 
-    
     if (command === 'setclash') {
         let tag = text.trim().replace('#', '').toUpperCase()
-        if (!tag) return m.reply(`❌ Uso: ${usedPrefix}setclash <TAG_GIOCATORE>\nEsempio: ${usedPrefix}setclash P8PY999`)
-        db[m.sender] = tag
+        if (!tag) return m.reply(`❌ Uso: ${usedPrefix}setclash <TAG_GIOCATORE>`)
+        db.users[m.sender] = tag
         saveDB(db)
         return m.reply(`✅ Player Tag *#${tag}* collegato correttamente!`)
     }
 
-        const playerTag = db[m.sender]
+    if (command === 'clike' || command === 'cdislike') {
+        const targetTag = text.trim()
+        if (!targetTag) return
+        
+        if (!db.votes[targetTag]) db.votes[targetTag] = { likes: [], dislikes: [] }
+        const vote = db.votes[targetTag]
+        const voter = m.sender
+
+        if (command === 'clike') {
+            if (vote.likes.includes(voter)) {
+                vote.likes = vote.likes.filter(id => id !== voter)
+                m.reply(`⚪ Voto rimosso da #${targetTag}`)
+            } else {
+                vote.likes.push(voter)
+                vote.dislikes = vote.dislikes.filter(id => id !== voter)
+                m.reply(`❤️ Hai messo like a #${targetTag}`)
+            }
+        } else if (command === 'cdislike') {
+            if (vote.dislikes.includes(voter)) {
+                vote.dislikes = vote.dislikes.filter(id => id !== voter)
+                m.reply(`⚪ Voto rimosso da #${targetTag}`)
+            } else {
+                vote.dislikes.push(voter)
+                vote.likes = vote.likes.filter(id => id !== voter)
+                m.reply(`👎 Hai messo dislike a #${targetTag}`)
+            }
+        }
+        saveDB(db)
+        return
+    }
+
+    const playerTag = db.users[m.sender]
     if (!playerTag) return m.reply(`⚠️ Registra il tuo tag prima con: *${usedPrefix}setclash <tag>*`)
-    if (!crKey || !browserlessKey) return m.reply('❌ API Key mancanti (Clash Royale o Browserless).')
 
     if (command === 'cr') {
         try {
             await m.react('⏳')
-
-            
             const responseCR = await axios.get(`https://api.clashroyale.com/v1/players/%23${playerTag}`, {
                 headers: { 'Authorization': `Bearer ${crKey}` }
             })
             const p = responseCR.data
-
-                        const arenaImg = `https://royaleapi.com/static/img/arenas/arena${p.arena?.id || 15}.png`
+            const arenaImg = `https://royaleapi.com/static/img/arenas/arena${p.arena?.id || 15}.png`
             
-           
+            const v = db.votes[playerTag] || { likes: [], dislikes: [] }
+            const lC = v.likes.length
+            const dC = v.dislikes.length
+
             const html = `
             <html>
             <head>
@@ -86,14 +118,14 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
                             <div class="stat-item"><div class="stat-label">Vinte</div><div class="stat-value" style="color:#32d74b;">${p.wins}</div></div>
                             <div class="stat-item"><div class="stat-label">Livello</div><div class="stat-value" style="color:#0a84ff;">${p.expLevel}</div></div>
                             <div class="stat-item"><div class="stat-label">Win Rate</div><div class="stat-value">${((p.wins/(p.wins+p.losses))*100).toFixed(1)}%</div></div>
-                            <div class="stat-item"><div class="stat-label">Tag</div><div class="stat-value" style="font-size:14px; opacity:0.5;">#${playerTag}</div></div>
+                            <div class="stat-item"><div class="stat-label">Feedback</div><div class="stat-value" style="font-size:16px;">❤️ ${lC} | 👎 ${dC}</div></div>
                         </div>
                     </div>
                 </div>
             </body>
             </html>`
 
-                const responseImg = await axios.post(`https://chrome.browserless.io/screenshot?token=${browserlessKey}`, {
+            const responseImg = await axios.post(`https://chrome.browserless.io/screenshot?token=${browserlessKey}`, {
                 html,
                 options: { type: 'jpeg', quality: 90 },
                 viewport: { width: 1000, height: 600 }
@@ -107,7 +139,8 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
                 caption: `👑 *Profilo Clash Royale:* ${p.name}`,
                 footer: '𝗰𝗹𝗮𝘀𝗵 𝗿𝗼𝘆𝗮𝗹𝗲 ✧ 𝘀𝗯𝗼𝗿𝗿𝗮𝗯𝗼𝘁',
                 buttons: [
-                    { buttonId: `${usedPrefix}cr`, buttonText: { displayText: '❤️' }, type: 1 }
+                    { buttonId: `${usedPrefix}clike ${playerTag}`, buttonText: { displayText: `❤️ (${lC})` }, type: 1 },
+                    { buttonId: `${usedPrefix}cdislike ${playerTag}`, buttonText: { displayText: `👎 (${dC})` }, type: 1 }
                 ],
                 headerType: 4,
                 viewOnce: true
@@ -116,11 +149,11 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         } catch (e) {
             console.error(e)
             await m.react('❌')
-            return m.reply(`❌ Errore: Assicurati che il Tag sia corretto e che l'API Key sia valida.`)
+            return m.reply(`❌ Errore nel recupero dati.`)
         }
     }
 }
 
-handler.command = ['setclash', 'cr']
+handler.command = ['setclash', 'cr', 'clike', 'cdislike']
 handler.group = true
 export default handler
