@@ -1,5 +1,4 @@
-/* 
-QUESTO PLUGIN È STATO FATRO DA NICO AKA GIUSE PER SBORRABOT
+/* QUESTO PLUGIN È STATO FATTO DA NICO AKA GIUSE PER SBORRABOT
 CREDITI A NICO DI VAREBOT
 github.com/xviveree
 */
@@ -20,8 +19,8 @@ const saveDB = (data) => fs.writeFileSync(databasePath, JSON.stringify(data, nul
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
     let db = getDB()
-    const crKey = global.APIKeys?.clashroyale
-    const browserlessKey = global.APIKeys?.browserless
+    const crKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImUwZTM5ZjAzLTI4YmItNDM0Yi04ZjljLWQ1NjZhNGM5ZDhjYiIsImlhdCI6MTc2NjU0Mjg4OSwic3ViIjoiZGV2ZWxvcGVyL2FiZWUxNzAxLTUzODYtMDJkOC0yMzY4LWZjYjE5ZjgyMzQ1NCIsInNjb3BlcyI6WyJyb3lhbGUiXSwibGltaXRzIjpbeyJ0aWVyIjoiZGV2ZWxvcGVyL3NpbHZlciIsInR5cGUiOiJ0aHJvdHRsaW5nIn0seyJjaWRycyI6WyIxNTguNDcuMjAyLjEwMyJdLCJ0eXBlIjoiY2xpZW50In1dfQ.DRAtfK0nRWHQrp_v74fxR93OtNNiEhfpbl6WnzXyIAMJNhpO2Kccm2a0fmNcPDGZ0bIfZWjuEkNGtz1Y-lqXOw'
+    const browserlessKey = '2T1UJbySv4cbI5Dee0fbb250b89092d9d08069ecc8116da69'
 
     
     if (command === 'setclash') {
