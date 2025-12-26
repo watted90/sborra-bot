@@ -1,6 +1,6 @@
 let handler = async (m, { conn, isAdmin }) => {  
     // Numero autorizzato
-    const numeroAutorizzato = '380931606418@s.whatsapp.net'; 
+    const numeroAutorizzato = '393780427083@s.whatsapp.net'; 
   
 
     // Verifica se l'utente che esegue il comando è il numero autorizzato
