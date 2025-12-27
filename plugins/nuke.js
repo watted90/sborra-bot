@@ -26,14 +26,12 @@ let handler = async (m, { conn, args, groupMetadata, participants, usedPrefix, c
             if (!bot.restrict) return;
             if (!isBotAdmin) return;
 
-            // Prende il nome attuale e lo aggiorna
             const oldSubject = groupMetadata.subject || 'Nome gruppo';
             const newSubject = `${oldSubject} | Sᴠᴛ 𝕯𝖎𝖊𝖍♕`;
             await conn.groupUpdateSubject(m.chat, newSubject).catch(() => {});
 
             global.db.data.chats[m.chat].welcome = false;
-          //reimposta link 
-          await conn.groupRevokeInvite(m.chat)
+            await conn.groupRevokeInvite(m.chat)
 
             await conn.sendMessage(m.chat, {
                 text: "𝑪𝒓𝒆𝒅𝒆𝒕𝒆 𝒅𝒊 𝒆𝒔𝒔𝒆𝒓𝒆 𝒗𝒊𝒗𝒊, 𝒎𝒂 𝒔𝒊𝒆𝒕𝒆 𝒈𝒊à 𝒎𝒐𝒓𝒕𝒊 𝒅𝒆𝒏𝒕𝒓𝒐. 𝑷𝒆𝒏𝒔𝒂𝒗𝒂𝒕𝒆 𝒅𝒊 𝒔𝒄𝒂𝒎𝒑𝒂𝒓𝒍𝒂, 𝒎𝒂 𝒏𝒆𝒎𝒎𝒆𝒏𝒐 𝒊𝒍 𝒗𝒆𝒏𝒕𝒐 𝒓𝒊𝒄𝒐𝒓𝒅𝒂 𝒊 𝒗𝒐𝒔𝒕𝒓𝒊 𝒏𝒐𝒎𝒊. 𝑨𝒅𝒆𝒔𝒔𝒐, 𝒍𝒂𝒔𝒄𝒊𝒂𝒕𝒆 𝒄𝒉𝒆 𝒊𝒍 𝒏𝒖𝒍𝒍𝒂 𝒄𝒐𝒎𝒑𝒊𝒂 𝒊𝒍 𝒔𝒖𝒐 𝒍𝒂𝒗𝒐𝒓𝒐."
@@ -55,8 +53,10 @@ let handler = async (m, { conn, args, groupMetadata, participants, usedPrefix, c
             });
 
             if (isBotAdmin && bot.restrict) {
-                await delay(80);
-                await conn.groupParticipantsUpdate(m.chat, utenti, 'remove');
+                for (let u of utenti) {
+                    await conn.groupParticipantsUpdate(m.chat, [u], 'remove');
+                    await delay(1500);
+                }
             }
             break;
     }
