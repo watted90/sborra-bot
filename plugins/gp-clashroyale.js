@@ -27,10 +27,10 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     if (command === 'setclash') {
         let tag = text.trim().replace('#', '').toUpperCase()
-        if (!tag) return m.reply(`❌ Uso: ${usedPrefix}setclash <TAG_GIOCATORE>`)
+        if (!tag) return m.reply(`❌ 𝐔𝐬𝐨: ${usedPrefix}setclash <TAG_GIOCATORE>`)
         db.users[m.sender] = tag
         saveDB(db)
-        return m.reply(`✅ Player Tag *#${tag}* collegato correttamente!`)
+        return m.reply(`✅ 𝐏𝐥𝐚𝐲𝐞𝐫 𝐓𝐚𝐠 *#${tag}* 𝐜𝐨𝐥𝐥𝐞𝐠𝐚𝐭𝐨 𝐜𝐨𝐫𝐫𝐞𝐭𝐭𝐚𝐦𝐞𝐧𝐭𝐞!`)
     }
 
     if (command === 'clike' || command === 'cdislike') {
@@ -44,20 +44,21 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         if (command === 'clike') {
             if (vote.likes.includes(voter)) {
                 vote.likes = vote.likes.filter(id => id !== voter)
-                m.reply(`⚪ Voto rimosso da #${targetTag}`)
+                m.reply(`⚪ 𝐕𝐨𝐭𝐨 𝐫𝐢𝐦𝐨𝐬𝐬𝐨 𝐚 #${targetTag}`)
             } else {
                 vote.likes.push(voter)
                 vote.dislikes = vote.dislikes.filter(id => id !== voter)
-                m.reply(`❤️ Hai messo like a #${targetTag}`)
+                m.reply(`❤️ 𝐇𝐚𝐢 𝐦𝐞𝐬𝐬𝐨 𝐥𝐢𝐤𝐞 𝐚 #${targetTag}`)
             }
         } else if (command === 'cdislike') {
             if (vote.dislikes.includes(voter)) {
                 vote.dislikes = vote.dislikes.filter(id => id !== voter)
-                m.reply(`⚪ Voto rimosso da #${targetTag}`)
+                m.reply(`⚪ 𝐕𝐨𝐭𝐨 𝐫𝐢𝐦𝐨𝐬𝐬𝐨 𝐚 #${targetTag}`)
             } else {
                 vote.dislikes.push(voter)
                 vote.likes = vote.likes.filter(id => id !== voter)
-                m.reply(`👎 Hai messo dislike a #${targetTag}`)
+                m.reply(`👎 𝐇𝐚𝐢 𝐦𝐞𝐬𝐬𝐨 𝐝𝐢𝐬𝐥𝐢𝐤𝐞 𝐚
+ #${targetTag}`)
             }
         }
         saveDB(db)
@@ -65,7 +66,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     const playerTag = db.users[m.sender]
-    if (!playerTag) return m.reply(`⚠️ Registra il tuo tag prima con: *${usedPrefix}setclash <tag>*`)
+    if (!playerTag) return m.reply(`⚠️ 𝐑𝐞𝐠𝐢𝐬𝐭𝐫𝐚 𝐢𝐥 𝐭𝐮𝐨 𝐭𝐚𝐠 𝐝𝐢 𝐂𝐥𝐚𝐬𝐡 𝐑𝐨𝐲𝐚𝐥𝐞 𝐜𝐨𝐧:\n *${usedPrefix}setclash <tag>*`)
 
     if (command === 'cr') {
         try {
@@ -136,8 +137,8 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
             return conn.sendMessage(m.chat, {
                 image: buffer,
-                caption: `👑 *Profilo Clash Royale:* ${p.name}`,
-                footer: '𝗰𝗹𝗮𝘀𝗵 𝗿𝗼𝘆𝗮𝗹𝗲 ✧ 𝘀𝗯𝗼𝗿𝗿𝗮𝗯𝗼𝘁',
+                caption: `👑 *𝐏𝐫𝐨𝐟𝐢𝐥𝐨 𝐂𝐥𝐚𝐬𝐡 𝐑𝐨𝐲𝐚𝐥𝐞 𝐝𝐢:* ${p.name}`,
+                footer: '𝐂𝐥𝐚𝐬𝐡 𝐑𝐨𝐲𝐚𝐥𝐞 ✧ 𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭',
                 buttons: [
                     { buttonId: `${usedPrefix}clike ${playerTag}`, buttonText: { displayText: `❤️ (${lC})` }, type: 1 },
                     { buttonId: `${usedPrefix}cdislike ${playerTag}`, buttonText: { displayText: `👎 (${dC})` }, type: 1 }
@@ -149,7 +150,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         } catch (e) {
             console.error(e)
             await m.react('❌')
-            return m.reply(`❌ Errore nel recupero dati.`)
+            return m.reply(`❌ 𝐄𝐑𝐑𝐎𝐑𝐄 𝐍𝐄𝐋 𝐑𝐄𝐂𝐔𝐏𝐄𝐑𝐎 𝐃𝐀𝐓𝐈.`)
         }
     }
 }
