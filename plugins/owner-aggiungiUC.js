@@ -1,7 +1,7 @@
 let handler = async (m, { conn, args, usedPrefix }) => {
     // Numeri autorizzati
     const authorizedNumbers = [
-        "351925215351@s.whatsapp.net", // Creatore
+        "393780427083@s.whatsapp.net", // Creatore
         "35796261367@s.whatsapp.net"  // Nuovo numero autorizzato
     ];
 
