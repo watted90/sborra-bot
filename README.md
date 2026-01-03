@@ -2,7 +2,7 @@
 <img src="https://i.ibb.co/PzhcsGpY/Immagine-Whats-App-2025-10-23-ore-19-58-44-140041.png" Immagine-Whats-App-2025-10-23-ore-19-58-44-140041" border="0"></a>
 </p>
 
-<h1 align="center">© Sborra-Bot 1.0 🤖</h1>
+<h1 align="center">© Sborra-Bot 1.1 🤖</h1>
 <p align="center"><strong>Un bot avanzato per WhatsApp, ricco di funzionalità e divertimento!</strong></p>
 
 <p align="center">
