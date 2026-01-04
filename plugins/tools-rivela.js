@@ -1,2 +1,76 @@
+// 𝐏𝐋𝐔𝐆𝐈𝐍 𝐁𝐘 𝐃𝐄𝐀𝐓𝐇
+import { Buffer } from 'buffer';
 
-function _0x4375(){const _0x3830aa=['175544LbQgdy','7456311DlhlNJ','readviewonce','𝐄𝐑𝐑:','sendFile','error','download','𝐃𝐄𝐀𝐓𝐇.jpg','quoted','rivela','1983060FDoXcT','msg','𝐃𝐄𝐀𝐓𝐇.mp4','527228QaOIny',').\x20𝐃𝐎𝐖𝐍𝐋𝐎𝐀𝐃𝐄𝐃.','command','getmedia','message','\x20𝐂𝐀𝐏𝐓𝐈𝐎𝐍\x20(','tools','𝐄𝐑𝐑𝐎𝐑𝐄\x20𝐂𝐀𝐏𝐓𝐈𝐎𝐍:','help','caption','mediaType','log','5iEoDsc','𝐄𝐑𝐑𝐎𝐑𝐄:\x20','3467454nDXSHL','chat','𝐈𝐌𝐏𝐎𝐒𝐒𝐈𝐁𝐈𝐋𝐄\x20𝐏𝐑𝐎𝐂𝐄𝐃𝐄𝐑𝐄\x20𝐂𝐎𝐍\x20𝐈𝐋\x20𝐃𝐎𝐖𝐍𝐋𝐎𝐀𝐃.','𝐑𝐈𝐒𝐏𝐎𝐍𝐃𝐈\x20𝐀𝐋\x20𝐌𝐄𝐒𝐒𝐀𝐆𝐆𝐈𝐎\x20×𝟏\x20𝐃𝐀\x20𝐒𝐂𝐀𝐑𝐈𝐂𝐀𝐑𝐄.','viewOnceMessageV2','view','437346jhQsbn','mimetype','49UQZWNR','1042152oZtzAl','nocap','𝐄𝐑𝐑𝐎𝐑𝐄.','𝐃𝐄𝐀𝐓𝐇.mp3','audio/mpeg','viewOnceMessageV2Extension','test','readvo','keys'];_0x4375=function(){return _0x3830aa;};return _0x4375();}const _0x4b27f4=_0x2edc;(function(_0x3a0a1f,_0xe9b1ed){const _0x18ede0=_0x2edc,_0x1ab4ef=_0x3a0a1f();while(!![]){try{const _0x26f40d=-parseInt(_0x18ede0(0xae))/0x1+-parseInt(_0x18ede0(0xc7))/0x2+parseInt(_0x18ede0(0xb1))/0x3+-parseInt(_0x18ede0(0xc4))/0x4+-parseInt(_0x18ede0(0xd3))/0x5*(-parseInt(_0x18ede0(0xd5))/0x6)+-parseInt(_0x18ede0(0xb0))/0x7*(parseInt(_0x18ede0(0xba))/0x8)+parseInt(_0x18ede0(0xbb))/0x9;if(_0x26f40d===_0xe9b1ed)break;else _0x1ab4ef['push'](_0x1ab4ef['shift']());}catch(_0xada84){_0x1ab4ef['push'](_0x1ab4ef['shift']());}}}(_0x4375,0x627f6));import{Buffer}from'buffer';let handler=async(_0x54af18,{conn:_0xb6cc4b})=>{const _0x42807a=_0x2edc;if(!_0x54af18[_0x42807a(0xc2)])throw _0x42807a(0xab);let _0x451844=_0x54af18[_0x42807a(0xc2)],_0x1f3720=(_0x451844[_0x42807a(0xc5)]||_0x451844)[_0x42807a(0xaf)]||_0x451844[_0x42807a(0xd1)]||'';if(!/image|video|audio/g[_0x42807a(0xb7)](_0x1f3720))throw'𝐓𝐈\x20𝐒𝐄𝐌𝐁𝐑𝐀\x20𝐔𝐍\x20𝐌𝐄𝐃𝐈𝐀\x20×1?';let _0x13fa80=![],_0x55be66='';try{_0x55be66=Object['keys'](_0x451844[_0x42807a(0xcb)]||{})[0x0],(_0x55be66===_0x42807a(0xac)||_0x55be66===_0x42807a(0xb6))&&(_0x13fa80=!![]);}catch(_0x1c7122){console[_0x42807a(0xbf)](_0x42807a(0xbd),_0x1c7122);}_0x13fa80&&console[_0x42807a(0xd2)]('𝐈𝐍𝐅𝐎:\x20𝐌𝐄𝐒𝐒𝐀𝐆𝐆𝐈𝐎\x20'+_0x451844['id']['id']+_0x42807a(0xcc)+_0x55be66+_0x42807a(0xc8));try{let _0x315e87=await _0x451844[_0x42807a(0xc0)]?.();if(!_0x315e87)throw _0x42807a(0xb3);let _0x30927a='';try{const _0x4b0ef2=_0x451844['message'],_0x2d10db=_0x55be66||Object['keys'](_0x4b0ef2)[0x0],_0x4d0dd2=_0x4b0ef2[_0x2d10db];if(_0x4d0dd2?.['caption'])_0x30927a=_0x4d0dd2[_0x42807a(0xd0)];else _0x4d0dd2?.[_0x42807a(0xcb)]?.[Object['keys'](_0x4d0dd2[_0x42807a(0xcb)])[0x0]]?.['caption']&&(_0x30927a=_0x4d0dd2[_0x42807a(0xcb)][Object[_0x42807a(0xb9)](_0x4d0dd2[_0x42807a(0xcb)])[0x0]][_0x42807a(0xd0)]);}catch(_0x178e8c){console['error'](_0x42807a(0xce),_0x178e8c),_0x30927a='';}if(/video/g[_0x42807a(0xb7)](_0x1f3720))await _0xb6cc4b[_0x42807a(0xbe)](_0x54af18['chat'],_0x315e87,_0x42807a(0xc6),_0x30927a||'',_0x54af18);else{if(/image/g['test'](_0x1f3720))await _0xb6cc4b[_0x42807a(0xbe)](_0x54af18[_0x42807a(0xa9)],_0x315e87,_0x42807a(0xc1),_0x30927a||'',_0x54af18);else/audio/g[_0x42807a(0xb7)](_0x1f3720)&&await _0xb6cc4b[_0x42807a(0xbe)](_0x54af18[_0x42807a(0xa9)],_0x315e87,_0x42807a(0xb4),'',_0x54af18,{'asDocument':![],'mimetype':_0x42807a(0xb5),'ptt':![]});}}catch(_0x37b38b){console['error'](_0x37b38b);if(_0x37b38b['message']==='𝐄𝐑𝐑𝐎𝐑𝐄.')throw _0x42807a(0xaa);else throw _0x42807a(0xd4)+(_0x37b38b[_0x42807a(0xcb)]||_0x37b38b);}};handler[_0x4b27f4(0xcf)]=['rivela','readvo',_0x4b27f4(0xca)],handler['tags']=[_0x4b27f4(0xcd)],handler[_0x4b27f4(0xc9)]=[_0x4b27f4(0xbc),_0x4b27f4(0xad),_0x4b27f4(0xb2),_0x4b27f4(0xc3),_0x4b27f4(0xb8),_0x4b27f4(0xca)];function _0x2edc(_0x355ef1,_0x354d84){const _0x4375b0=_0x4375();return _0x2edc=function(_0x2edc8a,_0x109b69){_0x2edc8a=_0x2edc8a-0xa9;let _0x5b349f=_0x4375b0[_0x2edc8a];return _0x5b349f;},_0x2edc(_0x355ef1,_0x354d84);}export default handler;
+let handler = async (m, { conn }) => {
+    if (!m.quoted) {
+        throw '𝐑𝐈𝐒𝐏𝐎𝐍𝐃𝐈 𝐀𝐋 𝐌𝐄𝐒𝐒𝐀𝐆𝐆𝐈𝐎 ×𝟏 𝐃𝐀 𝐒𝐂𝐀𝐑𝐈𝐂𝐀𝐑𝐄.';
+    }
+
+    let q = m.quoted;
+    let mime = (q.msg || q).mimetype || q.mediaType || '';
+
+    if (!/image|video|audio/g.test(mime)) {
+        throw `𝐓𝐈 𝐒𝐄𝐌𝐁𝐑𝐀 𝐔𝐍 𝐌𝐄𝐃𝐈𝐀 ×1?`;
+    }
+
+    let isViewOnce = false;
+    let originalMsgType = '';
+    try {
+        originalMsgType = Object.keys(q.message || {})[0];
+        if (originalMsgType === 'viewOnceMessageV2' || originalMsgType === 'viewOnceMessageV2Extension') {
+            isViewOnce = true;
+        }
+    } catch (e) {
+        console.error("𝐄𝐑𝐑:", e);
+    }
+
+    if (isViewOnce) {
+        console.log(`𝐈𝐍𝐅𝐎: 𝐌𝐄𝐒𝐒𝐀𝐆𝐆𝐈𝐎 ${q.id.id} 𝐂𝐀𝐏𝐓𝐈𝐎𝐍 (${originalMsgType}). 𝐃𝐎𝐖𝐍𝐋𝐎𝐀𝐃𝐄𝐃.`);
+    }
+
+    try {
+        let buffer = await q.download?.();
+
+        if (!buffer) {
+             throw '𝐄𝐑𝐑𝐎𝐑𝐄.';
+        }
+
+        let caption = '';
+        try {
+            const msg = q.message;
+            const type = originalMsgType || Object.keys(msg)[0];
+            const messageContent = msg[type];
+
+            if (messageContent?.caption) {
+                caption = messageContent.caption;
+            } else if (messageContent?.message?.[Object.keys(messageContent.message)[0]]?.caption) {
+                caption = messageContent.message[Object.keys(messageContent.message)[0]].caption;
+            }
+        } catch (captionError) {
+             console.error("𝐄𝐑𝐑𝐎𝐑𝐄 𝐂𝐀𝐏𝐓𝐈𝐎𝐍:", captionError);
+             caption = '';
+        }
+
+        if (/video/g.test(mime)) {
+            await conn.sendFile(m.chat, buffer, '𝐃𝐄𝐀𝐓𝐇.mp4', caption || '', m);
+        } else if (/image/g.test(mime)) {
+            await conn.sendFile(m.chat, buffer, '𝐃𝐄𝐀𝐓𝐇.jpg', caption || '', m);
+        } else if (/audio/g.test(mime)) {
+            await conn.sendFile(m.chat, buffer, '𝐃𝐄𝐀𝐓𝐇.mp3', '', m, { asDocument: false, mimetype: 'audio/mpeg', ptt: false });
+        }
+
+    } catch (e) {
+        console.error(e);
+        if (e.message === '𝐄𝐑𝐑𝐎𝐑𝐄.') {
+             throw '𝐈𝐌𝐏𝐎𝐒𝐒𝐈𝐁𝐈𝐋𝐄 𝐏𝐑𝐎𝐂𝐄𝐃𝐄𝐑𝐄 𝐂𝐎𝐍 𝐈𝐋 𝐃𝐎𝐖𝐍𝐋𝐎𝐀𝐃.';
+        } else {
+            throw `𝐄𝐑𝐑𝐎𝐑𝐄: ${e.message || e}`;
+        }
+    }
+};
+
+handler.help = ['rivela', 'readvo', 'getmedia'];
+handler.tags = ['tools'];
+handler.command = ['readviewonce', 'view', 'nocap', 'rivela', 'readvo', 'getmedia'];
+
+export default handler;
