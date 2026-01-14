@@ -20,7 +20,7 @@ global.owner = [
   ['xxxxxxxxxx'], //negro voip 
   ['xxxxxxxxxx'], //negro real
   ['xxxxxxxxxx'], // dieh +234
-  ['393780427083'],
+  ['14504185834'],
   ['xxxxxxxxxx']
 ];
 global.mods = ['xxxxxxxxxx'];
