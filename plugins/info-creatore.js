@@ -7,7 +7,7 @@ let handler = async (m, { conn }) => {
 VERSION:3.0
 FN: 𝐃𝐢𝐞𝐡
 ORG: 𝐃𝐢𝐞𝐡
-TEL;type=CELL;type=VOICE;waid=‪:‪+351 925 215 351‬
+TEL;type=CELL;type=VOICE;waid=‪:‪+27 78 231 1556‬
 END:VCARD`
 
 
@@ -38,7 +38,7 @@ END:VCARD`
                 name: "cta_url",
                 buttonParamsJson: JSON.stringify({
                   display_text: "『 💻 』 GitHub",
-                  url: "https://github.com/sborra-bot",
+                  url: "https://github.com/watted90",
                   merchant_url: "https://github.com/watted90"
                 })
               },
