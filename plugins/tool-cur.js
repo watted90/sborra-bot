@@ -143,7 +143,7 @@ const handler = async (m, { conn, args, usedPrefix, text, command }) => {
         { buttonId: `.playvideo ${artist} - ${title}`, buttonText: { displayText: '🎥 Scarica video' }, type: 1 },
       ],
       headerType: 4,
-      footer: `.`
+      footer: `𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭-𝐌𝐃`
     }
 
     await conn.sendMessage(m.chat, msg, { quoted: m })
