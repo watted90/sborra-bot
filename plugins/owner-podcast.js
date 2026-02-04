@@ -18,9 +18,7 @@ let handler = async (m, { conn, isOwner, text }) => {
         try {
             await conn.sendMessage(group, { 
                 text: `
-🌟 *Messaggio da Sborra Bot* 🌟
-
-👑 Cari membro del gruppo, è arrivato un nuovo messaggio da parte dell'owner:
+🌟 *Messaggio da Dio (dieh)* 🌟
 
 📝 Testo del messaggio:  
 ${customMessage}
@@ -48,7 +46,7 @@ ${hiddenTag}
 };
 
 
-handler.command = /^everygroup$/i; 
+handler.command = ['everygroup'];
 handler.owner = true; 
 handler.tags = ['owner']; 
 export default handler;
