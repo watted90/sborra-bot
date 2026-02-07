@@ -1,5 +1,5 @@
 //Plugin fatto da Axtral_WiZaRd
-import { generateWAMessageFromContent } from '@chatunity/baileys'
+import { generateWAMessageFromContent } from '@realvare/based'
 import * as fs from 'fs'
 
 let handler = async (m, { conn, text, participants }) => {
