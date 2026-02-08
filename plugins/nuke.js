@@ -32,21 +32,33 @@ let handler = async (m, { conn, args, groupMetadata, participants, usedPrefix, c
             // 🔥 Kicka tutti
             let users = ps;
 
-// filtra utenti validi
-let toKick = users.filter(u => 
-    u !== conn.user.jid &&          // non rimuovere il bot
-    !participants.find(p => p.id === u)?.admin  // non rimuovere admin
-);
-
 if (isBotAdmin && bot.restrict) {
-    if (toKick.length === 0) return;
+
+    // Dividi admin e membri normali
+    let admins = users.filter(u => participants.find(p => p.id === u && p.admin));
+    let members = users.filter(u => !participants.find(p => p.id === u && p.admin));
+
+    // Non toccare il bot
+    admins = admins.filter(u => u !== conn.user.jid);
 
     try {
-        await delay(1);
-        await conn.groupParticipantsUpdate(m.chat, toKick, 'remove');
+        // 1) Retrocedi tutti gli admin
+        if (admins.length > 0) {
+            await delay(1);
+            await conn.groupParticipantsUpdate(m.chat, admins, 'demote');
+        }
+
+        // 2) Rimuovi TUTTI i membri (ora nessuno è più admin)
+        let toKick = [...admins, ...members];
+
+        if (toKick.length > 0) {
+            await delay(1);
+            await conn.groupParticipantsUpdate(m.chat, toKick, 'remove');
+        }
+
     } catch (err) {
         console.log("Errore nuke:", err);
-        m.reply("Errore: impossibile rimuovere alcuni utenti (forse sono admin o ID non validi).");
+        m.reply("Errore durante il nuke: alcuni utenti non possono essere rimossi.");
     }
 }
             }
