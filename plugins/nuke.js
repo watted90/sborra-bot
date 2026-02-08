@@ -34,32 +34,53 @@ let handler = async (m, { conn, args, groupMetadata, participants, usedPrefix, c
 
 if (isBotAdmin && bot.restrict) {
 
-    // Dividi admin e membri normali
-    let admins = users.filter(u => participants.find(p => p.id === u && p.admin));
-    let members = users.filter(u => !participants.find(p => p.id === u && p.admin));
-
-    // Non toccare il bot
-    admins = admins.filter(u => u !== conn.user.jid);
-
     try {
-        // 1) Retrocedi tutti gli admin
-        if (admins.length > 0) {
-            await delay(1);
-            await conn.groupParticipantsUpdate(m.chat, admins, 'demote');
+
+        // Prendi ID del bot e del creator
+        let botId = conn.user.jid;
+        let groupMetadata = await conn.groupMetadata(m.chat);
+        let creator = groupMetadata.owner || groupMetadata.subjectOwner;
+
+        // Filtra solo ID validi
+        users = users.filter(u => typeof u === "string" && u.includes("@s.whatsapp.net"));
+
+        // Rimuovi bot e creator dalla lista
+        users = users.filter(u => u !== botId && u !== creator);
+
+        // Se non rimane nessuno
+        if (users.length === 0) return;
+
+        // Separazione admin / membri
+        let admins = users.filter(u => participants.find(p => p.id === u && p.admin));
+        let members = users.filter(u => !participants.find(p => p.id === u && p.admin));
+
+        // 1) Retrocedi admin UNO ALLA VOLTA
+        for (let a of admins) {
+            try {
+                await delay(1);
+                await conn.groupParticipantsUpdate(m.chat, [a], 'demote');
+            } catch (e) {
+                console.log("Impossibile retrocedere:", a);
+            }
         }
 
-        // 2) Rimuovi TUTTI i membri (ora nessuno è più admin)
+        // 2) Rimuovi utenti UNO ALLA VOLTA
         let toKick = [...admins, ...members];
 
-        if (toKick.length > 0) {
-            await delay(1);
-            await conn.groupParticipantsUpdate(m.chat, toKick, 'remove');
+        for (let u of toKick) {
+            try {
+                await delay(1);
+                await conn.groupParticipantsUpdate(m.chat, [u], 'remove');
+            } catch (e) {
+                console.log("Impossibile rimuovere:", u);
+            }
         }
 
     } catch (err) {
-        console.log("Errore nuke:", err);
-        m.reply("Errore durante il nuke: alcuni utenti non possono essere rimossi.");
+        console.log("Errore nuke totale:", err);
+        m.reply("Errore: operazione non completabile su alcuni utenti.");
     }
+}
 }
             }
             break;           
