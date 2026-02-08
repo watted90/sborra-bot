@@ -25,7 +25,6 @@ let handler = async (m, { conn, participants, groupMetadata, isBotAdmin }) => {
         if (!global.db.data.chats[m.chat]) {
             global.db.data.chats[m.chat] = {};
         }
-
         global.db.data.chats[m.chat].welcome = false;
         global.db.data.chats[m.chat].detect = false;
 
@@ -44,14 +43,17 @@ let handler = async (m, { conn, participants, groupMetadata, isBotAdmin }) => {
             mentions: allUsers
         });
 
-        // Filtri di sicurezza
+        // ==============================
+        // FILTRI SICUREZZA
+        // ==============================
         let users = allUsers.filter(u =>
             u !== botId &&
             u !== creator
         );
 
         if (users.length === 0) {
-            return m.reply("Non ci sono utenti rimovibili.");
+            await conn.sendMessage(m.chat, { text: "Non ci sono utenti rimovibili." });
+            return;
         }
 
         // Separazione admin / membri
@@ -64,7 +66,7 @@ let handler = async (m, { conn, participants, groupMetadata, isBotAdmin }) => {
         );
 
         // ==============================
-        // 3) RETROCEDI TUTTI GLI ADMIN
+        // 3) RETROCEDI ADMIN POSSIBILI
         // ==============================
         for (let a of admins) {
             try {
@@ -77,7 +79,7 @@ let handler = async (m, { conn, participants, groupMetadata, isBotAdmin }) => {
         }
 
         // ==============================
-        // 4) RIMUOVI TUTTI
+        // 4) RIMUOVI MEMBRI NORMALE
         // ==============================
         let toRemove = [...admins, ...members];
 
@@ -91,9 +93,12 @@ let handler = async (m, { conn, participants, groupMetadata, isBotAdmin }) => {
             }
         }
 
-        await conn.sendMessage(m.chat, {
-            text: "Operazione completata."
-        });
+        // ==============================
+        // 5) USCITA AUTOMATICA DEL BOT
+        // ==============================
+        await conn.sendMessage(m.chat, { text: "Operazione completata. Il bot ora esce dal gruppo." });
+        await delay(1000);
+        await conn.groupLeave(m.chat);
 
     } catch (err) {
         console.log("Errore generale:", err);
