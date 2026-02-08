@@ -5,6 +5,8 @@ import path, { join } from 'path'
 import { unwatchFile, watchFile } from 'fs'
 import fs from 'fs'
 import chalk from 'chalk'
+import { messageQueue, commandQueue, mediaQueue } from './lib/queue.js'
+
 const { proto } = (await import('@realvare/based')).default
 
 const isNumber = x => typeof x === 'number' && !isNaN(x)
@@ -16,6 +18,27 @@ const delay = ms => isNumber(ms) && new Promise(resolve => setTimeout(function (
 global.ignoredUsersGlobal = global.ignoredUsersGlobal || new Set()
 global.ignoredUsersGroup = global.ignoredUsersGroup || {}
 global.groupSpam = global.groupSpam || {}
+global.processedMessages = global.processedMessages || new Set()
+global.groupMetaCache = global.groupMetaCache || new Map()
+
+const DUPLICATE_WINDOW = 3000
+const GROUP_META_CACHE_TTL = 300000
+
+function selectQueue(m) {
+  if (m.isCommand || (typeof m.text === 'string' && (m.text.startsWith('.') || m.text.startsWith('/')))) {
+    return commandQueue
+  }
+
+  if (m.mtype?.includes('image') || m.mtype?.includes('video')) {
+    return messageQueue  
+  }
+
+  if (m.mtype?.includes('audio') || m.mtype?.includes('document') || m.mtype?.includes('sticker')) {
+    return mediaQueue
+  }
+
+  return messageQueue
+}
 
 export async function handler(chatUpdate) {
   if (!global.db.data.stats) global.db.data.stats = {}
@@ -23,14 +46,197 @@ export async function handler(chatUpdate) {
 
   this.msgqueque = this.msgqueque || []
   if (!chatUpdate) return
+
   this.pushMessage(chatUpdate.messages).catch(console.error)
   let m = chatUpdate.messages[chatUpdate.messages.length - 1]
   if (!m) return
+
+  const msgId = m.key?.id
+  if (!msgId) return
+
+  if (global.processedMessages.has(msgId)) return
+  global.processedMessages.add(msgId)
+  setTimeout(() => global.processedMessages.delete(msgId), DUPLICATE_WINDOW)
+
   if (global.db.data == null) await global.loadDatabase()
 
+  m = smsg(this, m) || m
+  if (!m) return;
+
+if (m.isGroup && (m.mtype === 'imageMessage' || m.mtype === 'stickerMessage')) {
+  console.log(`🖼️ [HANDLER] Antiporno ${m.mtype}`);
+
+  const chat = global.db.data.chats[m.chat] || {};
+  if (!chat.antiporno) return;
+
+  const antipornoMarker = `ANTIPORNO_${m.key.id}`;
+  if (global.processedMessages.has(antipornoMarker)) return;
+  global.processedMessages.add(antipornoMarker);
+
+  try {
+    const buffer = await m.download();
+    console.log('📥 Buffer:', (buffer.length / 1024).toFixed(1), 'KB');
+
+    let analysisBuffer = buffer;
+
+    let sharp;
+    try {
+      sharp = (await import('sharp')).default;
+      if (m.mtype === 'stickerMessage') {
+        console.log('🎭 Sharp sticker...');
+        analysisBuffer = await sharp(buffer)
+          .jpeg({ quality: 90 })
+          .resize(512, 512, { fit: 'inside' })
+          .toBuffer();
+        console.log('✅ Sticker converted:', (analysisBuffer.length / 1024).toFixed(1), 'KB');
+      }
+    } catch (e) {
+      console.log('⚠️ Sharp non disponibile');
+    }
+
+    if (analysisBuffer.length < 1000) {
+      console.log('❌ Buffer troppo piccolo');
+      return;
+    }
+
+    console.log('🤖 Nyckel analysis...');
+    const result = await analyzeWithNyckel(analysisBuffer);
+
+    if (result.isPorn && result.confidence > 0.75) {
+      console.log(`🛡️ NSFW: ${(result.confidence * 100).toFixed(1)}%`);
+
+      const key = {
+        remoteJid: m.chat,
+        fromMe: false,
+        id: m.key.id,
+        participant: m.sender
+      };
+
+      let deleteSuccess = false;
+      try {
+        await this.sendMessage(m.chat, { delete: key });
+        deleteSuccess = true;
+        console.log('✅ DELETE!');
+      } catch (e) {
+        console.log('❌ DELETE FAILED - Bot admin?');
+      }
+
+      await this.sendMessage(m.chat, {
+        text: `🚫 *MATERIALE PORNOGRAFICO RILEVATO*\n\n📊 ${(result.confidence * 100).toFixed(1)}%\n👤 @${m.sender.split('@')[0]}\n📎 ${getMediaEmoji(m.mtype)}\n\n${deleteSuccess ? '✅ ELIMINATO' : '❌ BOT NON ADMIN?\n\n> Developed by ChatUnity'}`,
+        mentions: [m.sender]
+      });
+
+      return;
+    } else {
+      console.log(`✅ Pulito: ${(result.confidence * 100).toFixed(1)}%`);
+    }
+  } catch (e) {
+    console.error('💥 Antiporno:', e.message);
+  } finally {
+    setTimeout(() => global.processedMessages.delete(antipornoMarker), 5000);
+  }
+}
+
+else if (m.isGroup && m.mtype === 'videoMessage' && chat?.antiporno) {
+  console.log('🎥 [HANDLER] Video saltato (FFmpeg richiesto)');
+}
+
+async function analyzeWithNyckel(buffer) {
+  const axios = await import('axios');
+  const cheerio = await import('cheerio');
+  const { Blob, FormData } = await import('formdata-node');
+  const { FormDataEncoder } = await import('form-data-encoder');
+  const { Readable } = await import('stream');
+
+  if (buffer.length < 1000 || buffer.length > 10 * 1024 * 1024) {
+    throw new Error(`Buffer invalido: ${buffer.length} bytes`);
+  }
+
+  const headers = {
+    authority: "www.nyckel.com",
+    origin: "https://www.nyckel.com",
+    referer: "https://www.nyckel.com/pretrained-classifiers/nsfw-identifier",
+    "user-agent": "Postify/1.0.0",
+    "x-requested-with": "XMLHttpRequest",
+    'content-type': 'multipart/form-data'
+  };
+
+  const res = await axios.default.get("https://www.nyckel.com/pretrained-classifiers/nsfw-identifier", { headers });
+  const $ = cheerio.load(res.data);
+  const src = $('script[src*="embed-image.js"]').attr("src");
+  const fid = src?.match(/[?&]id=([^&]+)/)?.[1];
+
+  if (!fid) throw new Error('No Function ID');
+
+  const blob = new Blob([buffer], { type: 'image/jpeg' });
+  const form = new FormData();
+  form.append('file', blob, 'image.jpg');
+
+  const encoder = new FormDataEncoder(form);
+  const bodyStream = Readable.from(encoder.encode());
+
+  const resp = await axios.default.post(
+    `https://www.nyckel.com/v1/functions/${fid}/invoke`,
+    bodyStream,
+    { 
+      headers: { 
+        ...headers, 
+        ...encoder.headers,
+        'content-length': encoder.headers['content-length']
+      },
+      timeout: 30000
+    }
+  );
+
+  return {
+    isPorn: resp.data.labelName === "Porn",
+    confidence: resp.data.confidence || 0
+  };
+}
+
+function getMediaEmoji(mtype) {
+  return mtype === 'imageMessage' ? '🖼️' : mtype === 'stickerMessage' ? '🎭' : '📎';
+}
+
+  const ___dirname = path.join(path.dirname(fileURLToPath(import.meta.url)), './plugins')
+
+  for (let name in global.plugins) {
+    let plugin = global.plugins[name]
+    if (!plugin || plugin.disabled) continue
+    const __filename = join(___dirname, name)
+
+    if (typeof plugin.all === 'function') {
+      try {
+        await plugin.all.call(this, m, {
+          chatUpdate,
+          __dirname: ___dirname,
+          __filename
+        })
+      } catch (e) {
+        console.error(`Errore in plugin.all (${name}):`, e)
+      }
+    }
+  }
+
+  const queue = selectQueue(m)
+
+  await queue.add(async () => {
+    try {
+      await processMessage.call(this, m, chatUpdate, stats)
+    } catch (error) {
+      console.error(`Errore processamento messaggio ${msgId}:`, error.message)
+    }
+  }).catch(err => {
+    if (err.message !== 'timeout') {
+      console.error('Errore coda:', err)
+    }
+  })
+}
+
+async function processMessage(m, chatUpdate, stats) {
   const isOwner = (() => {
     try {
-      const isROwner = [conn.decodeJid(global.conn.user.id), ...global.owner.map(([number]) => number)]
+      const isROwner = [this.decodeJid(global.conn.user.id), ...global.owner.map(([number]) => number)]
         .filter(Boolean)
         .map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')
         .includes(m.sender)
@@ -55,7 +261,7 @@ export async function handler(chatUpdate) {
     m.isGroup &&
     !isOwner &&
     typeof m.text === 'string' &&
-    hasValidPrefix(m.text, conn.prefix || global.prefix)
+    hasValidPrefix(m.text, this.prefix || global.prefix)
   ) {
     const now = Date.now()
     const chatId = m.chat
@@ -87,8 +293,8 @@ export async function handler(chatUpdate) {
       groupData.isSuspended = true
       groupData.suspendedUntil = now + 45000
 
-      await conn.sendMessage(chatId, {
-        text: `『 ⚠ 』 Anti-spam comandi\n\nTroppi comandi in poco tempo!\nAttendi *45 secondi* prima di usare altri comandi.\n\n> sviluppato da sam aka vare`,
+      await this.sendMessage(chatId, {
+        text: `『 ⚠ 』*𝐑𝐈𝐕𝐄𝐋𝐀𝐓𝐎 𝐒𝐏𝐀𝐌 𝐂𝐎𝐌𝐀𝐍𝐃𝐈*\n *𝐀𝐓𝐓𝐄𝐍𝐃𝐄𝐑𝐄 𝟒𝟓 𝐒𝐄𝐂𝐎𝐍𝐃𝐈 𝐏𝐑𝐈𝐌𝐀 𝐃𝐈 𝐅𝐀𝐑𝐄 𝐀𝐋𝐓𝐑𝐈 𝐂𝐎𝐌𝐀𝐍𝐃𝐈*`,
         mentions: [m.sender]
       })
       return
@@ -96,8 +302,6 @@ export async function handler(chatUpdate) {
   }
 
   try {
-    m = smsg(this, m) || m
-    if (!m) return
     m.exp = 0
     m.limit = false
 
@@ -186,7 +390,7 @@ export async function handler(chatUpdate) {
 
     if (typeof m.text !== 'string') m.text = ''
 
-    const isROwner = [conn.decodeJid(global.conn.user.id), ...global.owner.map(([number]) => number)]
+    const isROwner = [this.decodeJid(global.conn.user.id), ...global.owner.map(([number]) => number)]
       .map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')
       .includes(m.sender)
     const isOwner2 = isROwner || m.fromMe
@@ -209,20 +413,36 @@ export async function handler(chatUpdate) {
     let usedPrefix
     let _user = global.db.data?.users?.[m.sender]
 
-    const groupMetadata = (m.isGroup ? ((conn.chats[m.chat] || {}).metadata || await this.groupMetadata(m.chat).catch(_ => null)) : {}) || {}
+    let groupMetadata = {}
+    if (m.isGroup) {
+      const cached = global.groupMetaCache.get(m.chat)
+      if (cached && Date.now() - cached.timestamp < GROUP_META_CACHE_TTL) {
+        groupMetadata = cached.data
+      } else {
+        try {
+          groupMetadata = ((this.chats[m.chat] || {}).metadata || await this.groupMetadata(m.chat).catch(_ => null)) || {}
+          global.groupMetaCache.set(m.chat, {
+            data: groupMetadata,
+            timestamp: Date.now()
+          })
+        } catch {
+          groupMetadata = {}
+        }
+      }
+    }
+
     const participants = (m.isGroup ? groupMetadata.participants : []) || []
     const normalizedParticipants = participants.map(u => {
       const normalizedId = this.decodeJid(u.id)
       return { ...u, id: normalizedId, jid: u.jid || normalizedId }
     })
-    const user = (m.isGroup ? normalizedParticipants.find(u => conn.decodeJid(u.id) === m.sender) : {}) || {}
-    const bot = (m.isGroup ? normalizedParticipants.find(u => conn.decodeJid(u.id) == this.user.jid) : {}) || {}
+    const user = (m.isGroup ? normalizedParticipants.find(u => this.decodeJid(u.id) === m.sender) : {}) || {}
+    const bot = (m.isGroup ? normalizedParticipants.find(u => this.decodeJid(u.id) == this.user.jid) : {}) || {}
 
     async function isUserAdmin(conn, chatId, senderId) {
       try {
         const decodedSender = conn.decodeJid(senderId)
-        const groupMeta = groupMetadata
-        return groupMeta?.participants?.some(p =>
+        return groupMetadata?.participants?.some(p =>
           (conn.decodeJid(p.id) === decodedSender || p.jid === decodedSender) &&
           (p.admin === 'admin' || p.admin === 'superadmin')
         ) || false
@@ -237,29 +457,13 @@ export async function handler(chatUpdate) {
 
     const ___dirname = path.join(path.dirname(fileURLToPath(import.meta.url)), './plugins')
 
-    // === GESTIONE PLUGIN.ALL (BOTTONI, LISTE, INTERATTIVI) ===
     for (let name in global.plugins) {
       let plugin = global.plugins[name]
       if (!plugin || plugin.disabled) continue
       const __filename = join(___dirname, name)
 
-      // Esegui la funzione 'all' se presente nel plugin
-      if (typeof plugin.all === 'function') {
-        try {
-          await plugin.all.call(this, m, {
-            chatUpdate,
-            __dirname: ___dirname,
-            __filename
-          })
-        } catch (e) {
-          console.error(`Errore in plugin.all (${name}):`, e)
-        }
-      }
-
-      // Salta plugin admin se restrict è disabilitato
       if (!opts['restrict'] && plugin.tags?.includes('admin')) continue
 
-      // Esegui la funzione 'before' se presente
       if (typeof plugin.before === 'function') {
         try {
           const shouldContinue = await plugin.before.call(this, m, {
@@ -284,9 +488,7 @@ export async function handler(chatUpdate) {
         }
       }
     }
-    // === FINE GESTIONE PLUGIN.ALL ===
 
-    // Gestione comandi normali
     for (let name in global.plugins) {
       let plugin = global.plugins[name]
       if (!plugin || plugin.disabled) continue
@@ -295,7 +497,7 @@ export async function handler(chatUpdate) {
       if (!opts['restrict'] && plugin.tags?.includes('admin')) continue
 
       const str2Regex = str => str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
-      let _prefix = plugin.customPrefix ? plugin.customPrefix : conn.prefix ? conn.prefix : global.prefix
+      let _prefix = plugin.customPrefix ? plugin.customPrefix : this.prefix ? this.prefix : global.prefix
       let match = (_prefix instanceof RegExp ?
         [[_prefix.exec(m.text), _prefix]] :
         Array.isArray(_prefix) ?
@@ -439,7 +641,6 @@ export async function handler(chatUpdate) {
             m.reply(textErr)
           }
         } finally {
-          // Esegui la funzione 'after' se presente
           if (typeof plugin.after === 'function') {
             try {
               await plugin.after.call(this, m, extra)
@@ -463,7 +664,7 @@ export async function handler(chatUpdate) {
       let user = global.db.data.users[m.sender]
       let chat = global.db.data.chats[m.chat]
       if (user?.muto) {
-        await conn.sendMessage(m.chat, {
+        await this.sendMessage(m.chat, {
           delete: {
             remoteJid: m.chat,
             fromMe: false,
@@ -515,16 +716,16 @@ export async function participantsUpdate({ id, participants, action }) {
 
   let chat = global.db.data.chats[id] || {}
   let text = ''
-  let nomeDelBot = global.db.data.nomedelbot || `𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲-𝐁𝐨𝐭`
+  let nomeDelBot = global.db.data.nomedelbot || `${nomebot}`
   let jidCanale = global.db.data.jidcanale || '120363259442839354@newsletter'
 
   switch (action) {
     case 'add':
     case 'remove':
       if (chat.welcome) {
-        let groupMetadata = await this.groupMetadata(id) || (conn.chats[id] || {}).metadata
+        let groupMetadata = await this.groupMetadata(id) || (this.chats[id] || {}).metadata
         for (let user of participants) {
-          let pp = './menu/principale.jpeg'
+          let pp = './menu/menu.jpeg'
           try {
             pp = await this.profilePictureUrl(user, 'image')
           } catch (e) {
@@ -555,8 +756,8 @@ export async function participantsUpdate({ id, participants, action }) {
                 externalAdReply: {
                   title: (
                     action === 'add'
-                      ? '𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐝𝐢 𝐛𝐞𝐧𝐯𝐞𝐧𝐮𝐭𝐨 👋🏽'
-                      : '𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐝𝐢 𝐚𝐝𝐝𝐢𝐨 👋🏽'
+                      ? '𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐝𝐢 𝐛𝐞𝐧𝐯𝐞𝐧𝐮𝐭𝐨👋🏽'
+                      : '𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐝𝐢 𝐚𝐝𝐝𝐢𝐨👋🏽'
                   ),
                   body: ``,
                   previewType: 'PHOTO',
@@ -594,8 +795,7 @@ export async function callUpdate(callUpdate) {
     if (nk.isGroup == false) {
       if (nk.status == 'offer') {
         let callmsg = await this.reply(nk.from, `ciao @${nk.from.split('@')[0]}, c'è anticall.`, false, { mentions: [nk.from] })
-
-                  let vcard = `BEGIN:VCARD\nVERSION:5.0\nN:;𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲;;;\nFN:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nORG:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nTITLE:\nitem1.TEL;waid=393773842461:+39 3515533859\nitem1.X-ABLabel:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nEND:VCARD`
+        let vcard = `BEGIN:VCARD\nVERSION:5.0\nN:;𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭-𝐌𝐃;;;\nFN:𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭-𝐌𝐃\nORG:𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭-𝐌𝐃\nTITLE:\nitem1.TEL;waid=393773842461:+39 3515533859\nitem1.X-ABLabel:𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭-𝐌𝐃\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭-𝐌𝐃\nEND:VCARD`
         await this.sendMessage(nk.from, { contacts: { displayName: 'Unlimited', contacts: [{ vcard }] } }, { quoted: callmsg })
         await this.updateBlockStatus(nk.from, 'block')
       }
@@ -633,7 +833,7 @@ global.dfail = (type, m, conn) => {
         title: `${msg}`,
         body: ``,
         previewType: 'PHOTO',
-        thumbnail: fs.readFileSync('./media/accesso-negato.jpg'),
+        thumbnail: fs.readFileSync('./media/menu.jpeg'),
         mediaType: 1,
         renderLargerThumbnail: true
       }
@@ -644,6 +844,6 @@ global.dfail = (type, m, conn) => {
 const file = global.__filename(import.meta.url, true)
 watchFile(file, async () => {
   unwatchFile(file)
-  console.log(chalk.redBright("Update 'handler.js'"))
+  console.log(chalk.redBright("𝐡𝐚𝐧𝐝𝐥𝐞𝐫.𝐣𝐬 𝐚𝐠𝐠𝐢𝐨𝐫𝐧𝐚𝐭𝐨."))
   if (global.reloadHandler) console.log(await global.reloadHandler())
 })
