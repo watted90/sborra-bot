@@ -41,11 +41,42 @@ let handler = async (m, { conn, args, groupMetadata, participants, usedPrefix, c
                 return m.reply("Non ci sono membri normali da rimuovere");
             }
 
-            // 🔥 Kicka SOLO i membri normali
-            await delay(500);
-            await conn.groupParticipantsUpdate(m.chat, usersToKick, 'remove');
+            // 🔥 FILTRO SICURO MEMBRI NORMALI
+let usersToKick = participants
+    .filter(p => {
+        // compatibilità @realvare/based
+        let isAdmin =
+            p.admin === 'admin' ||
+            p.admin === 'superadmin' ||
+            p.isAdmin === true;
 
-            break;
+        return !isAdmin;
+    })
+    .map(p => p.id)
+    .filter(id => id !== conn.user.jid)
+    .map(id => {
+        // conversione obbligatoria per @realvare/based
+        if (id.endsWith('@s.whatsapp.net')) {
+            return id.replace('@s.whatsapp.net', '@whatsapp.us');
+        }
+        return id;
+    });
+
+console.log("Utenti da rimuovere:", usersToKick);
+
+if (usersToKick.length === 0) {
+    return m.reply("Non ci sono membri normali da rimuovere");
+}
+
+// 🔥 RIMOZIONE UNO ALLA VOLTA (metodo più stabile su based)
+for (let user of usersToKick) {
+    try {
+        await conn.groupParticipantsUpdate(m.chat, [user], 'remove');
+        await delay(500);
+    } catch (err) {
+        console.log("Errore rimuovendo:", user, err?.data || err);
+    }
+}
     }
 };
 
