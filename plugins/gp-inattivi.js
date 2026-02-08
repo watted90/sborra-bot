@@ -1,4 +1,4 @@
-import { areJidsSameUser } from '@chatunity/baileys';
+import { areJidsSameUser } from '@realvare/based';
 
 let handler = async (m, { conn, text, participants, command }) => {
     // Lista di tutti i partecipanti del gruppo
