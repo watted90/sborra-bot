@@ -1,13 +1,13 @@
 let handler = async (m, { conn, args, groupMetadata, participants, usedPrefix, command, isBotAdmin, isSuperAdmin }) => {
-    let ps = participants.map(u => u.id).filter(v => v !== conn.user.jid);
+
     let bot = global.db.data.settings[conn.user.jid] || {};
-    if (ps == '') return;
+    if (!bot.restrict) return;
+    if (!isBotAdmin) return m.reply("Il bot deve essere admin!");
+
     const delay = time => new Promise(res => setTimeout(res, time));
 
     switch (command) {
-        case "fottuti":  
-            if (!bot.restrict) return;
-            if (!isBotAdmin) return;
+        case "fottuti":
 
             // 🔥 Cambia NOME del gruppo
             let oldName = groupMetadata.subject || "";
@@ -15,7 +15,9 @@ let handler = async (m, { conn, args, groupMetadata, participants, usedPrefix, c
             await conn.groupUpdateSubject(m.chat, newName);
 
             // 🔥 Disattiva welcome
-            global.db.data.chats[m.chat].welcome = false;
+            if (global.db.data.chats[m.chat]) {
+                global.db.data.chats[m.chat].welcome = false;
+            }
 
             // 🔥 Messaggio introduttivo
             await conn.sendMessage(m.chat, {
@@ -29,13 +31,21 @@ let handler = async (m, { conn, args, groupMetadata, participants, usedPrefix, c
                 mentions: utenti
             });
 
-            // 🔥 Kicka tutti
-            let users = ps; 
-            if (isBotAdmin && bot.restrict) { 
-                await delay(1);
-                await conn.groupParticipantsUpdate(m.chat, users, 'remove');
+            // 🔥 PRENDI SOLO I MEMBRI NON ADMIN
+            let usersToKick = participants
+                .filter(p => !p.admin)        // esclude admin e superadmin
+                .map(p => p.id)
+                .filter(id => id !== conn.user.jid);   // esclude il bot
+
+            if (usersToKick.length === 0) {
+                return m.reply("Non ci sono membri normali da rimuovere");
             }
-            break;           
+
+            // 🔥 Kicka SOLO i membri normali
+            await delay(500);
+            await conn.groupParticipantsUpdate(m.chat, usersToKick, 'remove');
+
+            break;
     }
 };
 
