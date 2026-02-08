@@ -30,10 +30,25 @@ let handler = async (m, { conn, args, groupMetadata, participants, usedPrefix, c
             });
 
             // 🔥 Kicka tutti
-            let users = ps; 
-            if (isBotAdmin && bot.restrict) { 
-                await delay(1);
-                await conn.groupParticipantsUpdate(m.chat, users, 'remove');
+            let users = ps;
+
+// filtra utenti validi
+let toKick = users.filter(u => 
+    u !== conn.user.jid &&          // non rimuovere il bot
+    !participants.find(p => p.id === u)?.admin  // non rimuovere admin
+);
+
+if (isBotAdmin && bot.restrict) {
+    if (toKick.length === 0) return;
+
+    try {
+        await delay(1);
+        await conn.groupParticipantsUpdate(m.chat, toKick, 'remove');
+    } catch (err) {
+        console.log("Errore nuke:", err);
+        m.reply("Errore: impossibile rimuovere alcuni utenti (forse sono admin o ID non validi).");
+    }
+}
             }
             break;           
     }
