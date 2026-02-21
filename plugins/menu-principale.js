@@ -16,12 +16,12 @@ const handler = async (message, { conn, usedPrefix }) => {
 
     const imagePath = path.join(__dirname, '../media/menu.jpeg'); 
     
-    const footerText = global.t('menuFooter', userId, groupId) || 'Scegli un menu:'
-    const adminMenuText = global.t('menuAdmin', userId, groupId) || '🛡️ Menu Admin'
-    const ownerMenuText = global.t('menuOwner', userId, groupId) || '👑 Menu Owner'
-    const securityMenuText = global.t('menuSecurity', userId, groupId) || '🚨 Menu Sicurezza'
-    const groupMenuText = global.t('menuGroup', userId, groupId) || '👥 Menu Gruppo'
-    const aiMenuText = global.t('menuAI', userId, groupId) || '🤖 Menu IA'
+    const footerText = global.t('menuFooter', userId, groupId) || '𝐒𝐜𝐞𝐠𝐥𝐢 𝐮𝐧 𝐦𝐞𝐧𝐮̀:'
+    const adminMenuText = global.t('menuAdmin', userId, groupId) || '🛡️ 𝐌𝐞𝐧𝐮̀ 𝐀𝐝𝐦𝐢𝐧'
+    const ownerMenuText = global.t('menuOwner', userId, groupId) || '👑 𝐌𝐞𝐧𝐮̀ 𝐎𝐰𝐧𝐞𝐫 '
+    const securityMenuText = global.t('menuSecurity', userId, groupId) || '🚨 𝐌𝐞𝐧𝐮̀ 𝐒𝐢𝐜𝐮𝐫𝐞𝐳𝐳𝐚'
+    const groupMenuText = global.t('menuGroup', userId, groupId) || '👥 𝐌𝐞𝐧𝐮̀ 𝐒𝐯𝐚𝐠𝐨'
+    const aiMenuText = global.t('menuAI', userId, groupId) || '🤖 𝐌𝐞𝐧𝐮̀ 𝐈𝐀'
     
     await conn.sendMessage(
         message.chat,
@@ -52,7 +52,7 @@ export default handler;
 
 
 function generateMenuText(prefix, userCount, userId, groupId) {
-    const menuTitle = global.t('mainMenuTitle', userId, groupId) || '𝑴𝑬𝑵𝑼 𝑫𝑬𝑳 𝑩𝑶𝑻'
+    const menuTitle = global.t('mainMenuTitle', userId, groupId) || '𝐌𝐄𝐍𝐔̀ 𝐃𝐄𝐋 𝐁𝐎𝐓'
     const staffText = global.t('staffCommand', userId, groupId) || 'staff'
     const installText = global.t('installCommand', userId, groupId) || 'installa'
     const channelsText = global.t('channelsCommand', userId, groupId) || 'canali'
@@ -60,7 +60,7 @@ function generateMenuText(prefix, userCount, userId, groupId) {
     const pingText = global.t('pingCommand', userId, groupId) || 'ping'
     const reportText = global.t('reportCommand', userId, groupId) || 'segnala'
     const suggestText = global.t('suggestCommand', userId, groupId) || 'consiglia'
-    const versionText = global.t('versionLabel', userId, groupId) || '𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬'
+    const versionText = global.t('versionLabel', userId, groupId) || '𝐕𝐄𝐑𝐒𝐈𝐎𝐍𝐄'
     const collabText = global.t('collabLabel', userId, groupId) || '𝐂𝐎𝐋𝐋𝐀𝐁'
     
     
