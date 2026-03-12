@@ -4,8 +4,8 @@ let handler = async (m, { conn, text }) => {
   if (!number) return m.reply('❌ Numero non valido.');
   let jid = number + '@s.whatsapp.net';
   try {
-    let pp = await conn.profilePictureUrl(jid, 'image').catch(() => 'https:                                              
-    await conn.sendFile(m.chat, pp, '//telegra.ph/file/24fa902ead26340f3df2c.png');
+    let pp = await conn.profilePictureUrl(jid, 'image').catch(() => `https:                                              
+    await conn.sendFile(m.chat, pp, 'fp.jpg', `//telegra.ph/file/24fa902ead26340f3df2c.png`);
     await conn.sendFile(m.chat, pp, 'fp.jpg', `📸 Foto profilo di:\n+${number}`);
   } catch (e) {
     m.reply('❌ Impossibile ottenere la foto profilo.');
