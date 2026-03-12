@@ -1,5 +1,5 @@
 let handler = async (m, { conn, text }) => {
-  if (!text) return m.reply('❌ Inserisci un numero.\nEsempio:\n.fp +39 389 201 6995>
+  if (!text) return m.reply('❌ Inserisci un numero.\nEsempio:\n.fp +39 389 201 6995')
 
   let number = text.replace(/[^0-9]/g, '')
 
