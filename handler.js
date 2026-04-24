@@ -323,11 +323,13 @@ async function processMessage(m, chatUpdate, stats, activePlugins) {
         if (!('antispamcomandi' in chat)) chat.antispamcomandi = true
         if (!('welcome' in chat)) chat.welcome = true
         if (!('bye' in chat)) chat.bye = 'welcome' in chat ? !!chat.welcome : true
+        if (!Array.isArray(chat.moderatori)) chat.moderatori = []
       } else {
         global.db.data.chats[m.chat] = {
           name: this.getName(m.chat), isBanned: false, detect: true,
           delete: false, antiLink: true, antiTraba: true, expired: 0,
-          messaggi: 0, antispamcomandi: true, welcome: true, bye: true
+          messaggi: 0, antispamcomandi: true, welcome: true, bye: true,
+          moderatori: []
         }
       }
 
@@ -393,6 +395,7 @@ async function processMessage(m, chatUpdate, stats, activePlugins) {
     let isRAdmin = user?.admin == 'superadmin' || false
     let isAdmin = m.isGroup ? hasAdminRole(user) : false
     let isBotAdmin = m.isGroup ? hasAdminRole(bot) : false
+    let isModerator = m.isGroup ? (global.db.data.chats[m.chat]?.moderatori || []).includes(m.sender) : false
 
     if (m.isGroup && (!user || !bot)) {
       const freshMetadata = await getGroupMetadataCached(this, m.chat, { force: true })
@@ -409,6 +412,7 @@ async function processMessage(m, chatUpdate, stats, activePlugins) {
         isRAdmin = user?.admin == 'superadmin' || false
         isAdmin = hasAdminRole(user)
         isBotAdmin = hasAdminRole(bot)
+        isModerator = m.isGroup ? (global.db.data.chats[m.chat]?.moderatori || []).includes(m.sender) : false
       }
     }
 
@@ -421,7 +425,7 @@ async function processMessage(m, chatUpdate, stats, activePlugins) {
         try {
           const shouldContinue = await plugin.before.call(this, m, {
             conn: this, participants: normalizedParticipants, groupMetadata,
-            user, bot, isROwner, isOwner: isOwner2, isRAdmin, isAdmin,
+            user, bot, isROwner, isOwner: isOwner2, isRAdmin, isAdmin, isModerator,
             isBotAdmin, isPrems, chatUpdate, __dirname: ___dirname, __filename
           })
           if (shouldContinue) continue
@@ -474,7 +478,7 @@ async function processMessage(m, chatUpdate, stats, activePlugins) {
         let chatDb = global.db.data.chats[m.chat]
         let adminMode = chatDb?.soloadmin
         let mystica = `${plugin.botAdmin || plugin.admin || plugin.group || plugin || noPrefix || _prefix || m.text.slice(0, 1) == _prefix || plugin.command}`
-        if (adminMode && !isOwner2 && !isROwner && m.isGroup && !isAdmin && mystica) return
+        if (adminMode && !isOwner2 && !isROwner && m.isGroup && !isAdmin && !isModerator && mystica) return
 
         if (plugin.rowner && plugin.owner && !(isROwner || isOwner2)) { fail('owner', m, this); continue }
         if (plugin.rowner && !isROwner) { fail('rowner', m, this); continue }
@@ -483,7 +487,7 @@ async function processMessage(m, chatUpdate, stats, activePlugins) {
         if (plugin.premium && !isPrems) { fail('premium', m, this); continue }
         if (plugin.group && !m.isGroup) { fail('group', m, this); continue }
         else if (plugin.botAdmin && !isBotAdmin) { fail('botAdmin', m, this); continue }
-        else if (plugin.admin && !isAdmin) { fail('admin', m, this); continue }
+        else if (plugin.admin && !isAdmin && !isModerator) { fail('admin', m, this); continue }
         if (plugin.private && m.isGroup) { fail('private', m, this); continue }
         if (plugin.register == true && _user?.registered == false) { fail('unreg', m, this); continue }
 
@@ -499,7 +503,7 @@ async function processMessage(m, chatUpdate, stats, activePlugins) {
         let extra = {
           match, usedPrefix, noPrefix, _args, args, command, text,
           conn: this, normalizedParticipants, participants, groupMetadata,
-          user, bot, isROwner, isOwner: isOwner2, isRAdmin, isAdmin,
+          user, bot, isROwner, isOwner: isOwner2, isRAdmin, isAdmin, isModerator,
           isBotAdmin, isPrems, chatUpdate, __dirname: ___dirname, __filename,
           mentionedJid: m.mentionedJid || []
         }
@@ -633,6 +637,7 @@ export async function groupsUpdate(groupsUpdate) {
     invalidateGroupMetaCache(id)
     let chats = global.db.data.chats[id] || {}
     let text = ''
+
     if (groupUpdate.icon) text = (chats.sIcon || this.sIcon || '`immagine modificata`').replace('@icon', groupUpdate.icon)
     if (groupUpdate.revoke) text = (chats.sRevoke || this.sRevoke || '`link reimpostato, nuovo link:`\n@revoke').replace('@revoke', groupUpdate.revoke)
     if (!text) continue

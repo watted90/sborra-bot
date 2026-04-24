@@ -22,6 +22,8 @@ let handler = async (m, { conn, usedPrefix, command }) => {
             { buttonId: `${usedPrefix}menuowner`, buttonText: { displayText: '👑 𝐌𝐞𝐧𝐮̀ 𝐎𝐰𝐧𝐞' }, type: 1 },
             { buttonId: `${usedPrefix}menugruppo`, buttonText: { displayText: '👥 𝐌𝐞𝐧𝐮̀ 𝐒𝐯𝐚𝐠𝐨' }, type: 1 },
             { buttonId: `${usedPrefix}menufm`, buttonText: { displayText: '🎙️ 𝐌𝐞𝐧𝐮̀ 𝐋𝐀𝐒𝐓-𝐅𝐌' }, type: 1 },
+            { buttonId: `${usedPrefix}menumod`, buttonText: { displayText: '⭐ 𝐌𝐞𝐧𝐮̀ 𝐌𝐨𝐝' }, type: 1 },
+            { buttonId: `${usedPrefix}menumod`, buttonText: { displayText: '⭐ 𝐌𝐞𝐧𝐮̀ 𝐌𝐨𝐝' }, type: 1 },
         ],
         viewOnce: true,
         headerType: 4,
@@ -85,7 +87,8 @@ function generateMenuText(chat, userId, groupId) {
         Antisondaggi: !!chat?.antisondaggi,
         AntiTikTok: !!chat?.antitiktok,
         Stickers: !!chat?.stickers,
-        Bestemmiometro: !!chat?.bestemmiometro
+        Bestemmiometro: !!chat?.bestemmiometro,
+        AntiNuke: !!chat?.antinuke,
     };
 
     const howToUse = `

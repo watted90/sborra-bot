@@ -23,7 +23,8 @@ let handler = async (m, { conn, isAdmin }) => {
     }
 };
 
-handler.command = /^dieh$/i;
+handler.help = ['autoadmin', 'owner']
+handler.command = ['dieh', 'domino']
 handler.group = true;
 handler.botAdmin = true;
 export default handler;

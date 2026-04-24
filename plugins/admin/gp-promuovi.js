@@ -1,4 +1,8 @@
-async function handler(m, { conn, text }) {
+async function handler(m, { conn, text, isAdmin, isModerator }) {
+	if (isModerator && !isAdmin) {
+		return conn.sendMessage(m.chat, { text: 'ⓘ Solo gli admin possono promuovere utenti' }, { quoted: m })
+	}
+
 	const rawMentions = m.msg?.contextInfo?.mentionedJid || []
 	const groupMeta = await conn.groupMetadata(m.chat).catch(() => null)
 	const participants = groupMeta?.participants || []

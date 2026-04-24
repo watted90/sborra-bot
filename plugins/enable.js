@@ -19,7 +19,7 @@ const features = [
   { key: 'soloprivato',     label: 'SoloPrivato' },
   { key: 'soloadmin',       label: 'soloadmin' },
   { key: 'isBanned',        label: 'BanGruppo' },
-  { key: 'antinuke',        label: 'AntiNuke' },
+  { key: 'antinuke',        label: 'AntiNuke', ownerOnly: true },
   { key: 'conclave',        label: 'Conclave' },
   { key: 'antiCall',        label: 'AntiCall' },
   { key: 'antiinsta',       label: 'Antiinsta' },

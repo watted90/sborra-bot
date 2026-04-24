@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Database
+database.json
+lastfm_users.json
+
+# Temporary files
+temp/
+tmp/
+
+# Package lock (use yarn.lock or pnpm-lock.yaml instead)
+package-lock.json
+
+# Environment variables
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db

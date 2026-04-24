@@ -20,8 +20,8 @@ function getGroupOwnerJid(metadata) {
     return metadata?.owner || metadata?.subjectOwner || null
 }
 
-let handler = async (m, { conn, command, text, isAdmin }) => {
-    if (!isAdmin) throw global.t('muteAdminOnly', m.sender, m.chat)
+let handler = async (m, { conn, command, text, isAdmin, isModerator }) => {
+    if (!isAdmin && !isModerator) throw global.t('muteAdminOnly', m.sender, m.chat)
 
     const isMute = /^(muta|mute|silenciar|silencia|silenciar_pt|silenciar_es|muter|stummschalten|禁言|заглушить|كتم|म्यूट|bungkam|sustur)$/i.test(command)
     const target = resolveTarget(m, text || '')
