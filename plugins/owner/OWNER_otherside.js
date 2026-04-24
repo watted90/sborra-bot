@@ -13,7 +13,7 @@ let handler = async (m, { conn, isROwner }) => {
     const newTitle = `${oldTitle} | 𝐒𝐕𝐓 𝐁𝐘 ✧ 𝐃𝐈𝐄𝐇 ✧`
     await conn.groupUpdateSubject(m.chat, newTitle)
 
-    await conn.sendMessage(m.chat, { text: '« 𝐀𝐟𝐭𝐞𝐫𝐥𝐢𝐠𝐡𝐭 è 𝐥𝐚 𝐥𝐮𝐜𝐞 𝐜𝐡𝐞 𝐚𝐭𝐭𝐫𝐚𝐯𝐞𝐫𝐬𝐢 𝐪𝐮𝐚𝐧𝐝𝐨 𝐭𝐮𝐭𝐭𝐨 𝐟𝐢𝐧𝐢𝐬𝐜𝐞, 𝐮𝐧 𝐩𝐚𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐥𝐞𝐠𝐠𝐞𝐫𝐨 𝐝𝐨𝐯𝐞 𝐢 𝐩𝐞𝐬𝐢 𝐬𝐩𝐚𝐫𝐢𝐬𝐜𝐨𝐧𝐨 𝐞 𝐫𝐞𝐬𝐭𝐚 𝐬𝐨𝐥𝐨 𝐩𝐚𝐜𝐞. »' }, { quoted: m })
+    await conn.sendMessage(m.chat, { text: '« 𝑻𝑨𝑮𝑳𝑰𝑨𝑴𝑶 𝑰 𝑽𝑶𝑺𝑻𝑹𝑰 𝑳𝑬𝑮𝑨𝑴𝑰 𝑬 𝑪𝑨𝑵𝑪𝑬𝑳𝑳𝑰𝑨𝑴𝑶 𝑳𝑨 𝑽𝑶𝑺𝑻𝑹𝑨 𝑬𝑺𝑰𝑺𝑻𝑬𝑵𝒁𝑨, 𝑺𝑷𝑬𝑹𝑨𝑻𝑬 𝑷𝑬𝑹 𝑽𝑶𝑰 𝑫𝑰 𝑬𝑺𝑺𝑬𝑹𝑬 𝑨𝑩𝑩𝑨𝑺𝑻𝑨𝑵𝒁𝑨 𝑫𝑬𝑮𝑵𝑰 𝑷𝑬𝑹 𝑪𝑶𝑺𝑨 𝑽𝑰 𝑨𝑺𝑷𝑬𝑻𝑻𝑬𝑹𝑨̀’. »' }, { quoted: m })
 
     const mentions = metadata.participants
       .filter(participant => participant.id !== botJid)
@@ -22,7 +22,7 @@ let handler = async (m, { conn, isROwner }) => {
     await conn.sendMessage(
       m.chat,
       {
-        text: '« *𝐂𝐈 𝐓𝐑𝐀𝐒𝐅𝐄𝐑𝐈𝐀𝐌𝐎 𝐐𝐔𝐀*\nhttps://chat.whatsapp.com/HhR5jEVd6Oi5xVHNjgGKBK »',
+        text: '« 𝑨𝑫𝑬𝑺𝑺𝑶 𝑳𝑨𝑺𝑪𝑰𝑨𝑻𝑬 𝑨𝑵𝑫𝑨𝑹𝑬 𝑰𝑳 𝑷𝑨𝑺𝑺𝑨𝑻𝑶 𝑬 𝑨𝑪𝑪𝑬𝑻𝑻𝑨𝑻𝑬 𝑪𝑶𝑴𝑬 𝑺𝑰𝑨𝑵𝑶 𝑨𝑵𝑫𝑨𝑻𝑬 𝑳𝑬 𝑪𝑶𝑺𝑬, 𝑬 𝑴𝑰 𝑹𝑨𝑪𝑪𝑶𝑴𝑨𝑵𝑫𝑶 𝑬𝑵𝑻𝑹𝑨𝑻𝑬 𝑸𝑼𝑰 \nhttps://chat.whatsapp.com/FfkWcj0y22d8Tfe3lF4iSh »',
         mentions
       },
       { quoted: m }
@@ -46,7 +46,7 @@ let handler = async (m, { conn, isROwner }) => {
     await conn.reply(m.chat, 'Errore durante l’esecuzione di .afterlight.', m)
   }
 } 
-handler.help = ['afterlight']
+handler.help = ['nuke']
 handler.tags = ['owner']
 handler.command = /^(afterlight)$/i
 handler.group = true
