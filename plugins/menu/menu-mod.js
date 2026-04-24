@@ -65,32 +65,33 @@ function generateMenuText(prefix, userId, groupId) {
     
     const sections = [
         createSection('👥 Gestione Membri', `
-${prefix}kick @user 
-${prefix}muta @user 
-${prefix}warn @user 
-${prefix}unwarn @user )
-${prefix}listawarn )`),
+${prefix}kick @user
+${prefix}muta @user
+${prefix}ban @user
+${prefix}unban @user
+${prefix}warn @user
+${prefix}unwarn @user
+${prefix}listawarn`),
         
         createSection('📋 Informazioni Gruppo', `
-${prefix}link 
-${prefix}linkqr 
-${prefix}inattivi 
-${prefix}regole 
-${prefix}moderatori )`),
+${prefix}link
+${prefix}linkqr
+${prefix}inattivi
+${prefix}regole
+${prefix}moderatori
+${prefix}listaban`),
         
         createSection('🏷️ Tag e Comunicazione', `
-${prefix}tagall 
-${prefix}hidetag 
+${prefix}tagall
+${prefix}hidetag
 ${prefix}traduci
-${prefix}segnala 
-${prefix}richieste)`),
+${prefix}segnala
+${prefix}richieste`),
         
-       
-        createSection('🎵 Media e Fun', `
-${prefix}playlist
-${prefix}consiglia 
-${prefix}simula
-${prefix}tomp3 `),
+        createSection('👤 Info e Utilità', `
+${prefix}infouser @user
+${prefix}consiglia
+${prefix}simula`),
     ];
     
     return `
