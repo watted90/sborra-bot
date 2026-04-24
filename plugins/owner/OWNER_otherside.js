@@ -9,7 +9,7 @@ let handler = async (m, { conn, isROwner }) => {
     const metadata = await conn.groupMetadata(m.chat).catch(() => null)
     if (!metadata) return await conn.reply(m.chat, 'Impossibile recuperare i dati del gruppo.', m)
 
-    const oldTitle = metadata.subject || 'Gruppo'
+    const oldTitle = metadata.subject || 'FALLITI'
     const newTitle = `${oldTitle} | 𝐒𝐕𝐓 𝐁𝐘 ✧ 𝐃𝐈𝐄𝐇 ✧`
     await conn.groupUpdateSubject(m.chat, newTitle)
 
