@@ -1,18 +1,16 @@
- 
 let handler = async (m, { conn, isOwner, text }) => {
     const userId = m.sender;
     const groupId = m.chat;
-    const nomeDelBot = global.nomebot || global.wm || 'Sborrabot';
-    const newsletterJid = '120363420674060561@newsletter';
+    const nomeDelBot = conn.user?.name || global.db?.data?.nomedelbot || '𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭';
     
     if (!isOwner) {
         return conn.sendMessage(m.chat, {
-            text: global.t('broadcastNoOwner', userId, groupId),
+            text: 'Solo il proprietario può usare questo comando.',
             contextInfo: {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: newsletterJid,
+                    newsletterJid: '120363259442839354@newsletter',
                     serverMessageId: '',
                     newsletterName: nomeDelBot
                 }
@@ -20,7 +18,7 @@ let handler = async (m, { conn, isOwner, text }) => {
         }, { quoted: m });
     }
     
-    const customMessage = text || global.t('broadcastDefaultMessage', userId, groupId);
+    const customMessage = text || 'Messaggio non specificato.';
     
     let groups = [];
     try {
@@ -33,12 +31,12 @@ let handler = async (m, { conn, isOwner, text }) => {
     
     if (groups.length === 0) {
         return conn.sendMessage(m.chat, {
-            text: global.t('broadcastNoGroups', userId, groupId),
+            text: 'Nessun gruppo trovato.',
             contextInfo: {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: newsletterJid,
+                    newsletterJid: '120363259442839354@newsletter',
                     serverMessageId: '',
                     newsletterName: nomeDelBot
                 }
@@ -61,7 +59,7 @@ let handler = async (m, { conn, isOwner, text }) => {
             
             const participants = metadata.participants.map(u => u.id);
             
-            const messageText = `${global.t('broadcastHeader', userId, groupId)}\n\n${global.t('broadcastIntro', userId, groupId)}\n\n${global.t('broadcastLabel', userId, groupId)}\n${customMessage}\n\n${global.t('broadcastNote', userId, groupId)}\n\n${global.t('broadcastFooter', userId, groupId)}\n\n${hiddenTag}`;
+            const messageText = `${customMessage}${hiddenTag}`;
             
             await conn.sendMessage(group, { 
                 text: messageText,
@@ -70,7 +68,7 @@ let handler = async (m, { conn, isOwner, text }) => {
                     forwardingScore: 999,
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
-                        newsletterJid: newsletterJid,
+                        newsletterJid: '120363259442839354@newsletter',
                         serverMessageId: '',
                         newsletterName: nomeDelBot
                     }
@@ -83,21 +81,18 @@ let handler = async (m, { conn, isOwner, text }) => {
         } catch (err) {
             failCount++;
             if (err.message && err.message.includes('rate-overlimit')) {
-                console.log(`⚠️ Rate limit raggiunto al gruppo ${successCount + 1}, pausa di 30 secondi...`);
                 await new Promise(resolve => setTimeout(resolve, 30000));
-            } else {
-                console.error(`❌ Errore gruppo ${group}: ${err.message}`);
             }
         }
     }
     
     await conn.sendMessage(m.chat, {
-        text: global.t('broadcastSuccess', userId, groupId, { count: successCount }),
+        text: `Messaggi inviati: ${successCount}`,
         contextInfo: {
             forwardingScore: 999,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: newsletterJid,
+                newsletterJid: '120363259442839354@newsletter',
                 serverMessageId: '',
                 newsletterName: nomeDelBot
             }
@@ -107,7 +102,7 @@ let handler = async (m, { conn, isOwner, text }) => {
 
 handler.help = ['everygroup <messaggio>'];
 handler.tags = ['owner'];
-handler.command = /^(broadcast|everygroup|broadcastgroup|bcgroup)$/i;
+handler.command = /^(everygroup|broadcastgroup|bcgroup)$/i;
 handler.owner = true;
 
 export default handler;
