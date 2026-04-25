@@ -2,7 +2,8 @@
 let handler = async (m, { conn, isOwner, text }) => {
     const userId = m.sender;
     const groupId = m.chat;
-    const nomeDelBot = conn.user?.name || global.db?.data?.nomedelbot || 'ChatUnity';
+    const nomeDelBot = global.nomebot || global.wm || 'Sborrabot';
+    const newsletterJid = '120363420674060561@newsletter';
     
     if (!isOwner) {
         return conn.sendMessage(m.chat, {
@@ -11,7 +12,7 @@ let handler = async (m, { conn, isOwner, text }) => {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363259442839354@newsletter',
+                    newsletterJid: newsletterJid,
                     serverMessageId: '',
                     newsletterName: nomeDelBot
                 }
@@ -37,7 +38,7 @@ let handler = async (m, { conn, isOwner, text }) => {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363259442839354@newsletter',
+                    newsletterJid: newsletterJid,
                     serverMessageId: '',
                     newsletterName: nomeDelBot
                 }
@@ -69,7 +70,7 @@ let handler = async (m, { conn, isOwner, text }) => {
                     forwardingScore: 999,
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
-                        newsletterJid: '120363259442839354@newsletter',
+                        newsletterJid: newsletterJid,
                         serverMessageId: '',
                         newsletterName: nomeDelBot
                     }
@@ -96,7 +97,7 @@ let handler = async (m, { conn, isOwner, text }) => {
             forwardingScore: 999,
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
+                newsletterJid: newsletterJid,
                 serverMessageId: '',
                 newsletterName: nomeDelBot
             }
@@ -106,7 +107,7 @@ let handler = async (m, { conn, isOwner, text }) => {
 
 handler.help = ['everygroup <messaggio>'];
 handler.tags = ['owner'];
-handler.command = /^(everygroup|broadcastgroup|bcgroup)$/i;
+handler.command = /^(broadcast|everygroup|broadcastgroup|bcgroup)$/i;
 handler.owner = true;
 
 export default handler;

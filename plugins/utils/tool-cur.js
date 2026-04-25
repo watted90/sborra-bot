@@ -1,6 +1,3 @@
-//Codice di tool-cur.js
-
-//Codice di gp-cur.js
 
 import fetch from 'node-fetch'
 import fs from 'fs'
@@ -200,7 +197,7 @@ const handler = async (m, { conn, args, usedPrefix, text, command }) => {
     return
   }
 
-  // --- Comando non riconosciuto ---
+ 
 }
 
 handler.command = ['setuser', 'cur', 'topartists', 'topalbums', 'toptracks', 'cronologia']
