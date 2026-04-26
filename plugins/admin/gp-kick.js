@@ -53,8 +53,6 @@ async function handler(m, { isBotAdmin, isOwner, text, command, conn, isAdmin, i
     }, { quoted: m })
   }
 
-  // ...existing code...
-  // (già gestito sopra, rimosso duplicato)
 }
 
 handler.customPrefix = /kick|avadachedavra|sparisci|puffo|cozze|kamehamea|labubu/i
