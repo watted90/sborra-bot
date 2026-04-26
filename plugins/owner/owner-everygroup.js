@@ -2,7 +2,7 @@
 let handler = async (m, { conn, isOwner, text }) => {
     const userId = m.sender;
     const groupId = m.chat;
-    const nomeDelBot = global.nomebot || global.wm || 'Sborrabot';
+    const nomeDelBot = global.nomebot || global.wm || '𝐒𝐛𝐨𝐫𝐫𝐚 𝐁𝐨𝐭-𝐌𝐃';
     const newsletterJid = '120363420674060561@newsletter';
     
     if (!isOwner) {
