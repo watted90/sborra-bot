@@ -56,6 +56,12 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     ramFree: format(freemem())
   })
 
+  const buttons = [
+    { buttonId: usedPrefix + "pong", buttonText: { displayText: "⚡ 𝐏𝐨𝐧𝐠" }, type: 1 },
+    { buttonId: usedPrefix + "ping", buttonText: { displayText: "📡 𝐑𝐢𝐟𝐚𝐢 𝐩𝐢𝐧𝐠" }, type: 1 },
+    { buttonId: usedPrefix + "ds", buttonText: { displayText: "🗑️ 𝐒𝐯𝐮𝐨𝐭𝐚 𝐬𝐞𝐬𝐬𝐢𝐨𝐧𝐢" }, type: 1 },
+  ]
+
   const videoPath = path.join(process.cwd(), 'media', 'gif', 'pong.mp4')
 
   try {
@@ -64,11 +70,19 @@ let handler = async (m, { conn, usedPrefix, command }) => {
       video: videoBuffer,
       gifPlayback: true,
       mimetype: 'video/mp4',
-      caption
+      caption,
+      footer: `⚙️ ${nomeDelBot} v${versioneBot}`,
+      buttons,
+      headerType: 4
     }, { quoted: m })
   } catch (e) {
     console.error('GIF pong error:', e.message, '| path:', videoPath)
-    await conn.sendMessage(m.chat, { text: caption }, { quoted: m })
+    await conn.sendMessage(m.chat, { 
+      text: caption,
+      footer: `⚙️ ${nomeDelBot} v${versioneBot}`,
+      buttons,
+      headerType: 1
+    }, { quoted: m })
   }
 }
 
