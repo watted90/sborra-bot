@@ -1,20 +1,35 @@
-let handler = async (m, { conn, text }) => {
+let lastTag = new Map() 
 
+let handler = async (m, { conn, text, isAdmin, isOwner }) => {
   if (!m.isGroup) return
+
+  let user = global.db.data.users[m.sender]
+  let isMod = user?.mod || user?.moderator || false // adatta al nome che usi tu
+  
+
+  if (isMod && !isAdmin && !isOwner) {
+    let cooldown = 60 * 60 * 1000 // 1 ora
+    let last = lastTag.get(m.sender)
+    
+    if (last && Date.now() - last < cooldown) {
+      let remaining = cooldown - (Date.now() - last)
+      let minutes = Math.ceil(remaining / 60000)
+      return conn.reply(m.chat, ' ⏳ `Cooldown mod: aspetta ancora ${minutes} min per ritaggare`.', m)
+    }
+    
+    lastTag.set(m.sender, Date.now())
+  }
 
   let groupMetadata = await conn.groupMetadata(m.chat)
   let participants = groupMetadata.participants || []
-
   let users = participants.map(u => u.id)
 
   let q = m.quoted ? m.quoted : m
   let mime = (q.msg || q)?.mimetype || ''
   let isMedia = /image|video|sticker|audio/.test(mime)
-
   let captionText = text ? text.trim() : ''
 
   try {
-
     if (isMedia) {
       let media = await q.download()
       if (!media) throw 'Errore download media'
