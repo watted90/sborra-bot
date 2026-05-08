@@ -61,14 +61,14 @@ async function handler(m, { conn, text }) {
 	global.db.data.chats[m.chat].moderatori = global.db.data.chats[m.chat].moderatori.filter(mod => mod !== user)
 
 	return conn.sendMessage(m.chat, {
-		text: `✂️ @${user.split('@')[0]} non è più moderatore`,
+		text: `🛡️ @${user.split('@')[0]} non è più moderatore`,
 		mentions: [user]
 	}, { quoted: m })
 }
 
 handler.help = ['moddel @user']
 handler.tags = ['group']
-handler.command = /^(moddel|rimuovimod|removemod|unmoderator|demod)$/i
+handler.command = /^(moddel|rimuovimod|removemod|unmoderator|demod|delmod|toglimod)$/i
 handler.group = true
 handler.admin = true
 handler.fail = null
