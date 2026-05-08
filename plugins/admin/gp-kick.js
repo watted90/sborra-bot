@@ -1,5 +1,3 @@
-
-
 async function handler(m, { isBotAdmin, isOwner, text, command, conn, isAdmin, isModerator }) {
   const isSimulation = /simkick/i.test(command)
 
@@ -15,44 +13,91 @@ async function handler(m, { isBotAdmin, isOwner, text, command, conn, isAdmin, i
   const groupMeta = await conn.groupMetadata(m.chat).catch(() => null)
   const participants = groupMeta?.participants || []
 
-  const getJidUser = jid => typeof jid === 'string' ? jid.split('@')[0].split(':')[0] : ''
+  const getJidUser = jid =>
+    typeof jid === 'string'
+      ? jid.split('@')[0].split(':')[0]
+      : ''
 
   const getParticipantPhoneJid = participant => {
-    for (const candidate of [participant?.phoneNumber, participant?.pn, participant?.participantPn, participant?.jid, participant?.id]) {
+    for (const candidate of [
+      participant?.phoneNumber,
+      participant?.pn,
+      participant?.participantPn,
+      participant?.jid,
+      participant?.id
+    ]) {
       const normalized = typeof candidate === 'string'
-        ? (candidate.includes('@') ? candidate : `${candidate.replace(/\D/g, '')}@s.whatsapp.net`)
+        ? (candidate.includes('@')
+            ? candidate
+            : `${candidate.replace(/\D/g, '')}@s.whatsapp.net`)
         : null
+
       if (!normalized?.endsWith('@s.whatsapp.net')) continue
+
       return normalized
     }
-    return participant?.id ? conn.decodeJid(participant.id) : null
+
+    return participant?.id
+      ? conn.decodeJid(participant.id)
+      : null
   }
 
   const mention = rawMentions[0] || m.quoted?.sender
+
   if (!mention) {
-    return conn.sendMessage(m.chat, { text: 'ⓘ Tagga qualcuno da rimuovere' }, { quoted: m })
+    return conn.sendMessage(m.chat, {
+      text: 'ⓘ Tagga qualcuno da rimuovere'
+    }, { quoted: m })
   }
 
   const ownerBot = global.owner[0][0] + '@s.whatsapp.net'
 
   if (mention === ownerBot) {
-    return await conn.sendMessage(m.chat, {
+    return conn.sendMessage(m.chat, {
       text: '𝐧𝐨𝐧 𝐩𝐮𝐨𝐢 𝐫𝐢𝐦𝐨𝐬𝐬𝐞𝐫𝐞 𝐝𝐢𝐞𝐡'
     }, { quoted: m })
   }
 
   if (mention === conn.user.jid) {
-    return await conn.sendMessage(m.chat, {
+    return conn.sendMessage(m.chat, {
       text: '𝐜𝐚𝐳𝐳𝐨 𝐭𝐨𝐠𝐥𝐢 𝐢𝐥 𝐛𝐨𝐭 𝐫𝐢𝐭𝐚𝐫𝐝𝐚𝐭𝐨'
     }, { quoted: m })
   }
 
   if (mention === m.sender) {
-    return await conn.sendMessage(m.chat, {
+    return conn.sendMessage(m.chat, {
       text: '𝐪𝐮𝐢𝐭𝐭𝐚 𝐝𝐚 𝐬𝐨𝐥𝐨 𝐝𝐨𝐰𝐧'
     }, { quoted: m })
   }
 
+  const user = participants.find(p => {
+    const jid = getParticipantPhoneJid(p)
+    return jid === mention
+  })
+
+  if (!user) {
+    return conn.sendMessage(m.chat, {
+      text: 'ⓘ Utente non trovato nel gruppo'
+    }, { quoted: m })
+  }
+
+  if (isSimulation) {
+    return conn.sendMessage(m.chat, {
+      text: `ⓘ Simulazione kick riuscita per @${getJidUser(mention)}`,
+      mentions: [mention]
+    }, { quoted: m })
+  }
+
+  await conn.groupParticipantsUpdate(
+    m.chat,
+    [mention],
+    'remove'
+  )
+
+  await conn.sendMessage(m.chat, {
+    text: `ⓘ Utente rimosso: @${getJidUser(mention)}`,
+    mentions: [mention]
+  }, { quoted: m })
 }
 
 handler.customPrefix = /kick|avadachedavra|sparisci|puffo|cozze|kamehamea|labubu/i
