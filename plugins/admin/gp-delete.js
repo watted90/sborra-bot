@@ -1,4 +1,4 @@
-plugins/del.js
+
 
 
 import { areJidsSameUser } from '@chatunity/baileys'
