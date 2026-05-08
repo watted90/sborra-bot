@@ -1,39 +1,34 @@
-
-
-
-import { areJidsSameUser } from '@chatunity/baileys'
-const handler = async (m, { conn, isAdmin, isBotAdmin }) => {
-  if (!m.isGroup) {
-    return m.reply('Questo comando funziona solo nei gruppi.')
-  }
-  if (!isAdmin) {
-    return m.reply('Solo gli amministratori e i moderatori possono usare questo comando.')
-  }
-  if (!isBotAdmin) {
-    return m.reply('Il bot deve essere amministratore per eliminare i messaggi.')
-  }
-  const q = m.quoted
-  if (!q) {
-    return m.reply('Rispondi al messaggio che vuoi eliminare con .del')
-  }
+let handler = async (m, { conn }) => {
+  if (!m.quoted) return conn.reply(m.chat, `Rispondi al messaggio che vuoi eliminare.\*`, m)
   try {
-    const key = {
+    const re = m.message.extendedTextMessage?.contextInfo
+    const targetMsg = {
       remoteJid: m.chat,
-      fromMe: areJidsSameUser(conn.user.id, q.sender),
-      id: q.id,
-      participant: q.sender
+      fromMe: false,
+      id: re?.stanzaId || m.quoted.id,
+      participant: re?.participant || m.quoted.sender
     }
-    await conn.sendMessage(m.chat, { delete: key })
-  } catch (e) {
-    console.error(e)
-    m.reply('Non sono riuscito a eliminare quel messaggio.')
+    await conn.sendMessage(m.chat, { delete: targetMsg })
+    await conn.sendMessage(m.chat, { delete: m.key })
+  } catch (err) {
+    try {
+      if (m.quoted?.vM?.key) {
+        await conn.sendMessage(m.chat, { delete: m.quoted.vM.key })
+        await conn.sendMessage(m.chat, { delete: m.key })
+      }
+    } catch (e) {
+      console.error('Errore durante eliminazione', e)
+      conn.reply(m.chat, `${global.errore}`, m)
+    }
   }
 }
+
 handler.help = ['del']
-handler.tags = ['gruppo','mod']
-handler.command = /^(del|delete|cancella)$/i
+handler.tags = ['gruppo']
+handler.command = /^(del|delete|cancella|eliminare)$/i
 handler.group = true
 handler.admin = true
-handler.mod = true 
+handler.mod = true
 handler.botAdmin = true
+
 export default handler
