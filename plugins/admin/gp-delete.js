@@ -1,34 +1,32 @@
-let handler = async (m, { conn }) => {
-    if (!m.quoted) return m.reply('Rispondi al messaggio che vuoi eliminare')
-
+let handler = async (m, { conn, isBotAdmin }) => {
+    if (!m.quoted) throw '*Rispondi al messaggio da eliminare*'
+    if (!isBotAdmin) throw '*Il bot deve essere admin per eliminare messaggi*'
+    
     try {
-        // Prendi la key del messaggio quotato in modo sicuro
-        let deletable = m.quoted.fakeObj || m.quoted.vM || m.quoted
-        let quotedKey = deletable.key
-        
-        // Fix per alcuni bot dove manca participant
-        if (!quotedKey.participant && !quotedKey.fromMe) {
-            quotedKey.participant = m.quoted.sender
+        let key = {}
+        try {
+            key.remoteJid = m.quoted.remoteJid || m.chat
+            key.fromMe = m.quoted.fromMe
+            key.id = m.quoted.id
+            key.participant = m.quoted.sender || m.quoted.key.participant || m.quoted.key.remoteJid
+        } catch (e) {
+            console.error(e)
         }
-
-        // Elimina il messaggio quotato
-        await conn.sendMessage(m.chat, { delete: quotedKey })
         
-        // Elimina il comando .del
+        await conn.sendMessage(m.chat, { delete: key })
         await conn.sendMessage(m.chat, { delete: m.key })
         
     } catch (e) {
-        console.error(e)
-        m.reply('Non posso eliminare il messaggio. Forse non sono admin o è troppo vecchio')
+        throw '*Errore: messaggio troppo vecchio o non eliminabile*'
     }
 }
 
-handler.help = ['del']
-handler.tags = ['admin']
-handler.command = /^(del|delete|elimina)$/i
+handler.help = ['del @msg']
+handler.tags = ['group']
+handler.command = ['del', 'delete', 'elimina']
 handler.group = true
 handler.admin = true
-handler.mod = true 
 handler.botAdmin = true
+handler.mod = true 
 
 export default handler
