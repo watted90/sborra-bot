@@ -20,7 +20,7 @@ const WHITELIST = [
     '393892016995@s.whatsapp.net',
     '447476676459@s.whatsapp.net',
     '39377384246145@s.whatsapp.net',
-    
+    '393508606517@s.whatsapp.net',
 ]
 
 if (!global._antinukeTracker) {
